@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Women's Wear | Altitude Commerce</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/basecoat-css@0.3.10-beta.2/dist/basecoat.cdn.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/basecoat-css@0.3.10-beta.2/dist/js/all.min.js" defer></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col bg-background text-foreground">
+
+  <!-- Header -->
+  <header>
+    <!-- Announcement Bar -->
+    <div class="bg-primary py-3">
+      <div class="mx-auto flex max-w-7xl items-center justify-center px-6">
+        <p class="text-center text-sm font-medium text-primary-foreground">
+          Free shipping on orders over $75
+        </p>
+      </div>
+    </div>
+
+    <!-- Main Navigation -->
+    <div class="border-b bg-background py-4">
+      <div class="mx-auto flex max-w-7xl items-center justify-between px-6">
+        <div class="flex items-center gap-8">
+          <!-- Logo -->
+          <a href="../" class="shrink-0">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/8e/Nextjs-logo.svg" alt="Logo" width="28" height="28" class="dark:invert">
+          </a>
+          <!-- Desktop Nav -->
+          <nav class="hidden items-center gap-2 lg:flex">
+            <a href="#" class="btn-ghost">Women</a>
+            <a href="#" class="btn-ghost">Men</a>
+            <a href="#" class="btn-ghost">Kids</a>
+            <a href="#" class="btn-ghost">About Us</a>
+            <a href="#" class="btn-ghost">Store Locator</a>
+          </nav>
+        </div>
+
+        <div class="flex items-center gap-1">
+          <!-- Search -->
+          <button class="btn-ghost-icon" aria-label="Search">
+            <i data-lucide="search" class="size-5"></i>
+          </button>
+          <!-- Cart -->
+          <a href="#" class="btn-ghost">
+            <i data-lucide="shopping-cart" class="size-5"></i>
+            <span>0</span>
+          </a>
+          <!-- Mobile Menu Button -->
+          <button class="btn-ghost-icon lg:hidden" aria-label="Open menu" onclick="document.getElementById('mobile-menu-dialog').showModal()">
+            <i data-lucide="menu" class="size-5"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Menu Dialog -->
+  <dialog id="mobile-menu-dialog" class="dialog" onclick="if (event.target === this) this.close()">
+    <div class="fixed inset-y-0 right-0 w-full max-w-xs bg-background p-4 shadow-lg">
+      <button type="button" class="absolute right-4 top-4" aria-label="Close menu" onclick="this.closest('dialog').close()">
+        <i data-lucide="x" class="size-5"></i>
+      </button>
+      <nav class="mt-12 flex flex-col gap-2">
+        <a href="#" class="btn-ghost justify-start">Women</a>
+        <a href="#" class="btn-ghost justify-start">Men</a>
+        <a href="#" class="btn-ghost justify-start">Kids</a>
+        <a href="#" class="btn-ghost justify-start">About Us</a>
+        <a href="#" class="btn-ghost justify-start">Store Locator</a>
+      </nav>
+    </div>
+  </dialog>
+
+  <!-- Mobile Filters Dialog -->
+  <dialog id="filters-dialog" class="dialog" onclick="if (event.target === this) this.close()">
+    <div class="fixed inset-y-0 left-0 w-full max-w-xs bg-background p-4 shadow-lg overflow-y-auto">
+      <button type="button" class="absolute right-4 top-4" aria-label="Close filters" onclick="this.closest('dialog').close()">
+        <i data-lucide="x" class="size-5"></i>
+      </button>
+      <div class="mt-8" id="mobile-filters-content">
+        <!-- Filters will be cloned here via JS -->
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Main Content -->
+  <main class="flex-1 bg-background py-12 lg:py-24">
+    <div class="mx-auto max-w-7xl px-6">
+      <div class="flex flex-col gap-12">
+
+        <!-- Page Header -->
+        <div class="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
+          <h1 class="text-3xl font-semibold tracking-tight text-foreground lg:text-5xl">
+            Women's Wear
+          </h1>
+          <div class="flex items-center gap-4">
+            <!-- Mobile Filters Button -->
+            <button class="btn-outline lg:hidden" onclick="document.getElementById('filters-dialog').showModal()">
+              Filters
+            </button>
+            <!-- Sort Dropdown -->
+            <div class="dropdown-menu">
+              <button type="button" class="btn-outline" aria-haspopup="menu" aria-expanded="false">
+                Name (A-Z)
+                <i data-lucide="chevron-down" class="size-4"></i>
+              </button>
+              <div data-popover aria-hidden="true">
+                <div role="menu">
+                  <div role="menuitem">Name (A-Z)</div>
+                  <div role="menuitem">Name (Z-A)</div>
+                  <div role="menuitem">Price (Low to High)</div>
+                  <div role="menuitem">Price (High to Low)</div>
+                  <div role="menuitem">Newest First</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Content Grid -->
+        <div class="flex gap-10">
+
+          <!-- Filters Sidebar (Desktop) -->
+          <aside class="hidden w-80 shrink-0 lg:block" id="filters-sidebar">
+            <div class="flex flex-col gap-6">
+              <!-- Filters Header -->
+              <div class="flex flex-col gap-6">
+                <div class="flex items-center justify-between">
+                  <h2 class="text-2xl font-semibold text-foreground">Filters (5)</h2>
+                  <button class="btn-secondary btn-sm">Clear all</button>
+                </div>
+
+                <!-- Search Input -->
+                <div class="relative">
+                  <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground"></i>
+                  <input type="text" class="input pl-10" placeholder="Search filters">
+                </div>
+
+                <!-- Category Links -->
+                <div class="flex flex-col gap-2">
+                  <a href="#" class="btn-link justify-start px-0 text-base text-primary">All</a>
+                  <a href="#" class="btn-link justify-start px-0 text-base text-muted-foreground">T-Shirts</a>
+                  <a href="#" class="btn-link justify-start px-0 text-base text-muted-foreground">Shirts</a>
+                  <a href="#" class="btn-link justify-start px-0 text-base text-muted-foreground">Hoodies</a>
+                  <a href="#" class="btn-link justify-start px-0 text-base text-muted-foreground">Jackets</a>
+                  <a href="#" class="btn-link justify-start px-0 text-base text-muted-foreground">Sweaters</a>
+                </div>
+              </div>
+
+              <hr class="border-border">
+
+              <!-- Brand Filter -->
+              <details open>
+                <summary class="flex w-full cursor-pointer items-center justify-between pb-4 text-base font-semibold text-foreground list-none [&::-webkit-details-marker]:hidden">
+                  Brand (2)
+                  <i data-lucide="chevron-down" class="size-5 text-muted-foreground transition-transform duration-200 [[open]>&]:rotate-180"></i>
+                </summary>
+                <div class="flex flex-col gap-3 pb-6">
+                  <div class="field flex-row items-center gap-2">
+                    <input type="checkbox" id="brand-nike" checked>
+                    <label for="brand-nike" class="text-sm font-medium">Nike</label>
+                  </div>
+                  <div class="field flex-row items-center gap-2">
+                    <input type="checkbox" id="brand-adidas" checked>
+                    <label for="brand-adidas" class="text-sm font-medium">Adidas</label>
+                  </div>
+                  <div class="field flex-row items-center gap-2">
+                    <input type="checkbox" id="brand-puma">
+                    <label for="brand-puma" class="text-sm font-medium">Puma</label>
+                  </div>
+                  <div class="field flex-row items-center gap-2">
+                    <input type="checkbox" id="brand-reebok">
+                    <label for="brand-reebok" class="text-sm font-medium">Reebok</label>
+                  </div>
+                  <div class="field flex-row items-center gap-2">
+                    <input type="checkbox" id="brand-new-balance">
+                    <label for="brand-new-balance" class="text-sm font-medium">New Balance</label>
+                  </div>
+                </div>
+              </details>
+
+              <!-- Material Filter -->
+              <details open>
+                <summary class="flex w-full cursor-pointer items-center justify-between pb-4 text-base font-semibold text-foreground list-none [&::-webkit-details-marker]:hidden">
+                  Material (1)
+                  <i data-lucide="chevron-down" class="size-5 text-muted-foreground transition-transform duration-200 [[open]>&]:rotate-180"></i>
+                </summary>
+                <div class="flex flex-col gap-3 pb-6">
+                  <div class="field flex-row items-center gap-2">
+                    <input type="checkbox" id="material-cotton" checked>
+                    <label for="material-cotton" class="text-sm font-medium">Cotton</label>
+                  </div>
+                  <div class="field flex-row items-center gap-2">
+                    <input type="checkbox" id="material-polyester">
+                    <label for="material-polyester" class="text-sm font-medium">Polyester</label>
+                  </div>
+                  <div class="field flex-row items-center gap-2">
+                    <input type="checkbox" id="material-wool">
+                    <label for="material-wool" class="text-sm font-medium">Wool</label>
+                  </div>
+                  <div class="field flex-row items-center gap-2">
+                    <input type="checkbox" id="material-linen">
+                    <label for="material-linen" class="text-sm font-medium">Linen</label>
+                  </div>
+                </div>
+              </details>
+
+              <!-- Fit Filter -->
+              <details open>
+                <summary class="flex w-full cursor-pointer items-center justify-between pb-4 text-base font-semibold text-foreground list-none [&::-webkit-details-marker]:hidden">
+                  Fit (1)
+                  <i data-lucide="chevron-down" class="size-5 text-muted-foreground transition-transform duration-200 [[open]>&]:rotate-180"></i>
+                </summary>
+                <div class="flex flex-col gap-3 pb-6">
+                  <div class="field flex-row items-center gap-2">
+                    <input type="checkbox" id="fit-regular" checked>
+                    <label for="fit-regular" class="text-sm font-medium">Regular Fit</label>
+                  </div>
+                  <div class="field flex-row items-center gap-2">
+                    <input type="checkbox" id="fit-slim">
+                    <label for="fit-slim" class="text-sm font-medium">Slim Fit</label>
+                  </div>
+                  <div class="field flex-row items-center gap-2">
+                    <input type="checkbox" id="fit-relaxed">
+                    <label for="fit-relaxed" class="text-sm font-medium">Relaxed Fit</label>
+                  </div>
+                  <div class="field flex-row items-center gap-2">
+                    <input type="checkbox" id="fit-oversized">
+                    <label for="fit-oversized" class="text-sm font-medium">Oversized</label>
+                  </div>
+                </div>
+              </details>
+
+              <!-- Price Filter -->
+              <details open>
+                <summary class="flex w-full cursor-pointer items-center justify-between pb-4 text-base font-semibold text-foreground list-none [&::-webkit-details-marker]:hidden">
+                  Price Range (1)
+                  <i data-lucide="chevron-down" class="size-5 text-muted-foreground transition-transform duration-200 [[open]>&]:rotate-180"></i>
+                </summary>
+                <div class="flex flex-col gap-3 pb-6">
+                  <div class="field flex-row items-center gap-2">
+                    <input type="checkbox" id="price-under-50" checked>
+                    <label for="price-under-50" class="text-sm font-medium">Under $50</label>
+                  </div>
+                  <div class="field flex-row items-center gap-2">
+                    <input type="checkbox" id="price-50-100">
+                    <label for="price-50-100" class="text-sm font-medium">$50 - $100</label>
+                  </div>
+                  <div class="field flex-row items-center gap-2">
+                    <input type="checkbox" id="price-100-150">
+                    <label for="price-100-150" class="text-sm font-medium">$100 - $150</label>
+                  </div>
+                  <div class="field flex-row items-center gap-2">
+                    <input type="checkbox" id="price-over-150">
+                    <label for="price-over-150" class="text-sm font-medium">Over $150</label>
+                  </div>
+                </div>
+              </details>
+
+              <!-- Color Filter -->
+              <details open>
+                <summary class="flex w-full cursor-pointer items-center justify-between pb-4 text-base font-semibold text-foreground list-none [&::-webkit-details-marker]:hidden">
+                  Color (1)
+                  <i data-lucide="chevron-down" class="size-5 text-muted-foreground transition-transform duration-200 [[open]>&]:rotate-180"></i>
+                </summary>
+                <div class="flex flex-col gap-3 pb-6">
+                  <div class="field flex-row items-center gap-2">
+                    <input type="checkbox" id="color-black" checked>
+                    <label for="color-black" class="text-sm font-medium">Black</label>
+                  </div>
+                  <div class="field flex-row items-center gap-2">
+                    <input type="checkbox" id="color-white">
+                    <label for="color-white" class="text-sm font-medium">White</label>
+                  </div>
+                  <div class="field flex-row items-center gap-2">
+                    <input type="checkbox" id="color-red">
+                    <label for="color-red" class="text-sm font-medium">Red</label>
+                  </div>
+                  <div class="field flex-row items-center gap-2">
+                    <input type="checkbox" id="color-blue">
+                    <label for="color-blue" class="text-sm font-medium">Blue</label>
+                  </div>
+                  <div class="field flex-row items-center gap-2">
+                    <input type="checkbox" id="color-green">
+                    <label for="color-green" class="text-sm font-medium">Green</label>
+                  </div>
+                  <div class="field flex-row items-center gap-2">
+                    <input type="checkbox" id="color-yellow">
+                    <label for="color-yellow" class="text-sm font-medium">Yellow</label>
+                  </div>
+                </div>
+              </details>
+
+              <!-- Size Filter -->
+              <details>
+                <summary class="flex w-full cursor-pointer items-center justify-between pb-4 text-base font-semibold text-foreground list-none [&::-webkit-details-marker]:hidden">
+                  Size
+                  <i data-lucide="chevron-down" class="size-5 text-muted-foreground transition-transform duration-200 [[open]>&]:rotate-180"></i>
+                </summary>
+                <div class="flex flex-col gap-3 pb-6">
+                  <div class="field flex-row items-center gap-2">
+                    <input type="checkbox" id="size-xxs">
+                    <label for="size-xxs" class="text-sm font-medium">XXS</label>
+                  </div>
+                  <div class="field flex-row items-center gap-2">
+                    <input type="checkbox" id="size-xs">
+                    <label for="size-xs" class="text-sm font-medium">XS</label>
+                  </div>
+                  <div class="field flex-row items-center gap-2">
+                    <input type="checkbox" id="size-s">
+                    <label for="size-s" class="text-sm font-medium">S</label>
+                  </div>
+                  <div class="field flex-row items-center gap-2">
+                    <input type="checkbox" id="size-m">
+                    <label for="size-m" class="text-sm font-medium">M</label>
+                  </div>
+                  <div class="field flex-row items-center gap-2">
+                    <input type="checkbox" id="size-l">
+                    <label for="size-l" class="text-sm font-medium">L</label>
+                  </div>
+                  <div class="field flex-row items-center gap-2">
+                    <input type="checkbox" id="size-xl">
+                    <label for="size-xl" class="text-sm font-medium">XL</label>
+                  </div>
+                  <div class="field flex-row items-center gap-2">
+                    <input type="checkbox" id="size-xxl">
+                    <label for="size-xxl" class="text-sm font-medium">XXL</label>
+                  </div>
+                  <div class="field flex-row items-center gap-2">
+                    <input type="checkbox" id="size-xxxl">
+                    <label for="size-xxxl" class="text-sm font-medium">XXXL</label>
+                  </div>
+                </div>
+              </details>
+            </div>
+          </aside>
+
+          <!-- Products Grid -->
+          <div class="flex-1">
+            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
+
+              <!-- Product 1 -->
+              <a href="#" class="group flex flex-col gap-4">
+                <div class="relative aspect-[4/5] overflow-hidden rounded-lg bg-muted">
+                  <img src="https://ui.shadcn.com/placeholder.svg" alt="Classic White Shirt" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105">
+                  <span class="badge absolute left-4 top-4">Best seller</span>
+                </div>
+                <div class="flex flex-col gap-2">
+                  <div class="flex flex-col gap-1">
+                    <span class="text-sm text-muted-foreground">Shirts</span>
+                    <h3 class="text-sm font-medium text-card-foreground">Classic White Shirt</h3>
+                    <p class="line-clamp-2 text-sm text-muted-foreground">Crisp cotton poplin featuring a modern slim fit and a reinforced collar.</p>
+                  </div>
+                  <div class="flex items-center gap-1">
+                    <span class="text-lg font-medium text-card-foreground">$49.99</span>
+                    <span class="text-lg text-muted-foreground line-through">$69.99</span>
+                  </div>
+                </div>
+              </a>
+
+              <!-- Product 2 -->
+              <a href="#" class="group flex flex-col gap-4">
+                <div class="relative aspect-[4/5] overflow-hidden rounded-lg bg-muted">
+                  <img src="https://ui.shadcn.com/placeholder.svg" alt="Resort T-Shirt" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105">
+                  <span class="badge absolute left-4 top-4">New</span>
+                </div>
+                <div class="flex flex-col gap-2">
+                  <div class="flex flex-col gap-1">
+                    <span class="text-sm text-muted-foreground">Resort Wear</span>
+                    <h3 class="text-sm font-medium text-card-foreground">Resort T-Shirt</h3>
+                    <p class="line-clamp-2 text-sm text-muted-foreground">Breathable linen blend with relaxed sleeves and coconut buttons.</p>
+                  </div>
+                  <div class="flex items-center gap-1">
+                    <span class="text-lg font-medium text-card-foreground">$84.00</span>
+                    <span class="text-lg text-muted-foreground line-through">$96.00</span>
+                  </div>
+                </div>
+              </a>
+
+              <!-- Product 3 -->
+              <a href="#" class="group flex flex-col gap-4">
+                <div class="relative aspect-[4/5] overflow-hidden rounded-lg bg-muted">
+                  <img src="https://ui.shadcn.com/placeholder.svg" alt="Black Hoodie" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105">
+                </div>
+                <div class="flex flex-col gap-2">
+                  <div class="flex flex-col gap-1">
+                    <span class="text-sm text-muted-foreground">Outerwear</span>
+                    <h3 class="text-sm font-medium text-card-foreground">Black Hoodie</h3>
+                    <p class="line-clamp-2 text-sm text-muted-foreground">Structured shoulders, sustainable lining, and tonal horn buttons.</p>
+                  </div>
+                  <div class="flex items-center gap-1">
+                    <span class="text-lg font-medium text-card-foreground">$189.00</span>
+                    <span class="text-lg text-muted-foreground line-through">$219.00</span>
+                  </div>
+                </div>
+              </a>
+
+              <!-- Product 4 -->
+              <a href="#" class="group flex flex-col gap-4">
+                <div class="relative aspect-[4/5] overflow-hidden rounded-lg bg-muted">
+                  <img src="https://ui.shadcn.com/placeholder.svg" alt="Slim Fit Denim Jeans" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105">
+                </div>
+                <div class="flex flex-col gap-2">
+                  <div class="flex flex-col gap-1">
+                    <span class="text-sm text-muted-foreground">Skirts</span>
+                    <h3 class="text-sm font-medium text-card-foreground">Slim Fit Denim Jeans</h3>
+                    <p class="line-clamp-2 text-sm text-muted-foreground">Soft satin pleats with an elastic comfort waistband and full lining.</p>
+                  </div>
+                  <div class="flex items-center gap-1">
+                    <span class="text-lg font-medium text-card-foreground">$98.00</span>
+                    <span class="text-lg text-muted-foreground line-through">$128.00</span>
+                  </div>
+                </div>
+              </a>
+
+              <!-- Product 5 -->
+              <a href="#" class="group flex flex-col gap-4">
+                <div class="relative aspect-[4/5] overflow-hidden rounded-lg bg-muted">
+                  <img src="https://ui.shadcn.com/placeholder.svg" alt="Cotton Long-Sleeve Shirt" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105">
+                  <span class="badge absolute left-4 top-4">Limited</span>
+                </div>
+                <div class="flex flex-col gap-2">
+                  <div class="flex flex-col gap-1">
+                    <span class="text-sm text-muted-foreground">Essentials</span>
+                    <h3 class="text-sm font-medium text-card-foreground">Cotton Long-Sleeve Shirt</h3>
+                    <p class="line-clamp-2 text-sm text-muted-foreground">Bias-cut silk charmeuse with adjustable straps and a luxe sheen.</p>
+                  </div>
+                  <div class="flex items-center gap-1">
+                    <span class="text-lg font-medium text-card-foreground">$59.00</span>
+                    <span class="text-lg text-muted-foreground line-through">$79.00</span>
+                  </div>
+                </div>
+              </a>
+
+              <!-- Product 6 -->
+              <a href="#" class="group flex flex-col gap-4">
+                <div class="relative aspect-[4/5] overflow-hidden rounded-lg bg-muted">
+                  <img src="https://ui.shadcn.com/placeholder.svg" alt="Black Classy Jacket" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105">
+                </div>
+                <div class="flex flex-col gap-2">
+                  <div class="flex flex-col gap-1">
+                    <span class="text-sm text-muted-foreground">Outerwear</span>
+                    <h3 class="text-sm font-medium text-card-foreground">Black Classy Jacket</h3>
+                    <p class="line-clamp-2 text-sm text-muted-foreground">Vintage-inspired wash with a raw hem and brushed nickel hardware.</p>
+                  </div>
+                  <div class="flex items-center gap-1">
+                    <span class="text-lg font-medium text-card-foreground">$128.00</span>
+                    <span class="text-lg text-muted-foreground line-through">$148.00</span>
+                  </div>
+                </div>
+              </a>
+
+              <!-- Product 7 -->
+              <a href="#" class="group flex flex-col gap-4">
+                <div class="relative aspect-[4/5] overflow-hidden rounded-lg bg-muted">
+                  <img src="https://ui.shadcn.com/placeholder.svg" alt="Pajamas Cute Rabbit" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105">
+                </div>
+                <div class="flex flex-col gap-2">
+                  <div class="flex flex-col gap-1">
+                    <span class="text-sm text-muted-foreground">Knits</span>
+                    <h3 class="text-sm font-medium text-card-foreground">Pajamas Cute Rabbit</h3>
+                    <p class="line-clamp-2 text-sm text-muted-foreground">Ultra-soft viscose knit featuring an open collar and contrast tipping.</p>
+                  </div>
+                  <div class="flex items-center gap-1">
+                    <span class="text-lg font-medium text-card-foreground">$74.00</span>
+                    <span class="text-lg text-muted-foreground line-through">$94.00</span>
+                  </div>
+                </div>
+              </a>
+
+              <!-- Product 8 -->
+              <a href="#" class="group flex flex-col gap-4">
+                <div class="relative aspect-[4/5] overflow-hidden rounded-lg bg-muted">
+                  <img src="https://ui.shadcn.com/placeholder.svg" alt="Sports Bra" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105">
+                </div>
+                <div class="flex flex-col gap-2">
+                  <div class="flex flex-col gap-1">
+                    <span class="text-sm text-muted-foreground">Essentials</span>
+                    <h3 class="text-sm font-medium text-card-foreground">Sports Bra</h3>
+                    <p class="line-clamp-2 text-sm text-muted-foreground">Second-skin modal blend with a high crew neckline and longline hem.</p>
+                  </div>
+                  <div class="flex items-center gap-1">
+                    <span class="text-lg font-medium text-card-foreground">$32.00</span>
+                    <span class="text-lg text-muted-foreground line-through">$42.00</span>
+                  </div>
+                </div>
+              </a>
+
+              <!-- Product 9 -->
+              <a href="#" class="group flex flex-col gap-4">
+                <div class="relative aspect-[4/5] overflow-hidden rounded-lg bg-muted">
+                  <img src="https://ui.shadcn.com/placeholder.svg" alt="Gray Hat" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105">
+                </div>
+                <div class="flex flex-col gap-2">
+                  <div class="flex flex-col gap-1">
+                    <span class="text-sm text-muted-foreground">Lounge</span>
+                    <h3 class="text-sm font-medium text-card-foreground">Gray Hat</h3>
+                    <p class="line-clamp-2 text-sm text-muted-foreground">Loopback French terry with a double-lined hood and tonal drawcords.</p>
+                  </div>
+                  <div class="flex items-center gap-1">
+                    <span class="text-lg font-medium text-card-foreground">$88.00</span>
+                    <span class="text-lg text-muted-foreground line-through">$110.00</span>
+                  </div>
+                </div>
+              </a>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Incentives Section -->
+  <section class="bg-muted py-12 lg:py-24">
+    <div class="mx-auto max-w-7xl px-6">
+      <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+
+        <!-- Free Shipping -->
+        <div class="flex gap-6">
+          <div class="flex size-10 shrink-0 items-center justify-center rounded-md bg-card shadow-sm">
+            <i data-lucide="truck" class="size-5 text-foreground"></i>
+          </div>
+          <div class="flex flex-col gap-2">
+            <h3 class="font-medium text-card-foreground">Free 2-day shipping</h3>
+            <p class="text-sm text-muted-foreground">Complimentary express shipping on every order over $75, anywhere in the continental US.</p>
+          </div>
+        </div>
+
+        <!-- Free Returns -->
+        <div class="flex gap-6">
+          <div class="flex size-10 shrink-0 items-center justify-center rounded-md bg-card shadow-sm">
+            <i data-lucide="refresh-ccw" class="size-5 text-foreground"></i>
+          </div>
+          <div class="flex flex-col gap-2">
+            <h3 class="font-medium text-card-foreground">30-day free returns</h3>
+            <p class="text-sm text-muted-foreground">Send items back within 30 days for a fast refund with no restocking fees.</p>
+          </div>
+        </div>
+
+        <!-- Secure Checkout -->
+        <div class="flex gap-6">
+          <div class="flex size-10 shrink-0 items-center justify-center rounded-md bg-card shadow-sm">
+            <i data-lucide="shield-check" class="size-5 text-foreground"></i>
+          </div>
+          <div class="flex flex-col gap-2">
+            <h3 class="font-medium text-card-foreground">Secure checkout</h3>
+            <p class="text-sm text-muted-foreground">256-bit SSL encryption on every purchase keeps your payment info safe.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t bg-background py-12 lg:py-24">
+    <div class="mx-auto max-w-7xl px-6">
+      <div class="flex flex-col gap-16">
+
+        <!-- Footer Links Grid -->
+        <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-5">
+
+          <!-- Logo -->
+          <div>
+            <a href="../">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/8/8e/Nextjs-logo.svg" alt="Logo" width="28" height="28" class="dark:invert">
+            </a>
+          </div>
+
+          <!-- Shop -->
+          <div class="flex flex-col gap-4">
+            <h4 class="font-medium text-foreground">Shop</h4>
+            <div class="flex flex-col gap-4">
+              <a href="#" class="text-sm text-muted-foreground hover:text-foreground">Women's Collection</a>
+              <a href="#" class="text-sm text-muted-foreground hover:text-foreground">Men's Collection</a>
+              <a href="#" class="text-sm text-muted-foreground hover:text-foreground">Accessories</a>
+              <a href="#" class="text-sm text-muted-foreground hover:text-foreground">New Arrivals</a>
+            </div>
+          </div>
+
+          <!-- Customer Service -->
+          <div class="flex flex-col gap-4">
+            <h4 class="font-medium text-foreground">Customer Service</h4>
+            <div class="flex flex-col gap-4">
+              <a href="#" class="text-sm text-muted-foreground hover:text-foreground">Shipping & Returns</a>
+              <a href="#" class="text-sm text-muted-foreground hover:text-foreground">Size Guide</a>
+              <a href="#" class="text-sm text-muted-foreground hover:text-foreground">FAQ</a>
+              <a href="#" class="text-sm text-muted-foreground hover:text-foreground">Contact Us</a>
+            </div>
+          </div>
+
+          <!-- About -->
+          <div class="flex flex-col gap-4">
+            <h4 class="font-medium text-foreground">About</h4>
+            <div class="flex flex-col gap-4">
+              <a href="#" class="text-sm text-muted-foreground hover:text-foreground">Our Story</a>
+              <a href="#" class="text-sm text-muted-foreground hover:text-foreground">Careers</a>
+              <a href="#" class="text-sm text-muted-foreground hover:text-foreground">Sustainability</a>
+              <a href="#" class="text-sm text-muted-foreground hover:text-foreground">Press</a>
+            </div>
+          </div>
+
+          <!-- Connect -->
+          <div class="flex flex-col gap-4">
+            <h4 class="font-medium text-foreground">Connect</h4>
+            <div class="flex flex-col gap-4">
+              <a href="#" class="text-sm text-muted-foreground hover:text-foreground">Newsletter</a>
+              <a href="#" class="text-sm text-muted-foreground hover:text-foreground">Instagram</a>
+              <a href="#" class="text-sm text-muted-foreground hover:text-foreground">Facebook</a>
+              <a href="#" class="text-sm text-muted-foreground hover:text-foreground">Twitter</a>
+            </div>
+          </div>
+
+        </div>
+
+        <hr class="border-border">
+
+        <!-- Footer Bottom -->
+        <div class="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
+          <p class="text-sm text-muted-foreground">
+            Copyright &copy; 2025 shadcndesign.com. All rights reserved.
+          </p>
+          <div class="flex flex-wrap gap-6 sm:gap-8">
+            <a href="#" class="text-sm text-muted-foreground hover:text-foreground">Privacy Policy</a>
+            <a href="#" class="text-sm text-muted-foreground hover:text-foreground">Terms of Service</a>
+            <a href="#" class="text-sm text-muted-foreground hover:text-foreground">Cookies Settings</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // Clone filters for mobile dialog
+    document.addEventListener('DOMContentLoaded', function() {
+      const filtersSidebar = document.getElementById('filters-sidebar');
+      const mobileFiltersContent = document.getElementById('mobile-filters-content');
+      if (filtersSidebar && mobileFiltersContent) {
+        mobileFiltersContent.innerHTML = filtersSidebar.innerHTML;
+        // Reinitialize icons in cloned content
+        lucide.createIcons();
+      }
+    });
+  </script>
+
+</body>
+</html>
