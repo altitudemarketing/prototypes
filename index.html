@@ -7,54 +7,71 @@
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/basecoat-css@0.3.10-beta.2/dist/basecoat.cdn.min.css">
   <script src="https://cdn.jsdelivr.net/npm/basecoat-css@0.3.10-beta.2/dist/js/all.min.js" defer></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
-    .bg-logomark {
-      background-image: url('./assets/Altitude_Marketing_RGB_Logo-Mark.svg');
-      background-repeat: no-repeat;
-      background-position: center 40%;
-      background-size: 500px;
-      opacity: 0.04;
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    .card-decoration {
+      mask-image: linear-gradient(to bottom, black, transparent);
+      -webkit-mask-image: linear-gradient(to left, black, transparent);
     }
   </style>
 </head>
-<body class="min-h-screen bg-background">
-  <!-- Faded logomark background -->
-  <div class="fixed inset-0 bg-logomark pointer-events-none"></div>
-
-  <div class="relative z-10 p-8">
-    <div class="max-w-2xl mx-auto">
-      <!-- Logo and header -->
-      <div class="flex flex-col items-center mb-12">
-        <img
-          src="./assets/Altitude_Marketing_Horizontal.png"
-          alt="Altitude Marketing"
-          class="h-12 mb-6"
-        >
-        <h1 class="text-3xl font-bold text-foreground">Client Prototypes</h1>
-        <p class="text-muted-foreground mt-2">Interactive demos and design previews</p>
+<body class="min-h-screen bg-[#1e1e1e] text-gray-100 selection:bg-blue-500 selection:text-white">
+  
+  <div class="container mx-auto px-6 py-12 max-w-7xl">
+    
+    <!-- Header -->
+    <header class="flex flex-col items-center mb-16 space-y-4">
+      <img src="./assets/Altitude_Marketing_Horizontal.png" alt="Altitude Marketing" class="h-10 opacity-90 invert brightness-0 contrast-200">
+      <div class="text-center">
+        <h1 class="text-3xl font-bold tracking-tight text-white mb-2">Prototypes</h1>
+        <p class="text-zinc-400">Interactive demos and design previews</p>
       </div>
+    </header>
 
-      <!-- Prototype cards -->
-      <div class="grid gap-4">
-        <!-- Example card template -->
-        <a href="#" class="card group hover:border-primary/50 transition-all duration-200">
-          <div class="card-header pb-3">
-            <div class="flex items-start justify-between">
-              <div>
-                <h2 class="card-title text-lg group-hover:text-primary transition-colors">Client Name</h2>
-                <p class="card-description text-sm">Landing page prototype</p>
-              </div>
-              <div class="text-muted-foreground group-hover:text-primary group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-all duration-200">
-                <i data-lucide="arrow-up-right" class="w-5 h-5"></i>
-              </div>
+    <!-- Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      
+      <!-- Card Template -->
+      <a href="#" class="group block relative bg-white rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-[0_0_40px_-10px_rgba(255,255,255,0.15)] hover:scale-[1.02] ring-1 ring-white/10 hover:ring-blue-500/50">
+        
+        <!-- Preview Area (Top) -->
+        <div class="h-48 p-6 relative flex flex-col justify-between overflow-hidden bg-white text-gray-900">
+          
+          <!-- Decorative Logo Background -->
+          <div class="absolute -right-4 -bottom-8 w-48 h-48 opacity-[0.08] transform rotate-12 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6">
+            <img src="./assets/Altitude_Marketing_RGB_Logo-Mark.svg" class="w-full h-full object-contain" alt="">
+          </div>
+
+          <!-- Content -->
+          <div class="relative z-10">
+            <div class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-amber-100 text-amber-800 mb-4">
+              IN PROGRESS
             </div>
+            <h2 class="text-2xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">Client Name</h2>
+            <p class="text-gray-500 text-sm mt-1">Landing page prototype</p>
           </div>
-          <div class="card-footer pt-0 border-t-0">
-            <p class="text-xs text-muted-foreground">Published Jan 12, 2026</p>
+        </div>
+
+        <!-- Footer Area (Bottom) -->
+        <div class="h-14 bg-zinc-900 px-4 flex items-center justify-between border-t border-zinc-100/5">
+          <div class="flex items-center space-x-2 text-zinc-400">
+            <div class="bg-blue-500/10 p-1 rounded-md">
+              <i data-lucide="layout" class="w-3.5 h-3.5 text-blue-500"></i>
+            </div>
+            <span class="text-xs font-medium text-zinc-300 group-hover:text-white transition-colors">Altitude</span>
           </div>
-        </a>
-      </div>
+          <span class="text-xs text-zinc-500">Edited just now</span>
+        </div>
+      </a>
+
+      <!-- Add more cards here as <a> tags -->
+
     </div>
   </div>
 
