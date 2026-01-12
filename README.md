@@ -1,2 +1,2 @@
-# prototypes
+# Prototypes
 Client site prototypes
