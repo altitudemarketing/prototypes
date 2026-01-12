@@ -1,0 +1,330 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "shadcn to Basecoat Component Mapping",
+  "description": "Mapping of shadcn/ui React components to Basecoat vanilla HTML equivalents",
+  "version": "1.0.0",
+  "basecoat": {
+    "css": "https://cdn.jsdelivr.net/npm/basecoat-css@latest/dist/basecoat.cdn.min.css",
+    "js": {
+      "full": "https://cdn.jsdelivr.net/npm/basecoat-css@latest/dist/basecoat.min.js",
+      "accordion": "https://cdn.jsdelivr.net/npm/basecoat-css@latest/dist/accordion.min.js",
+      "dialog": "https://cdn.jsdelivr.net/npm/basecoat-css@latest/dist/dialog.min.js",
+      "dropdown-menu": "https://cdn.jsdelivr.net/npm/basecoat-css@latest/dist/dropdown-menu.min.js",
+      "popover": "https://cdn.jsdelivr.net/npm/basecoat-css@latest/dist/popover.min.js",
+      "select": "https://cdn.jsdelivr.net/npm/basecoat-css@latest/dist/select.min.js",
+      "sheet": "https://cdn.jsdelivr.net/npm/basecoat-css@latest/dist/sheet.min.js",
+      "tabs": "https://cdn.jsdelivr.net/npm/basecoat-css@latest/dist/tabs.min.js",
+      "tooltip": "https://cdn.jsdelivr.net/npm/basecoat-css@latest/dist/tooltip.min.js"
+    }
+  },
+  "components": {
+    "Button": {
+      "element": "button",
+      "baseClass": "btn",
+      "requiresJS": false,
+      "variants": {
+        "default": "btn-primary",
+        "secondary": "btn-secondary",
+        "destructive": "btn-destructive",
+        "outline": "btn-outline",
+        "ghost": "btn-ghost",
+        "link": "btn-link"
+      },
+      "sizes": {
+        "default": "",
+        "sm": "btn-sm",
+        "lg": "btn-lg",
+        "icon": "btn-icon"
+      },
+      "example": "<button class=\"btn btn-primary\">Click me</button>"
+    },
+    "Card": {
+      "element": "div",
+      "baseClass": "card",
+      "requiresJS": false,
+      "children": {
+        "CardHeader": { "element": "div", "class": "card-header" },
+        "CardTitle": { "element": "h3", "class": "card-title" },
+        "CardDescription": { "element": "p", "class": "card-description" },
+        "CardContent": { "element": "div", "class": "card-content" },
+        "CardFooter": { "element": "div", "class": "card-footer" }
+      },
+      "example": "<div class=\"card\">\n  <div class=\"card-header\">\n    <h3 class=\"card-title\">Title</h3>\n    <p class=\"card-description\">Description</p>\n  </div>\n  <div class=\"card-content\">Content</div>\n  <div class=\"card-footer\">Footer</div>\n</div>"
+    },
+    "Input": {
+      "element": "input",
+      "baseClass": "input",
+      "requiresJS": false,
+      "attributes": ["type", "placeholder", "required", "disabled", "value"],
+      "example": "<input class=\"input\" type=\"text\" placeholder=\"Enter text\">"
+    },
+    "Label": {
+      "element": "label",
+      "baseClass": "label",
+      "requiresJS": false,
+      "propMapping": {
+        "htmlFor": "for"
+      },
+      "example": "<label class=\"label\" for=\"input-id\">Label text</label>"
+    },
+    "Textarea": {
+      "element": "textarea",
+      "baseClass": "textarea",
+      "requiresJS": false,
+      "example": "<textarea class=\"textarea\" placeholder=\"Enter text\"></textarea>"
+    },
+    "Select": {
+      "element": "select",
+      "baseClass": "select",
+      "requiresJS": "select.min.js",
+      "note": "Use native <select> for simple cases, Basecoat select for styled dropdown",
+      "example": "<select class=\"select\">\n  <option value=\"1\">Option 1</option>\n  <option value=\"2\">Option 2</option>\n</select>"
+    },
+    "Checkbox": {
+      "element": "input",
+      "type": "checkbox",
+      "baseClass": "checkbox",
+      "requiresJS": false,
+      "example": "<input type=\"checkbox\" class=\"checkbox\" id=\"check1\">\n<label for=\"check1\">Check me</label>"
+    },
+    "RadioGroup": {
+      "element": "fieldset",
+      "baseClass": "radio-group",
+      "requiresJS": false,
+      "children": {
+        "RadioGroupItem": { "element": "input", "type": "radio", "class": "radio" }
+      },
+      "example": "<fieldset class=\"space-y-2\">\n  <div class=\"flex items-center space-x-2\">\n    <input type=\"radio\" class=\"radio\" name=\"group\" id=\"r1\">\n    <label for=\"r1\">Option 1</label>\n  </div>\n</fieldset>"
+    },
+    "Switch": {
+      "element": "button",
+      "baseClass": "switch",
+      "requiresJS": "switch.min.js",
+      "example": "<button class=\"switch\" role=\"switch\" aria-checked=\"false\"></button>"
+    },
+    "Slider": {
+      "element": "input",
+      "type": "range",
+      "baseClass": "slider",
+      "requiresJS": false,
+      "example": "<input type=\"range\" class=\"slider\" min=\"0\" max=\"100\" value=\"50\">"
+    },
+    "Tabs": {
+      "element": "div",
+      "baseClass": "tabs",
+      "requiresJS": "tabs.min.js",
+      "attributes": {
+        "data-default-value": "Default active tab value"
+      },
+      "children": {
+        "TabsList": { "element": "div", "class": "tabs-list", "role": "tablist" },
+        "TabsTrigger": { "element": "button", "class": "tabs-trigger", "role": "tab", "attributes": ["data-value"] },
+        "TabsContent": { "element": "div", "class": "tabs-content", "role": "tabpanel", "attributes": ["data-value"] }
+      },
+      "example": "<div class=\"tabs\" data-default-value=\"tab1\">\n  <div class=\"tabs-list\" role=\"tablist\">\n    <button class=\"tabs-trigger\" role=\"tab\" data-value=\"tab1\">Tab 1</button>\n    <button class=\"tabs-trigger\" role=\"tab\" data-value=\"tab2\">Tab 2</button>\n  </div>\n  <div class=\"tabs-content\" role=\"tabpanel\" data-value=\"tab1\">Content 1</div>\n  <div class=\"tabs-content\" role=\"tabpanel\" data-value=\"tab2\" hidden>Content 2</div>\n</div>"
+    },
+    "Accordion": {
+      "element": "div",
+      "baseClass": "accordion",
+      "requiresJS": "accordion.min.js",
+      "alternativeNative": "details",
+      "children": {
+        "AccordionItem": { "element": "div", "class": "accordion-item", "attributes": ["data-value"] },
+        "AccordionTrigger": { "element": "button", "class": "accordion-trigger" },
+        "AccordionContent": { "element": "div", "class": "accordion-content" }
+      },
+      "example": "<div class=\"accordion\">\n  <div class=\"accordion-item\" data-value=\"item-1\">\n    <button class=\"accordion-trigger\">Section 1</button>\n    <div class=\"accordion-content\">Content 1</div>\n  </div>\n</div>"
+    },
+    "Dialog": {
+      "element": "dialog",
+      "baseClass": "dialog",
+      "requiresJS": "dialog.min.js",
+      "children": {
+        "DialogTrigger": { "element": "button", "attributes": ["data-dialog-trigger"] },
+        "DialogContent": { "element": "div", "class": "dialog-content" },
+        "DialogHeader": { "element": "div", "class": "dialog-header" },
+        "DialogTitle": { "element": "h2", "class": "dialog-title" },
+        "DialogDescription": { "element": "p", "class": "dialog-description" },
+        "DialogFooter": { "element": "div", "class": "dialog-footer" }
+      },
+      "example": "<button class=\"btn\" data-dialog-trigger=\"my-dialog\">Open</button>\n<dialog class=\"dialog\" id=\"my-dialog\">\n  <div class=\"dialog-content\">\n    <div class=\"dialog-header\">\n      <h2 class=\"dialog-title\">Title</h2>\n    </div>\n    <p>Content</p>\n  </div>\n</dialog>"
+    },
+    "Sheet": {
+      "element": "div",
+      "baseClass": "sheet",
+      "requiresJS": "sheet.min.js",
+      "attributes": {
+        "data-side": "left | right | top | bottom"
+      },
+      "children": {
+        "SheetTrigger": { "element": "button", "attributes": ["data-sheet-trigger"] },
+        "SheetContent": { "element": "div", "class": "sheet-content" }
+      },
+      "example": "<button data-sheet-trigger=\"my-sheet\">Open Sheet</button>\n<div class=\"sheet\" id=\"my-sheet\" data-side=\"right\" hidden>\n  <div class=\"sheet-content\">Content</div>\n</div>"
+    },
+    "DropdownMenu": {
+      "element": "div",
+      "baseClass": "dropdown-menu",
+      "requiresJS": "dropdown-menu.min.js",
+      "children": {
+        "DropdownMenuTrigger": { "element": "button", "attributes": ["data-dropdown-trigger"] },
+        "DropdownMenuContent": { "element": "div", "class": "dropdown-menu-content" },
+        "DropdownMenuItem": { "element": "button", "class": "dropdown-menu-item" },
+        "DropdownMenuSeparator": { "element": "hr", "class": "dropdown-menu-separator" }
+      },
+      "example": "<div class=\"dropdown-menu\">\n  <button data-dropdown-trigger>Menu</button>\n  <div class=\"dropdown-menu-content\" hidden>\n    <button class=\"dropdown-menu-item\">Item 1</button>\n    <button class=\"dropdown-menu-item\">Item 2</button>\n  </div>\n</div>"
+    },
+    "Popover": {
+      "element": "div",
+      "baseClass": "popover",
+      "requiresJS": "popover.min.js",
+      "children": {
+        "PopoverTrigger": { "element": "button", "attributes": ["data-popover-trigger"] },
+        "PopoverContent": { "element": "div", "class": "popover-content" }
+      },
+      "example": "<div class=\"popover\">\n  <button data-popover-trigger>Open</button>\n  <div class=\"popover-content\" hidden>Content</div>\n</div>"
+    },
+    "Tooltip": {
+      "element": "span",
+      "baseClass": "tooltip",
+      "requiresJS": "tooltip.min.js",
+      "children": {
+        "TooltipTrigger": { "element": "button", "attributes": ["data-tooltip-trigger"] },
+        "TooltipContent": { "element": "span", "class": "tooltip-content" }
+      },
+      "example": "<span class=\"tooltip\">\n  <button data-tooltip-trigger>Hover me</button>\n  <span class=\"tooltip-content\">Tooltip text</span>\n</span>"
+    },
+    "Alert": {
+      "element": "div",
+      "baseClass": "alert",
+      "requiresJS": false,
+      "aria": { "role": "alert" },
+      "variants": {
+        "default": "",
+        "destructive": "alert-destructive"
+      },
+      "children": {
+        "AlertTitle": { "element": "h4", "class": "alert-title" },
+        "AlertDescription": { "element": "p", "class": "alert-description" }
+      },
+      "example": "<div class=\"alert\" role=\"alert\">\n  <h4 class=\"alert-title\">Heads up!</h4>\n  <p class=\"alert-description\">You can add components to your app.</p>\n</div>"
+    },
+    "Badge": {
+      "element": "span",
+      "baseClass": "badge",
+      "requiresJS": false,
+      "variants": {
+        "default": "",
+        "secondary": "badge-secondary",
+        "destructive": "badge-destructive",
+        "outline": "badge-outline"
+      },
+      "example": "<span class=\"badge\">Badge</span>"
+    },
+    "Avatar": {
+      "element": "span",
+      "baseClass": "avatar",
+      "requiresJS": false,
+      "children": {
+        "AvatarImage": { "element": "img", "class": "avatar-image" },
+        "AvatarFallback": { "element": "span", "class": "avatar-fallback" }
+      },
+      "example": "<span class=\"avatar\">\n  <img class=\"avatar-image\" src=\"/avatar.jpg\" alt=\"User\">\n  <span class=\"avatar-fallback\">JD</span>\n</span>"
+    },
+    "Separator": {
+      "element": "hr",
+      "baseClass": "separator",
+      "requiresJS": false,
+      "example": "<hr class=\"separator\">"
+    },
+    "Skeleton": {
+      "element": "div",
+      "baseClass": "skeleton",
+      "requiresJS": false,
+      "example": "<div class=\"skeleton h-4 w-[250px]\"></div>"
+    },
+    "Progress": {
+      "element": "progress",
+      "baseClass": "progress",
+      "requiresJS": false,
+      "example": "<progress class=\"progress\" value=\"50\" max=\"100\"></progress>"
+    },
+    "ScrollArea": {
+      "element": "div",
+      "baseClass": "scroll-area",
+      "requiresJS": false,
+      "example": "<div class=\"scroll-area h-[200px] overflow-auto\">Content</div>"
+    },
+    "Table": {
+      "element": "table",
+      "baseClass": "table",
+      "requiresJS": false,
+      "children": {
+        "TableHeader": { "element": "thead" },
+        "TableBody": { "element": "tbody" },
+        "TableRow": { "element": "tr" },
+        "TableHead": { "element": "th" },
+        "TableCell": { "element": "td" }
+      },
+      "example": "<table class=\"table\">\n  <thead>\n    <tr><th>Name</th><th>Email</th></tr>\n  </thead>\n  <tbody>\n    <tr><td>John</td><td>john@example.com</td></tr>\n  </tbody>\n</table>"
+    },
+    "AspectRatio": {
+      "element": "div",
+      "baseClass": "aspect-ratio",
+      "requiresJS": false,
+      "note": "Use Tailwind aspect-* utilities",
+      "example": "<div class=\"aspect-video\">\n  <img src=\"/image.jpg\" class=\"object-cover w-full h-full\">\n</div>"
+    },
+    "Collapsible": {
+      "element": "details",
+      "baseClass": "collapsible",
+      "requiresJS": false,
+      "children": {
+        "CollapsibleTrigger": { "element": "summary" },
+        "CollapsibleContent": { "note": "Content inside details" }
+      },
+      "example": "<details class=\"collapsible\">\n  <summary>Click to expand</summary>\n  <div>Hidden content</div>\n</details>"
+    }
+  },
+  "propConversions": {
+    "className": "class",
+    "htmlFor": "for",
+    "tabIndex": "tabindex",
+    "autoFocus": "autofocus",
+    "readOnly": "readonly",
+    "maxLength": "maxlength",
+    "minLength": "minlength",
+    "autoComplete": "autocomplete",
+    "autoPlay": "autoplay",
+    "crossOrigin": "crossorigin",
+    "dateTime": "datetime",
+    "encType": "enctype",
+    "formAction": "formaction",
+    "formEncType": "formenctype",
+    "formMethod": "formmethod",
+    "formNoValidate": "formnovalidate",
+    "formTarget": "formtarget",
+    "frameBorder": "frameborder",
+    "inputMode": "inputmode",
+    "srcDoc": "srcdoc",
+    "srcSet": "srcset",
+    "useMap": "usemap"
+  },
+  "reactSyntaxToRemove": [
+    "import statements",
+    "export statements",
+    "useState hooks",
+    "useEffect hooks",
+    "useRef hooks",
+    "useCallback hooks",
+    "useMemo hooks",
+    "custom hooks",
+    "React.Fragment or <>",
+    "Component function declarations",
+    "JSX expressions {variable}",
+    "Event handler functions",
+    "Conditional rendering &&",
+    "Ternary operators in JSX",
+    "Array.map() for lists"
+  ]
+}
