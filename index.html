@@ -3,21 +3,63 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Altitude Prototypes</title>
+  <title>Client Prototypes | Altitude Marketing</title>
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/basecoat-css@0.3.10-beta.2/dist/basecoat.cdn.min.css">
   <script src="https://cdn.jsdelivr.net/npm/basecoat-css@0.3.10-beta.2/dist/js/all.min.js" defer></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    .bg-logomark {
+      background-image: url('./assets/Altitude_Marketing_RGB_Logo-Mark.svg');
+      background-repeat: no-repeat;
+      background-position: center 40%;
+      background-size: 500px;
+      opacity: 0.04;
+    }
+  </style>
 </head>
-<body class="min-h-screen bg-background p-8">
-  <div class="max-w-2xl mx-auto">
-    <h1 class="text-3xl font-bold mb-8">Altitude Prototypes</h1>
-    <div class="grid gap-4">
-      <!-- Add links as prototypes are created -->
-      <a href="./example/" class="card p-4 hover:bg-muted transition-colors">
-        <h2 class="font-semibold">Example Prototype</h2>
-        <p class="text-muted-foreground text-sm">Description here</p>
-      </a>
+<body class="min-h-screen bg-background">
+  <!-- Faded logomark background -->
+  <div class="fixed inset-0 bg-logomark pointer-events-none"></div>
+
+  <div class="relative z-10 p-8">
+    <div class="max-w-2xl mx-auto">
+      <!-- Logo and header -->
+      <div class="flex flex-col items-center mb-12">
+        <img
+          src="./assets/Altitude_Marketing_Horizontal.png"
+          alt="Altitude Marketing"
+          class="h-12 mb-6"
+        >
+        <h1 class="text-3xl font-bold text-foreground">Client Prototypes</h1>
+        <p class="text-muted-foreground mt-2">Interactive demos and design previews</p>
+      </div>
+
+      <!-- Prototype cards -->
+      <div class="grid gap-4">
+        <!-- Example card template -->
+        <a href="#" class="card group hover:border-primary/50 transition-all duration-200">
+          <div class="card-header pb-3">
+            <div class="flex items-start justify-between">
+              <div>
+                <h2 class="card-title text-lg group-hover:text-primary transition-colors">Client Name</h2>
+                <p class="card-description text-sm">Landing page prototype</p>
+              </div>
+              <div class="text-muted-foreground group-hover:text-primary group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-all duration-200">
+                <i data-lucide="arrow-up-right" class="w-5 h-5"></i>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer pt-0 border-t-0">
+            <p class="text-xs text-muted-foreground">Published Jan 12, 2026</p>
+          </div>
+        </a>
+      </div>
     </div>
   </div>
+
+  <script>
+    lucide.createIcons();
+  </script>
 </body>
 </html>
