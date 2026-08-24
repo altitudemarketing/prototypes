@@ -1,0 +1,392 @@
+<title>Product Finder Sidebar Mockup</title>
+<style>
+  :root {
+    color-scheme: light;
+    --red: #EC2027;
+    --red-dark: #C4161C;
+    --black: #111111;
+    --grey-border: #d9d9d9;
+    --grey-light: #f5f5f5;
+    --grey-text: #767676;
+    --disabled: #b8b8b8;
+    --page-bg: #ffffff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { color-scheme: light; }
+  body {
+    font-family: 'Poppins', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--page-bg); color: var(--black); font-size: 14px;
+  }
+  /* ---- Header ---- */
+  .hero {
+    background: var(--black); color: #fff; padding: 28px 36px;
+    display: flex; align-items: center; justify-content: space-between; gap: 20px;
+    background-image: radial-gradient(ellipse 120% 90% at 85% 110%, rgba(236,32,39,.45), transparent 60%);
+  }
+  .hero h1 { font-size: 30px; font-weight: 700; letter-spacing: .5px; }
+  .hero .tag { font-size: 12px; color: #ddd; max-width: 360px; text-align: right; }
+  .hero .tag b { color: #fff; }
+
+  .layout { display: flex; gap: 28px; padding: 28px 36px; align-items: flex-start; max-width: 1280px; margin: 0 auto; }
+
+  /* ---- Sidebar ---- */
+  .sidebar {
+    width: 300px; flex-shrink: 0; border: 1px solid var(--grey-border);
+    padding: 20px 18px 28px; background: #fff;
+  }
+  .search-row { display: flex; margin-bottom: 22px; }
+  .search-row input {
+    flex: 1; border: 1px solid var(--grey-border); padding: 9px 12px; font-size: 13px;
+    font-family: inherit; outline: none; color-scheme: light;
+    background: #fff; color: var(--black);
+  }
+  .search-row input:focus { border-color: var(--black); }
+  .search-row button {
+    background: var(--red); border: 0; color: #fff; width: 38px; cursor: pointer; font-size: 15px;
+  }
+  .sb-label { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+  select.ptype {
+    width: 100%; padding: 9px 10px; border: 1px solid var(--grey-border);
+    font-family: inherit; font-size: 13px; color: #444; background: #fff;
+    margin-bottom: 4px; cursor: pointer; color-scheme: light;
+  }
+  .hint { font-size: 11px; color: var(--grey-text); margin-bottom: 18px; line-height: 1.5; }
+
+  .fgroup { margin-bottom: 6px; }
+  .fgroup-head {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 9px 0 7px; border-bottom: 2px solid var(--red);
+    cursor: pointer; user-select: none;
+  }
+  .fgroup-head h3 { font-size: 13.5px; font-weight: 700; letter-spacing: .2px; }
+  .fgroup-head .chev { color: var(--red); font-size: 10px; transition: transform .25s; }
+  .fgroup.collapsed .chev { transform: rotate(-90deg); }
+  .fgroup-body { padding: 10px 2px 12px; }
+  .fgroup.collapsed .fgroup-body { display: none; }
+
+  .term { display: flex; align-items: center; gap: 9px; padding: 4px 0; font-size: 13px; cursor: pointer; }
+  .term input { accent-color: var(--red); width: 15px; height: 15px; cursor: pointer; flex-shrink: 0; color-scheme: light; }
+  .term .count { color: var(--grey-text); font-size: 11.5px; margin-left: auto; }
+  .term.disabled { color: var(--disabled); cursor: not-allowed; }
+  .term.disabled input { pointer-events: none; opacity: .45; }
+  .term.disabled .count { color: var(--disabled); }
+  .show-more {
+    font-size: 12px; color: var(--red); font-weight: 600; cursor: pointer;
+    padding: 4px 0 0; display: inline-block;
+  }
+  .show-more:hover { text-decoration: underline; }
+
+  /* ---- Conditional zone ---- */
+  .cond-zone { overflow: hidden; }
+  .cond-banner {
+    background: var(--black); color: #fff; font-size: 11px; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase; padding: 7px 10px; margin: 18px 0 4px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .cond-banner .clear { color: #ffb3b6; font-weight: 600; font-size: 11px; cursor: pointer; text-transform: none; letter-spacing: 0; }
+  .cond-banner .clear:hover { color: #fff; }
+  .cond-group { animation: slideIn .35s ease both; }
+  .cond-group:nth-child(3) { animation-delay: .05s; }
+  .cond-group:nth-child(4) { animation-delay: .1s; }
+  .cond-group:nth-child(5) { animation-delay: .15s; }
+  .cond-group:nth-child(6) { animation-delay: .2s; }
+  .cond-group:nth-child(7) { animation-delay: .25s; }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cond-group { animation: none; }
+  }
+
+  /* ---- Advanced specs ---- */
+  .adv {
+    margin-top: 22px; border: 1px solid var(--grey-border); background: var(--grey-light);
+  }
+  .adv-head {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 11px 12px; cursor: pointer; user-select: none;
+  }
+  .adv-head h3 { font-size: 13px; font-weight: 700; }
+  .adv-head .chev { color: var(--red); font-size: 10px; transition: transform .25s; }
+  .adv.open .adv-head .chev { transform: rotate(180deg); }
+  .adv-body { display: none; padding: 0 12px 12px; }
+  .adv.open .adv-body { display: block; }
+  .adv-note { font-size: 11px; color: var(--grey-text); line-height: 1.5; padding-bottom: 8px; }
+  .adv-item {
+    display: flex; justify-content: space-between; padding: 6px 2px; font-size: 12.5px;
+    border-top: 1px solid #e6e6e6; cursor: pointer;
+  }
+  .adv-item:hover { color: var(--red); }
+  .adv-item .count { color: var(--grey-text); font-size: 11px; }
+  .adv-item.hidden-attr { display: none; }
+
+  /* ---- Right panel ---- */
+  .main { flex: 1; min-width: 0; }
+  .results-bar {
+    display: flex; justify-content: space-between; align-items: baseline;
+    border-bottom: 1px solid var(--grey-border); padding-bottom: 12px; margin-bottom: 18px;
+  }
+  .results-bar h2 { font-size: 20px; font-weight: 700; }
+  .results-bar .rcount { color: var(--grey-text); font-size: 13px; font-variant-numeric: tabular-nums; }
+  .results-bar .rcount b { color: var(--red); font-size: 16px; }
+
+  .explain { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .card { border: 1px solid var(--grey-border); padding: 16px 18px; }
+  .card.full { grid-column: 1 / -1; }
+  .card h4 {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 1.2px;
+    color: var(--red); margin-bottom: 10px; font-weight: 700;
+  }
+  .card p, .card li { font-size: 13px; line-height: 1.65; color: #333; }
+  .card ul { padding-left: 18px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .chip {
+    font-size: 11.5px; padding: 3px 10px; border: 1px solid var(--grey-border);
+    border-radius: 20px; color: #444; background: var(--grey-light);
+  }
+  .chip.on { background: var(--red); border-color: var(--red); color: #fff; font-weight: 600; }
+  .legend { display: flex; gap: 18px; margin-top: 10px; flex-wrap: wrap; }
+  .legend span { font-size: 12px; color: #444; display: flex; align-items: center; gap: 6px; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .try { font-size: 12px; color: var(--grey-text); margin-top: 14px; line-height: 1.6; }
+  .try b { color: var(--black); }
+  @media (max-width: 900px) {
+    .layout { flex-direction: column; }
+    .sidebar { width: 100%; }
+    .explain { grid-template-columns: 1fr; }
+  }
+</style>
+
+<div class="hero">
+  <h1>Product Finder</h1>
+  <div class="tag">Sidebar mockup &mdash; <b>conditional filter architecture</b><br>Select a product type to see Tier&nbsp;2 filters reveal</div>
+</div>
+
+<div class="layout">
+
+  <!-- ================= SIDEBAR ================= -->
+  <aside class="sidebar">
+    <div class="search-row">
+      <input type="text" placeholder="Search all products&hellip;">
+      <button>&#8594;</button>
+    </div>
+
+    <div class="sb-label">Sort by Product Type</div>
+    <select class="ptype" id="ptype" onchange="selectType(this.value)"></select>
+    <div class="hint">Tier 1: always visible. Choosing a product type reveals its category-specific filters below.</div>
+
+    <div id="globalFilters"></div>
+
+    <div id="condZone" class="cond-zone"></div>
+
+    <div class="adv" id="advBox">
+      <div class="adv-head" onclick="document.getElementById('advBox').classList.toggle('open')">
+        <h3>Advanced Specs</h3>
+        <span class="chev">&#9660;</span>
+      </div>
+      <div class="adv-body">
+        <div class="adv-note">Engineering-detail attributes. Each group renders only when &ge;1 product in the current result set carries it.</div>
+        <div id="advList"></div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ================= MAIN / EXPLAINER ================= -->
+  <main class="main">
+    <div class="results-bar">
+      <h2 id="resTitle">All Products</h2>
+      <div class="rcount"><b id="resCount">1,211</b> products</div>
+    </div>
+
+    <div class="explain">
+      <div class="card full">
+        <h4>Current sidebar state</h4>
+        <p id="stateDesc">Initial state &mdash; no product type selected. Only the five global (Tier&nbsp;1) filters are shown: <b>Product Type, Frequency, Gender, Mounting, Accepts Pin Diameter</b>, plus the collapsed Advanced Specs drawer. All 50+ category-specific attributes stay hidden.</p>
+        <div class="chips" id="stateChips"></div>
+      </div>
+
+      <div class="card">
+        <h4>How conditional reveal works</h4>
+        <ul>
+          <li><b>Tier 1 — Global:</b> filters with broad catalog coverage (Frequency 693, Gender 725, Mounting 458, Pin Dia. 285 products). Always visible.</li>
+          <li><b>Tier 2 — Category options:</b> revealed by the Product Type selection, animated in under a black banner (maps to flowchart groups A+ through G+).</li>
+          <li><b>Tier 3 — Advanced Specs:</b> ~30 long-tail engineering attributes in a collapsed drawer; groups with zero coverage in the result set are dropped.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h4>Behavior rules (from UI_Filter_Rules)</h4>
+        <ul>
+          <li>Zero-match terms <span style="color:var(--disabled)">grey out</span> &mdash; never removed &mdash; so users see what exists.</li>
+          <li>Counts shown beside every term.</li>
+          <li>Search never resets active filters.</li>
+          <li>One Rear Thd group only (fixes duplicate in Figma).</li>
+          <li>Long term lists truncate to 8 with <span style="color:var(--red);font-weight:600">+ show more</span>.</li>
+        </ul>
+        <div class="legend">
+          <span><span class="dot" style="background:var(--black)"></span>Active term</span>
+          <span><span class="dot" style="background:var(--disabled)"></span>Greyed (0 matches)</span>
+        </div>
+        <div class="try">Try: <b>End Launch Connectors</b> (PCB Thickness, Pin/Dielectric), <b>1.0 mm Connectors</b> (flange detail + greyed terms), <b>SSBP Multi-Coax Contacts</b> (Positions, Contact Size), <b>Waveguide Launch</b> (Probe Diameter).</div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+/* ============ DATA (terms + counts from Attribute_Terms tab) ============ */
+const ATTRS = {
+  frequency:   { name:'Frequency (GHz)', terms:[['18',687],['27',629],['33',56],['36',455],['40',432],['50',284],['67',174],['90',8],['110',39],['125',29],['145',0]] },
+  gender:      { name:'Gender', terms:[['Female',338],['Male',267],['Female - Female',32],['Female - Male',15],['Male - Female',10],['Male - Male',12],['Pin',16],['Socket',18],['Plug',8],['Receptacle',9]] },
+  mounting:    { name:'Mounting', terms:[['2-Hole Flange',129],['4-Hole Flange',161],['Thread-in',69],['Inline',52],['SMT',12],['Solder-on',11],['Bulkhead',7],['Bolt-on 2-Hole Vertical',5],['Stabilizing Posts',4],['Thread-in Hex',3]] },
+  pin_dia:     { name:'Accepts Pin Diameter', terms:[['.005',3],['.007',1],['.009',80],['.012',65],['.015',33],['.018',25],['.020',56],['.024',3],['.036',17]] },
+
+  style_adapt: { name:'Style', terms:[['Between Series',43],['In Series',26]] },
+  style_cable: { name:'Style', terms:[['Field Replaceable',80],['Direct Solder',39],['Direct Clamp',11],['Direct Solder Flange Termination',7],['Non-Magnetic',3],['Extended Length',3]] },
+  style_el:    { name:'Style', terms:[['Standard Block (.500)',75],['Narrow Block (.350)',29],['Standard Block Thread-In (.500)',26],['Narrow Block Thread-In (.350)',22],['Test Board',3]] },
+  cable:       { name:'Cable', terms:[['.047',52],['.086',43],['.141',34],['.031',3],['.047 SC Flex',9],['.086 SC Flex',7],['.086 Low Loss',3],['.141 Low Loss',2]] },
+  cable_cd:    { name:'Cable Center Diameter', terms:[['0.0113',49],['0.0201',43],['0.0253',3],['0.0362',34],['0.0453',2]] },
+  pin_diel:    { name:'Pin/Dielectric Diameters', terms:[['.005/.0290',66],['.007/.0390',47],['.007/.0480',3],['.010/.0635',37]] },
+  pcb:         { name:'PCB Thickness', terms:[['Up to .040',0],['Up to .065',52],['Up to .100',28],['.040 to .090',23],['.090 to .210',25],['.190 to .300',24],['Does Not Apply',5]] },
+  flange_sz:   { name:'Flange Size', terms:[['.375 SQ',52],['.500 SQ',75],['.625 L',63],['.550 L',31],['.500 L',27],['.687 SQ',15],['.375 x .500',12],['1.0 SQ',11],['.480 L',5]] },
+  flange_hd:   { name:'Flange Hole Diameter', terms:[['0.067',44],['0.081',8],['0.093',12],['0.102',198],['0.125',13],['0.138',9]] },
+  rear_thd:    { name:'Rear Thd', terms:[['.250-36',39],['M6X.75-6g',11],['#10-36',7],['M7X.75-6g',2],['#8-36',2],['.4375-28',2],['M2.5X.35-6g',2]] },
+  probe:       { name:'Probe Diameter / Length', terms:[['.025 / .430',6],['.024 / .300 Nailhead',3],['.012 / .125',2],['.015 / .230',2],['.024 / .295 Nailhead',2],['.037 / .200',2],['.050 / .740',2],['.023 / .074',0]] },
+  bore:        { name:'Bore Type', terms:[['Smooth',15],['Detent',13]] },
+  positions:   { name:'Positions', terms:[['3',5],['6',6],['9',6]] },
+  contact:     { name:'Contact Size', terms:[['SSBP-8 Pin',4],['SSBP-8 Socket',4],['SSBP-12 Pin',3],['SSBP-12 Socket',3],['SSBP-16 Pin',3],['SSBP-16 Socket',3],['SSBP-20 Pin',4],['SSBP-20 Socket',3],['SSBP-20HD Pin',2],['SSBP-20HD Socket',3]] },
+  circuit:     { name:'Circuit Launch', terms:[['Stripline',14],['Microstrip/GCPW',10],['Microstrip',3],['GCPW',2]] },
+  multipin:    { name:'Multi-pin Connector', terms:[['DTL-38999 Series I',25],['DTL-38999 Series III',26],['DTL-38999 Series IV',25],['DTL-38999 Series II',7],['DTL-24308 D-Sub / Micro-D',4],['Series 80 Mighty Mouse',3],['Micro-D',2]] },
+  bullet_len:  { name:'Bullet Length', terms:[['0.063',1],['0.0825',1],['0.103',1],['0.113',1],['0.139',1],['0.149',1],['0.193',1],['0.203',1],['0.212',1],['0.439',1],['0.452',1]] },
+  tape:        { name:'Tape & Reel Packaging', terms:[['Yes',7],['No',0]] },
+  ptype_sub:   { name:'Product Type', terms:[['Coax Contact',34],['Smooth Bore',11],['Bullet',9],['Detent Bore',7],['Micro-D Cable Plug',6],['Micro-D Cable Receptacle',6],['Adapter',5],['End Launch Receptacle',5]] }
+};
+
+const GLOBALS = ['frequency','gender','mounting','pin_dia'];
+
+/* Per-type config: count, Tier-2 groups, optional availability overrides for global terms */
+const MM_SERIES_GROUPS = ['flange_sz','flange_hd','rear_thd','cable','cable_cd'];
+const TYPES = {
+  'End Launch Connectors':    { n:197, groups:['style_el','pin_diel','pcb'],
+      avail:{ mounting:['Thread-in','Solder-on','Bolt-on 2-Hole Vertical','Stabilizing Posts'], pin_dia:['.005','.007'], frequency:['18','27','33','36','40','50','67','90','110'] } },
+  'Cable Connectors':         { n:167, groups:['style_cable','cable','cable_cd','flange_sz','flange_hd'] },
+  'SuperSMA Connectors':      { n:119, groups: MM_SERIES_GROUPS },
+  'Adapters':                 { n:93,  groups:['style_adapt','flange_sz','flange_hd'] },
+  'Launch Accessories':       { n:88,  groups:['bore'] },
+  '2.92 mm Connectors':       { n:85,  groups: MM_SERIES_GROUPS },
+  'SSBP Multi-Coax Contacts': { n:76,  groups:['contact','positions','bore','ptype_sub','cable'],
+      avail:{ frequency:['67'], mounting:[], pin_dia:[] } },
+  '2.40 mm Connectors':       { n:66,  groups: MM_SERIES_GROUPS },
+  'SSBB SuperMini Board-to-Board': { n:53, groups:['bore','ptype_sub','bullet_len','circuit','tape'] },
+  '1.85 mm Connectors':       { n:49,  groups: MM_SERIES_GROUPS },
+  'Waveguide Launch Connectors': { n:34, groups:['probe','rear_thd','flange_sz','flange_hd'] },
+  '1.0 mm Connectors':        { n:33,  groups: MM_SERIES_GROUPS,
+      avail:{ frequency:['110','125'], pin_dia:['.005','.009'], mounting:['2-Hole Flange','4-Hole Flange','Thread-in'] } },
+  'N Connectors':             { n:25,  groups: MM_SERIES_GROUPS },
+  'SSMA Connectors':          { n:23,  groups: MM_SERIES_GROUPS },
+  'TNC Connectors':           { n:20,  groups: MM_SERIES_GROUPS },
+  'Tools':                    { n:19,  groups:[] },
+  '0.9 mm SuperMini':         { n:16,  groups: MM_SERIES_GROUPS },
+  'Vertical Launch Connectors': { n:13, groups:['ptype_sub','pin_diel'] },
+  '1.35 mm Connectors':       { n:12,  groups: MM_SERIES_GROUPS },
+  'Flange Termination':       { n:10,  groups:['cable','cable_cd','flange_sz','flange_hd'] },
+  '0.8 mm Connectors':        { n:2,   groups: MM_SERIES_GROUPS },
+  'Flexible Cable and Harness Assemblies': { n:2, groups:['cable'] }
+};
+
+/* Tier-3 advanced attributes (name, products carrying it) */
+const ADVANCED = [
+  ['Series',739],['Hermetic Seal Available',288],['Tools, C-bore',218],['Tools, Solder',168],
+  ['Mounting Style',79],['Pin Diameter',77],['Launch Type',74],['Pin Length',44],['Step/Tab Length',44],
+  ['Dielectric Length',40],['Body Diameter',29],['Tab Thickness',24],['Dielectric Diameter',23],
+  ['G (Deg)',22],['H (Deg)',22],['Key Polarization',22],['Step Diameter',20],['Connector Length',11],
+  ['Circuit Pin Length',10],['Connector Pin Length',10],['Outer Ring Length',9],['Test Board Size',5],['Sizes',5]
+];
+
+/* ============ RENDER ============ */
+const SHOW_N = 8;
+
+function termRow(label, count, disabled) {
+  return `<label class="term ${disabled?'disabled':''}">
+    <input type="checkbox" ${disabled?'disabled':''}>
+    <span>${label}</span><span class="count">(${count})</span>
+  </label>`;
+}
+
+function renderGroup(key, availList) {
+  const a = ATTRS[key];
+  const rows = a.terms.map(([t,c]) => {
+    const disabled = c === 0 || (availList && !availList.includes(t));
+    return { html: termRow(t,c,disabled) };
+  });
+  const visible = rows.slice(0, SHOW_N).map(r=>r.html).join('');
+  const extra = rows.slice(SHOW_N).map(r=>r.html).join('');
+  const moreBtn = extra ? `<div class="extra" style="display:none">${extra}</div>
+    <span class="show-more" onclick="toggleMore(this)">+ ${rows.length-SHOW_N} more</span>` : '';
+  return `<div class="fgroup">
+    <div class="fgroup-head" onclick="this.parentElement.classList.toggle('collapsed')">
+      <h3>${a.name}</h3><span class="chev">&#9660;</span>
+    </div>
+    <div class="fgroup-body">${visible}${moreBtn}</div>
+  </div>`;
+}
+
+function toggleMore(el) {
+  const extra = el.previousElementSibling;
+  const open = extra.style.display !== 'none';
+  extra.style.display = open ? 'none' : 'block';
+  el.textContent = open ? `+ ${extra.children.length} more` : '– show less';
+}
+
+function renderGlobals(avail) {
+  document.getElementById('globalFilters').innerHTML =
+    GLOBALS.map(k => renderGroup(k, avail ? avail[k] : null)).join('');
+}
+
+function renderAdv() {
+  document.getElementById('advList').innerHTML =
+    ADVANCED.map(([n,c]) => `<div class="adv-item"><span>${n}</span><span class="count">${c} products</span></div>`).join('');
+}
+
+function selectType(val) {
+  const zone = document.getElementById('condZone');
+  const chips = document.getElementById('stateChips');
+  if (!val) {
+    zone.innerHTML = '';
+    renderGlobals(null);
+    document.getElementById('resTitle').textContent = 'All Products';
+    document.getElementById('resCount').textContent = '1,211';
+    document.getElementById('stateDesc').innerHTML = 'Initial state &mdash; no product type selected. Only the five global (Tier&nbsp;1) filters are shown: <b>Product Type, Frequency, Gender, Mounting, Accepts Pin Diameter</b>, plus the collapsed Advanced Specs drawer. All 50+ category-specific attributes stay hidden.';
+    chips.innerHTML = '';
+    return;
+  }
+  const cfg = TYPES[val];
+  renderGlobals(cfg.avail || null);
+  const label = val.replace(' Connectors','').replace(' Board-to-Board','');
+  if (cfg.groups.length) {
+    zone.innerHTML = `<div class="cond-banner"><span>${label} Options</span>
+        <span class="clear" onclick="document.getElementById('ptype').value='';selectType('')">clear</span></div>`
+      + cfg.groups.map(g => `<div class="cond-group">${renderGroup(g, null)}</div>`).join('');
+  } else {
+    zone.innerHTML = `<div class="cond-banner"><span>${label}</span>
+        <span class="clear" onclick="document.getElementById('ptype').value='';selectType('')">clear</span></div>
+      <div class="hint" style="margin-top:8px">No category-specific filters &mdash; refine via Advanced Specs.</div>`;
+  }
+  document.getElementById('resTitle').textContent = val;
+  document.getElementById('resCount').textContent = cfg.n.toLocaleString();
+  const groupNames = cfg.groups.map(g => ATTRS[g].name);
+  document.getElementById('stateDesc').innerHTML =
+    `<b>${val}</b> selected (${cfg.n} products). Tier&nbsp;2 group${groupNames.length===1?'':'s'} revealed below the globals` +
+    (cfg.avail ? '; global terms with no matches in this category are greyed out.' : '.');
+  chips.innerHTML = GLOBALS.map(k=>`<span class="chip">${ATTRS[k].name}</span>`).join('')
+    + groupNames.map(n=>`<span class="chip on">${n}</span>`).join('');
+}
+
+/* init */
+const sel = document.getElementById('ptype');
+sel.innerHTML = '<option value="">All Products</option>' +
+  Object.keys(TYPES).sort((a,b)=>a.localeCompare(b)).map(t=>`<option>${t}</option>`).join('');
+renderGlobals(null);
+renderAdv();
+</script>
