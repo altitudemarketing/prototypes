@@ -19,9 +19,10 @@
    ------------------------------------------------------------------ */
 :root{
   --hero-bg:#0c0707;
-  --paper:#f7f3ee;
+  --paper:#ffffff;
   --surface:#ffffff;
-  --surface-2:#fbf9f6;
+  --surface-2:#faf8f7;
+  --seg-bg:#f7f3ee;
   --ink:#1a1413;
   --ink-2:#5b504c;
   --ink-3:#8a7d78;
@@ -41,7 +42,7 @@
   --r-u:#921b1d; --r-u-bg:#f7dede;
   --r-n:#8a7d78; --r-n-bg:#f0ebe7;
 
-  --shadow:0 1px 2px rgba(26,20,19,.04), 0 10px 28px -18px rgba(26,20,19,.25);
+  --shadow:0 1px 2px rgba(26,20,19,.05), 0 8px 22px -14px rgba(26,20,19,.28);
   --radius:12px;
   --mono:"DM Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
   --sans:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
@@ -56,6 +57,7 @@
     --ink-3:#8d7f7a;
     --line:#2c2321;
     --line-2:#241d1b;
+    --seg-bg:#1e1716;
     --gold-deep:#ffba49;
     --gold-soft:#33260f;
     --red:#d2554f;
@@ -75,7 +77,7 @@
   --paper:#0c0707; --surface:#171110; --surface-2:#1e1716;
   --ink:#f4efec; --ink-2:#b6a9a4; --ink-3:#8d7f7a;
   --line:#2c2321; --line-2:#241d1b;
-  --gold-deep:#ffba49; --gold-soft:#33260f; --red:#d2554f; --red-soft:#3a1c1c;
+  --seg-bg:#1e1716; --gold-deep:#ffba49; --gold-soft:#33260f; --red:#d2554f; --red-soft:#3a1c1c;
   --tile-bg:#2a2220; --tile-line:#3a302d;
   --r-a:#6fc286; --r-a-bg:#16301f;
   --r-b:#e0b45c; --r-b-bg:#332813;
@@ -125,7 +127,7 @@ h1 em{font-style:normal; color:var(--gold)}
 
 .tabs{
   display:inline-grid; grid-auto-flow:column; grid-auto-columns:1fr;
-  background:var(--paper); border-radius:10px; padding:5px; gap:4px;
+  background:var(--seg-bg); border-radius:10px; padding:5px; gap:4px;
   margin:32px 0 30px; max-width:520px; width:100%;
 }
 .tab{
@@ -138,6 +140,7 @@ h1 em{font-style:normal; color:var(--gold)}
 .tab .s{display:block; font-weight:400; font-size:12px; color:var(--ink-3); margin-top:2px}
 .tab:hover:not([aria-selected="true"]){background:rgba(146,27,29,.07)}
 .tab[aria-selected="true"]{background:var(--red); color:#fff}
+.tab[aria-selected="true"] .t{color:#fff}
 .tab[aria-selected="true"] .s{color:rgba(255,255,255,.72)}
 
 /* ---------- workbench ---------- */
@@ -212,7 +215,7 @@ main{padding-block:34px 72px}
 .v{
   display:grid; grid-template-columns:48px 1fr auto; gap:0 16px; align-items:start;
   background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
-  padding:15px 16px; box-shadow:0 1px 2px rgba(26,20,19,.04);
+  padding:15px 16px; box-shadow:var(--shadow);
   transition:border-color .16s, box-shadow .16s;
 }
 .v:hover{border-color:var(--gold); box-shadow:var(--shadow)}
@@ -263,9 +266,9 @@ main{padding-block:34px 72px}
 }
 table{border-collapse:separate; border-spacing:0; width:100%; font-size:13.5px}
 thead th{
-  position:sticky; top:0; z-index:2; background:var(--surface-2); color:var(--ink-2);
+  position:sticky; top:0; z-index:2; background:var(--surface); color:var(--ink-2);
   font-family:var(--sans); font-weight:700; font-size:10.5px; letter-spacing:.06em;
-  text-transform:uppercase; padding:12px 6px; border-bottom:1px solid var(--line);
+  text-transform:uppercase; padding:13px 6px; border-bottom:1.5px solid var(--line);
   text-align:center; white-space:nowrap;
 }
 thead th:first-child{text-align:left; padding-left:20px; z-index:3; left:0}
