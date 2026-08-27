@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Product Finder — WARCO Rubber</title>
+<meta name="description" content="WARCO Product Finder prototype — 85 products, 21 conditional facets, 328 vocabulary terms. Built for Altitude Marketing.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Rethink+Sans:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<style>
+:root{--red:#921B1D;--red-deep:#6E1416;--gold:#FFBA49;--gold-deep:#E89F2A;--ink:#1A1413;--ink-soft:#4A4341;--muted:#7A7270;--line:#E8E3E0;--bg:#FFFFFF;--bg-warm:#F7F3EE;--bg-soft:#F4EFEA;--shadow-sm:0 1px 2px rgba(20,12,10,.06);--shadow-md:0 6px 18px -8px rgba(20,12,10,.18),0 2px 4px rgba(20,12,10,.04);--shadow-lg:0 24px 48px -20px rgba(20,12,10,.30),0 8px 18px -10px rgba(20,12,10,.18);--kern-display:-0.025em;--kern-body:0em;--kern-eyebrow:0.22em}
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:110px}
+body{font-family:"Rethink Sans",system-ui,sans-serif;font-feature-settings:"ss01","cv11";color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;line-height:1.55;letter-spacing:var(--kern-body)}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+a:hover{color:var(--red)}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+.wrap{max-width:1280px;margin:0 auto;padding:0 40px}
+
+/* HEADER */
+.topbar{background:#F4EFEA;border-bottom:1px solid rgba(146,27,29,.08);position:sticky;top:0;z-index:50}
+.topbar-inner{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:32px;height:80px;padding:0 40px;max-width:1600px;margin:0 auto}
+.logo{background:var(--red);color:#fff;font-weight:800;font-size:24px;letter-spacing:.02em;padding:10px 18px;border-radius:6px;display:inline-flex;align-items:center;font-style:italic}
+.logo:hover{color:#fff}
+.logo sup{font-size:9px;font-weight:600;margin-left:2px;position:relative;top:-8px;font-style:normal}
+.nav{display:flex;align-items:center;gap:2px;justify-self:center}
+.nav-item{position:relative;padding:9px 15px;font-size:15px;font-weight:600;color:var(--ink);border-radius:999px;display:inline-flex;align-items:center;gap:5px;transition:color .15s}
+.nav-item:hover,.nav-item.active{color:var(--red)}
+.nav-item .chev{width:13px;height:13px;opacity:.55;transition:transform .2s}
+.nav-item:hover .chev{transform:translateY(2px);opacity:1}
+.nav-dropdown{position:absolute;top:calc(100% + 6px);left:50%;transform:translateX(-50%) translateY(-6px);background:#fff;border:1px solid var(--line);border-radius:14px;padding:8px;min-width:230px;box-shadow:var(--shadow-lg);opacity:0;pointer-events:none;transition:opacity .15s,transform .15s;z-index:60}
+.nav-item:hover .nav-dropdown,.nav-item:focus-within .nav-dropdown{opacity:1;pointer-events:auto;transform:translateX(-50%) translateY(0)}
+.nav-dropdown a{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;font-size:14px;font-weight:500;color:var(--ink)}
+.nav-dropdown a:hover{background:#F7F3EE;color:var(--red)}
+.nav-dropdown a svg{width:15px;height:15px;color:var(--muted)}
+.cta-pill{display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:var(--ink);font-weight:700;font-size:14px;padding:11px 22px;border-radius:999px;transition:transform .15s,background .15s;box-shadow:0 1px 0 rgba(0,0,0,.04),0 6px 14px -8px rgba(232,159,42,.55);white-space:nowrap}
+.cta-pill:hover{background:var(--gold-deep);transform:translateY(-1px);color:var(--ink)}
+.cta-pill svg{width:15px;height:15px}
+
+/* BREADCRUMB */
+.breadcrumb-bar{background:var(--bg);border-bottom:1px solid var(--line);padding:11px 0}
+.breadcrumb{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:500;color:var(--muted);max-width:1280px;margin:0 auto;padding:0 40px;flex-wrap:wrap}
+.breadcrumb a{color:var(--muted);transition:color .15s}
+.breadcrumb a:hover{color:var(--red)}
+.breadcrumb svg{width:12px;height:12px;color:var(--line);flex-shrink:0}
+.breadcrumb-current{color:var(--ink);font-weight:600}
+
+/* HERO */
+.hero-section{background:var(--bg-soft);padding:72px 0 76px;border-bottom:1px solid var(--line)}
+.hero-copy h1{font-weight:800;font-size:clamp(38px,4.4vw,58px);line-height:1.04;letter-spacing:var(--kern-display);color:var(--ink);margin:0 0 20px;text-wrap:balance}
+.hero-copy h1 em{color:var(--red);font-style:normal}
+.hero-copy p{font-size:18px;line-height:1.68;color:#000000;margin:0;text-wrap:pretty;max-width:680px}
+
+/* FINDER LAYOUT */
+.finder{padding:44px 0 96px;background:var(--bg)}
+.finder-layout{display:grid;grid-template-columns:308px 1fr;gap:40px;align-items:start}
+
+/* SIDEBAR */
+.sidebar{position:sticky;top:104px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px 20px 26px;box-shadow:var(--shadow-sm);max-height:calc(100vh - 130px);overflow-y:auto;scrollbar-width:thin;scrollbar-color:#D6CEC9 transparent}
+.sidebar::-webkit-scrollbar{width:8px}
+.sidebar::-webkit-scrollbar-thumb{background:#D6CEC9;border-radius:99px}
+.sb-search{display:flex;align-items:stretch;background:var(--bg-warm);border-radius:10px;overflow:hidden;transition:box-shadow .15s;flex:1;max-width:400px;min-width:200px}
+.sb-search:focus-within{box-shadow:0 0 0 3px rgba(146,27,29,.12)}
+.sb-search input{flex:1;min-width:0;font-family:inherit;font-size:14.5px;color:var(--ink);background:transparent;border:0;outline:none;padding:12px 14px}
+.sb-search input::placeholder{color:#A69E9A}
+.sb-search button{display:grid;place-items:center;background:var(--red);color:#fff;width:48px;flex-shrink:0;transition:background .15s}
+.sb-search button:hover{background:var(--red-deep)}
+.sb-search button svg{width:16px;height:16px}
+.sb-material{border:1.5px solid rgba(146,27,29,.45);background:rgba(146,27,29,.045);border-radius:12px;padding:16px 16px 14px;margin-bottom:24px}
+.sb-label{font-size:15px;font-weight:800;letter-spacing:-.015em;color:var(--ink);margin-bottom:10px}
+.sb-hint{font-size:12.5px;line-height:1.45;color:var(--red);margin:10px 0 0}
+.sb-hint b{font-weight:800}
+.rcount{white-space:nowrap}
+.sb-select-wrap{position:relative}
+.sb-select-wrap svg{position:absolute;right:14px;top:50%;transform:translateY(-50%);width:15px;height:15px;color:var(--red);pointer-events:none}
+select.material{width:100%;appearance:none;font-family:inherit;font-size:14.5px;font-weight:600;color:var(--ink);background:#fff;border:1.5px solid var(--line);border-radius:10px;padding:11px 40px 11px 14px;cursor:pointer;transition:border-color .15s,background .15s}
+select.material:hover{border-color:rgba(146,27,29,.35)}
+select.material:focus{outline:none;border-color:var(--red);background:#fff;box-shadow:0 0 0 3px rgba(146,27,29,.10)}
+
+.filters-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding-bottom:12px;border-bottom:1px solid var(--line);margin-bottom:6px}
+.filters-head h2{font-size:14px;font-weight:800;letter-spacing:-.01em;margin:0;color:var(--ink)}
+.clear-all{font-size:12.5px;font-weight:700;color:var(--muted);transition:color .15s}
+.clear-all:hover{color:var(--red)}
+
+.fgroup{border-bottom:1px solid var(--line)}
+.fgroup-head{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 0 12px;text-align:left}
+.fgroup-head h3{font-size:13.5px;font-weight:800;letter-spacing:.005em;margin:0;color:var(--ink);transition:color .15s}
+.fgroup-head:hover h3{color:var(--red)}
+.fgroup-head .badge{margin-left:auto;font-size:11px;font-weight:800;color:#fff;background:var(--red);border-radius:999px;min-width:19px;height:19px;padding:0 6px;display:none;place-items:center;line-height:1}
+.fgroup.has-active .fgroup-head .badge{display:grid}
+.fgroup-head .chev{width:15px;height:15px;color:var(--red);transition:transform .22s;flex-shrink:0}
+.fgroup.collapsed .chev{transform:rotate(-90deg)}
+.fgroup-body{padding:0 0 14px;display:grid;gap:1px}
+.fgroup.collapsed .fgroup-body{display:none}
+.term{display:flex;align-items:center;gap:10px;padding:5px 0;font-size:14px;color:var(--ink-soft);cursor:pointer;user-select:none;transition:color .15s}
+.term:hover{color:var(--ink)}
+.term input{position:absolute;opacity:0;width:0;height:0}
+.term .box{width:17px;height:17px;border-radius:4px;border:1.5px solid #C9C1BC;background:#fff;display:grid;place-items:center;flex-shrink:0;transition:all .15s}
+.term .box svg{width:11px;height:11px;color:#fff;opacity:0;stroke-width:3.5;transition:opacity .12s}
+.term:has(input:checked){color:var(--ink);font-weight:700}
+.term:has(input:checked) .box{background:var(--red);border-color:var(--red)}
+.term:has(input:checked) .box svg{opacity:1}
+.term:has(input:focus-visible) .box{box-shadow:0 0 0 3px rgba(146,27,29,.16)}
+.term .count{margin-left:auto;font-size:12px;font-weight:600;color:var(--muted)}
+.extra{display:none;flex-direction:column;gap:1px}
+.fgroup.expanded .extra{display:flex}
+.show-more{font-size:12.5px;font-weight:700;color:var(--red);padding:7px 0 0;display:inline-flex;align-items:center;gap:5px;align-self:flex-start}
+.show-more:hover{text-decoration:underline;text-underline-offset:2px}
+.show-more svg{width:12px;height:12px;transition:transform .2s}
+.fgroup.expanded .show-more svg{transform:rotate(180deg)}
+
+/* RESULTS */
+.results-bar{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;padding-bottom:16px;border-bottom:1px solid var(--line);margin-bottom:22px}
+.results-bar h2{font-size:24px;font-weight:800;letter-spacing:-.02em;margin:0}
+.results-bar .rcount{font-size:15px;color:var(--muted)}
+.results-bar .rcount b{color:var(--red);font-weight:800;font-size:17px}
+.chip-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px;min-height:0}
+.chip-row:empty{display:none}
+.chip{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:700;color:var(--ink);background:var(--bg-soft);border:1px solid var(--line);border-radius:999px;padding:6px 12px;transition:all .15s}
+.chip:hover{border-color:var(--red);color:var(--red)}
+.chip svg{width:12px;height:12px}
+.product-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.pcard{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow-sm);transition:transform .2s cubic-bezier(.16,1,.3,1),box-shadow .2s,border-color .2s;display:flex;flex-direction:column}
+.pcard:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);border-color:rgba(146,27,29,.22)}
+.pcard-body{padding:22px 20px 22px;display:flex;flex-direction:column;gap:9px;flex:1}
+.pcard-tag{font-size:10.5px;letter-spacing:var(--kern-eyebrow);text-transform:uppercase;font-weight:800;color:var(--red)}
+.pcard h3{font-size:17px;font-weight:800;letter-spacing:-.015em;margin:0;color:var(--ink)}
+.pcard p{font-size:14px;line-height:1.55;color:var(--muted);margin:0}
+.pcard-meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:12px}
+.pcard-meta span{font-size:11.5px;font-weight:600;color:var(--ink-soft);background:var(--bg-warm);border:1px solid var(--line);border-radius:999px;padding:3px 9px}
+.pcard{position:relative}
+.pcard-corner{position:absolute;top:0;right:0;width:62px;height:62px;background:var(--ink);clip-path:polygon(100% 0,100% 100%,0 0);display:grid;place-items:start end;padding:9px 9px 0 0;color:var(--gold);pointer-events:none}
+.pcard-corner svg{width:16px;height:16px}
+.pcard-body{padding-right:46px}
+.pcard-custom{grid-column:span 1;background:linear-gradient(150deg,var(--red) 0%,var(--red-deep) 100%);border-color:var(--red-deep);color:#fff;box-shadow:0 10px 24px -14px rgba(146,27,29,.55);padding:26px 24px 24px;justify-content:center;gap:12px}
+.pcard-custom:hover{border-color:var(--red-deep);box-shadow:0 16px 32px -16px rgba(146,27,29,.6)}
+.pcard-custom h3{font-size:22px;font-weight:800;letter-spacing:-.02em;margin:0;color:#fff;line-height:1.2;text-wrap:balance}
+.pcard-custom p{font-size:14.5px;line-height:1.55;color:rgba(255,255,255,.86);margin:0;text-wrap:pretty}
+.pcard-custom .cbtn{display:inline-flex;align-items:center;justify-content:center;gap:9px;background:#fff;color:var(--red);font-weight:700;font-size:14.5px;padding:12px 22px;border-radius:999px;margin-top:6px;transition:background .15s,transform .15s}
+.pcard-custom .cbtn:hover{background:var(--gold);color:var(--ink);transform:translateY(-1px)}
+.pcard-custom .cbtn svg{width:15px;height:15px}
+.load-more{display:flex;justify-content:center;margin-top:36px}
+.load-more button{display:inline-flex;align-items:center;gap:9px;font-size:15px;font-weight:700;color:var(--ink);background:#fff;border:1.5px solid var(--line);border-radius:999px;padding:13px 30px;transition:all .15s}
+.load-more button:hover{border-color:var(--red);color:var(--red)}
+.load-more button svg{width:15px;height:15px}
+
+/* FOOTER */
+.footer{background:#1A1413;color:#D8CFC9;padding:80px 0 0}
+.footer-top{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:48px}
+.footer-brand{max-width:320px}
+.footer-logo{background:var(--red);color:#fff;font-weight:800;font-size:22px;letter-spacing:.02em;padding:9px 16px;border-radius:6px;display:inline-flex;align-items:center;font-style:italic;margin-bottom:18px}
+.footer-logo:hover{color:#fff}
+.footer-logo sup{font-size:9px;font-weight:600;margin-left:2px;position:relative;top:-6px;font-style:normal}
+.footer-tagline{font-size:13px;line-height:1.62;color:rgba(255,255,255,.58);margin:0 0 22px}
+.footer-tagline strong{color:rgba(255,255,255,.88);font-weight:700}
+.footer-socials{display:flex;gap:9px}
+.footer-socials a{width:36px;height:36px;border-radius:999px;border:1px solid rgba(255,255,255,.14);display:grid;place-items:center;color:rgba(255,255,255,.70);transition:all .15s}
+.footer-socials a:hover{background:var(--gold);color:var(--ink);border-color:var(--gold)}
+.footer-col h5{font-size:11px;letter-spacing:var(--kern-eyebrow);text-transform:uppercase;color:#fff;font-weight:700;margin:4px 0 16px}
+.footer-col ul{list-style:none;padding:0;margin:0;display:grid;gap:11px}
+.footer-col li a{font-size:14px;color:rgba(255,255,255,.58);transition:color .15s}
+.footer-col li a:hover{color:var(--gold)}
+.footer-contact-row{display:flex;align-items:flex-start;gap:9px;font-size:13.5px;color:rgba(255,255,255,.58);line-height:1.5}
+.footer-contact-row svg{width:14px;height:14px;color:var(--gold);flex-shrink:0;margin-top:2px}
+.footer-contact-row a{color:rgba(255,255,255,.58);transition:color .15s}
+.footer-contact-row a:hover{color:var(--gold)}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;padding:36px 0 28px;margin-top:64px;border-top:1px solid rgba(255,255,255,.07);font-size:13px;color:rgba(255,255,255,.40);gap:20px;flex-wrap:wrap}
+.footer-bottom-links{display:flex;gap:24px}
+.footer-bottom-links a{color:rgba(255,255,255,.40);transition:color .15s}
+.footer-bottom-links a:hover{color:var(--gold)}
+
+@media (max-width:1100px){
+.finder-layout{grid-template-columns:264px 1fr;gap:28px}
+.product-grid{grid-template-columns:repeat(2,1fr)}
+.footer-top{grid-template-columns:1fr 1fr;gap:36px}
+}
+@media (max-width:860px){
+.finder-layout{grid-template-columns:1fr}
+.sidebar{position:static;max-height:none}
+}
+@media (max-width:720px){
+.topbar-inner{grid-template-columns:1fr auto;height:68px;padding:0 20px}
+.nav{display:none}
+.wrap{padding:0 20px}
+.breadcrumb{padding:0 20px}
+.hero-section{padding:48px 0 52px}
+.finder{padding:32px 0 64px}
+.product-grid{grid-template-columns:1fr}
+.sb-search{max-width:none;flex-basis:100%;order:3}
+.footer-top{grid-template-columns:1fr;gap:32px}
+}
+</style>
+
+<style>
+/* ---- prototype additions: facet meta, gating, ranges, banner ---- */
+.fgroup-head .fcount{margin-left:8px;font-size:11px;font-weight:700;color:var(--muted);background:var(--bg-warm);border:1px solid var(--line);border-radius:999px;padding:1px 7px;line-height:1.5;flex-shrink:0}
+.fgroup-head h3{flex-shrink:1}
+.fgroup-head .badge{margin-left:4px}
+.fgroup.fgroup-gated .fgroup-head h3{color:#A69E9A}
+.fgroup.fgroup-gated .fgroup-head .fcount{opacity:.55}
+.gate-note{display:flex;align-items:flex-start;gap:7px;font-size:12.5px;line-height:1.45;color:var(--muted);background:var(--bg-warm);border:1px dashed #D6CEC9;border-radius:8px;padding:9px 11px;margin:2px 0 4px}
+.gate-note svg{width:13px;height:13px;flex-shrink:0;margin-top:2px;color:var(--red)}
+.fmeta{display:flex;align-items:flex-start;gap:7px;font-size:12px;line-height:1.4;margin:0 0 8px;color:var(--muted)}
+.fmeta svg{width:12px;height:12px;flex-shrink:0;margin-top:2px}
+.fmeta-empty{color:#B07A2A}
+.fmeta-empty svg{color:var(--gold-deep)}
+.term-zero{opacity:.5}
+.term-zero .count{color:#B8AFAA}
+.term-child{padding-left:16px;position:relative}
+.term-child::before{content:"";position:absolute;left:5px;top:50%;width:6px;height:1px;background:#D6CEC9}
+.term .count{font-variant-numeric:tabular-nums}
+.term .term-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rng{display:flex;flex-direction:column;gap:6px;padding:4px 0 10px}
+.rng-val{font-size:13px;color:var(--ink-soft)}
+.rng-val b{font-weight:800;color:var(--red);font-variant-numeric:tabular-nums}
+.rng input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:3px;background:var(--line);border-radius:99px;outline:none}
+.rng input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;height:15px;border-radius:50%;background:var(--red);cursor:pointer;border:2px solid #fff;box-shadow:0 1px 3px rgba(20,12,10,.3)}
+.rng input[type=range]::-moz-range-thumb{width:15px;height:15px;border-radius:50%;background:var(--red);cursor:pointer;border:2px solid #fff}
+.rng-reset{font-size:12px;font-weight:700;color:var(--red);align-self:flex-start;padding-top:2px}
+.rng-reset:hover{text-decoration:underline}
+.fgroup-range .badge{display:none!important}
+.fgroup-range.has-active .badge{display:grid!important}
+#gate-summary{display:flex;align-items:flex-start;gap:8px;font-size:12.5px;line-height:1.5;color:var(--ink-soft);background:var(--bg-soft);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin:0 0 18px}
+#gate-summary svg{width:13px;height:13px;flex-shrink:0;margin-top:3px;color:var(--red)}
+.pcard-empty{border-style:dashed;box-shadow:none}
+.pcard-empty:hover{transform:none;box-shadow:none}
+.proto-ribbon{background:var(--ink);color:#fff;font-size:12px;letter-spacing:.02em;padding:7px 0}
+.proto-ribbon .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.proto-ribbon b{color:var(--gold);font-weight:800}
+.proto-ribbon span{opacity:.75}
+.sb-search input::-webkit-search-cancel-button{cursor:pointer}
+</style>
+</head>
+<body>
+
+<div class="proto-ribbon"><div class="wrap"><div>Prototype — <b>WARCO Product Finder</b> · live data from warco_product_finder_MASTER</div><span>85 products · 226 compounds · 21 conditional facets</span></div></div>
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="#" class="logo" aria-label="WARCO home">WARCO<sup>®</sup></a>
+    <nav class="nav" aria-label="Primary">
+      <div class="nav-item active" tabindex="0">
+        Products <i data-lucide="chevron-down" class="chev"></i>
+        <div class="nav-dropdown">
+          <a href="#"><i data-lucide="layers"></i>Custom Rubber Solutions</a>
+          <a href="#"><i data-lucide="package"></i>PURE™ Molded Rubber</a>
+          <a href="#"><i data-lucide="droplets"></i>Sheet Rubber</a>
+          <a href="#"><i data-lucide="search"></i>Product Finder</a>
+        </div>
+      </div>
+      <div class="nav-item" tabindex="0">
+        Capabilities <i data-lucide="chevron-down" class="chev"></i>
+        <div class="nav-dropdown">
+          <a href="#"><i data-lucide="flask-conical"></i>Compounding</a>
+          <a href="#"><i data-lucide="cog"></i>In-house mixing</a>
+          <a href="#"><i data-lucide="layers-2"></i>Extrusion &amp; Splicing</a>
+          <a href="#"><i data-lucide="box"></i>Molding</a>
+        </div>
+      </div>
+      <div class="nav-item" tabindex="0">
+        Industries <i data-lucide="chevron-down" class="chev"></i>
+        <div class="nav-dropdown">
+          <a href="#"><i data-lucide="shield"></i>Military &amp; Defense</a>
+          <a href="#"><i data-lucide="plane"></i>Aerospace</a>
+          <a href="#"><i data-lucide="car"></i>Automotive</a>
+          <a href="#"><i data-lucide="factory"></i>Manufacturing</a>
+        </div>
+      </div>
+      <div class="nav-item" tabindex="0">
+        Resources <i data-lucide="chevron-down" class="chev"></i>
+        <div class="nav-dropdown">
+          <a href="#"><i data-lucide="file-text"></i>Articles</a>
+          <a href="#"><i data-lucide="book-open"></i>Flyers &amp; Brochures</a>
+          <a href="#"><i data-lucide="library"></i>Reference Documents</a>
+          <a href="#"><i data-lucide="file-badge"></i>Technical Documents</a>
+          <a href="#"><i data-lucide="external-link"></i>Useful Links</a>
+        </div>
+      </div>
+      <a href="#" class="nav-item">Contact</a>
+    </nav>
+    <a href="#" class="cta-pill">Request a Quote <i data-lucide="arrow-right"></i></a>
+  </div>
+</header>
+
+<div class="breadcrumb-bar">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="#">Home</a>
+    <i data-lucide="chevron-right"></i>
+    <a href="#">Products</a>
+    <i data-lucide="chevron-right"></i>
+    <span class="breadcrumb-current">Product Finder</span>
+  </nav>
+</div>
+
+<section class="hero-section" data-screen-label="Hero">
+  <div class="wrap">
+    <div class="hero-copy">
+      <h1>Product <em>Finder</em></h1>
+      <p>Search the WARCO catalog by material, form, performance, and specification. Every filter below is driven by the live product model — 85 products, 226 compounds and 328 vocabulary terms — with conditional facets that appear only when they apply.</p>
+    </div>
+  </div>
+</section>
+
+<section class="finder" data-screen-label="Product Finder">
+  <div class="wrap">
+    <div class="finder-layout">
+
+      <aside class="sidebar" aria-label="Product filters">
+        <div class="sb-material">
+          <div class="sb-label"><label for="material">Sort by Product Material</label></div>
+          <div class="sb-select-wrap">
+            <select class="material" id="material"></select>
+            <i data-lucide="chevron-down"></i>
+          </div>
+          <p class="sb-hint">Start here — <b id="hint-count">85</b> products match. Material sets which product lines are available.</p>
+        </div>
+
+        <div class="filters-head">
+          <h2>Refine results</h2>
+          <button class="clear-all" id="clear-all" type="button">Clear all</button>
+        </div>
+        <div id="filters"></div>
+      </aside>
+
+      <main class="main">
+        <div class="results-bar">
+          <h2 id="res-title">All Products</h2>
+          <form class="sb-search" onsubmit="return false;" role="search">
+            <input type="search" id="q" placeholder="Search 85 products…" aria-label="Search all products">
+            <button type="submit" aria-label="Search"><i data-lucide="search"></i></button>
+          </form>
+          <div class="rcount"><b id="res-count">1,248</b> products</div>
+        </div>
+        <p id="gate-summary"></p>
+        <div class="chip-row" id="chip-row"></div>
+        <div class="product-grid" id="product-grid"></div>
+        <div class="load-more"><button type="button">Load more products <i data-lucide="chevron-down"></i></button></div>
+      </main>
+
+    </div>
+  </div>
+</section>
+
+<footer class="footer" data-screen-label="Footer">
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="#" class="footer-logo">WARCO<sup>®</sup></a>
+        <p class="footer-tagline">
+          <strong>America's Choice for Quality Rubber Since 1910™</strong><br>
+          Where Tradition Meets Innovation™
+        </p>
+        <div class="footer-socials">
+          <a href="#" aria-label="LinkedIn"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.59 0 4.27 2.36 4.27 5.44v6.3zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.55C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"></path></svg></a>
+          <a href="#" aria-label="Twitter / X"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117l11.966 15.644z"></path></svg></a>
+          <a href="#" aria-label="Facebook"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 22v-8h2.7l.4-3.2h-3.1V8.7c0-.9.3-1.6 1.6-1.6h1.6V4.2c-.3 0-1.3-.1-2.4-.1-2.4 0-4 1.5-4 4.1V10.8H7.6V14h2.7v8h3.2z"></path></svg></a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h5>Products</h5>
+        <ul>
+          <li><a href="#">Sheet Rubber</a></li>
+          <li><a href="#">Rubber Extrusions</a></li>
+          <li><a href="#">Custom Products</a></li>
+          <li><a href="#">PURE™ NSF</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Capabilities</h5>
+        <ul>
+          <li><a href="#">Extrusion &amp; Splicing</a></li>
+          <li><a href="#">Molded Rubber</a></li>
+          <li><a href="#">Sheet Rubber</a></li>
+          <li><a href="#">R&amp;D &amp; Compounding</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Contact</h5>
+        <ul>
+          <li><div class="footer-contact-row"><i data-lucide="map-pin"></i><span>1207 W. Blakney St., Orange, CA 92868</span></div></li>
+          <li><div class="footer-contact-row"><i data-lucide="mail"></i><a href="mailto:sales@warco.com">sales@warco.com</a></div></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>© 2026 WARCO. All rights reserved.</div>
+      <div class="footer-bottom-links">
+        <a href="#">Privacy policy</a>
+        <a href="#">Terms &amp; conditions</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>window.__WARCO__={"products":[{"t":"EPDM ASTM D2000 M4AA","s":"astm-d2000-m4aa","mf":"EPDM","ff":"sheet","dmin":40,"dmax":70,"tmin":-60,"tmax":300,"tensile":"1500|1800","elong":"200|500","nc":4,"url":"https://warco.com/products/polymers/epdm/astm-d2000-m4aa/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["Weather resistant","Ozone resistant"],"specification":["ASTM D2000 AA"],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":["Smooth","Nylon"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":["ASTM D2000"],"custom_tolerance_available":null,"talc_free":true},{"t":"Commercial EPDM","s":"commercial-epdm","mf":"EPDM","ff":"sheet","dmin":50,"dmax":70,"tmin":-40,"tmax":220,"tensile":"870|1450","elong":"100|250","nc":3,"url":"https://warco.com/products/polymers/epdm/commercial-epdm/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["Weather resistant","Ozone resistant"],"specification":["ASTM D2000 AA"],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":["Smooth","Nylon"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":["ASTM D2000"],"custom_tolerance_available":null,"talc_free":true},{"t":"Military Grade EPDM MIL-R-21252 / MIL-DTL-21252","s":"mil-r-21252","mf":"EPDM","ff":"sheet","dmin":85,"dmax":85,"tmin":-40,"tmax":220,"tensile":"1600","elong":"70","nc":1,"url":"https://warco.com/products/polymers/epdm/mil-r-21252/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["Weather resistant","Ozone resistant"],"specification":["MIL-DTL-21252"],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":["Smooth"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":["MIL / defense"],"custom_tolerance_available":null,"talc_free":false},{"t":"Military Grade EPDM MIL\u2013R\u201383285 / SAE-AMS-R-83285","s":"mil-r-83285","mf":"EPDM","ff":"sheet","dmin":80,"dmax":80,"tmin":-60,"tmax":300,"tensile":"1800","elong":"150","nc":1,"url":"https://warco.com/products/polymers/epdm/mil-r-83285/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["Weather resistant","Ozone resistant"],"specification":["MIL-PRF-83285"],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":["Smooth"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":["MIL / defense"],"custom_tolerance_available":null,"talc_free":false},{"t":"EPDM MIL-R-900 / MIL-PRF-900 Rubber | Military Spec EPDM","s":"mil-r-900","mf":"EPDM","ff":"sheet","dmin":45,"dmax":45,"tmin":-40,"tmax":220,"tensile":"1000","elong":"300","nc":1,"url":"https://warco.com/products/polymers/epdm/mil-r-900/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["Weather resistant","Ozone resistant"],"specification":["MIL-R-900"],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":["Smooth"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":["MIL / defense"],"custom_tolerance_available":null,"talc_free":true},{"t":"Peroxide Cure EPDM","s":"peroxide-cure-epdm","mf":"EPDM","ff":"sheet","dmin":40,"dmax":80,"tmin":-67,"tmax":300,"tensile":"1450","elong":"150|400","nc":5,"url":"https://warco.com/products/polymers/epdm/peroxide-cure-epdm/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["Weather resistant","Ozone resistant"],"specification":["ASTM D2000 CA"],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":["Smooth","Nylon"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":["ASTM D2000"],"custom_tolerance_available":null,"talc_free":true},{"t":"Fluorozone Blue Premium Performance FKM","s":"fluorozone-blue","mf":"FKM","ff":"sheet","dmin":75,"dmax":75,"tmin":-20,"tmax":450,"tensile":"1050","elong":"200","nc":1,"url":"https://warco.com/products/polymers/fkm-viton/fluorozone-blue/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["High temperature","Fuel resistant","Ozone resistant"],"specification":[],"industry":[],"compliance":[],"product_line":["Viton\u2122"],"electrical_property":[],"insert":[],"finish":["Smooth","Nylon"],"color":["Blue"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":[],"custom_tolerance_available":null,"talc_free":true},{"t":"Fluorozone Brown Premium Performance FKM","s":"fluorozone-brown","mf":"FKM","ff":"sheet","dmin":75,"dmax":75,"tmin":-20,"tmax":400,"tensile":"1200","elong":"200","nc":1,"url":"https://warco.com/products/polymers/fkm-viton/fluorozone-brown/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["High temperature","Fuel resistant","Ozone resistant"],"specification":[],"industry":[],"compliance":[],"product_line":["Viton\u2122"],"electrical_property":[],"insert":[],"finish":[],"color":["Brown"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":[],"custom_tolerance_available":null,"talc_free":null},{"t":"Fluorozone FDA Performance FKM","s":"fluorozone-fda","mf":"FKM","ff":"sheet","dmin":60,"dmax":75,"tmin":-20,"tmax":450,"tensile":"900|1200","elong":"200|250","nc":2,"url":"https://warco.com/products/polymers/fkm-viton/fluorozone-fda/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["High temperature","FDA compliant","Fuel resistant","Ozone resistant"],"specification":["FDA 21 CFR 177.2600"],"industry":[],"compliance":[],"product_line":["Viton\u2122"],"electrical_property":[],"insert":[],"finish":["Smooth"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":["FDA"],"custom_tolerance_available":null,"talc_free":true},{"t":"Fluorozone Mil-Spec Performance FKM","s":"fluorozone-mil-spec","mf":"FKM","ff":"sheet","dmin":75,"dmax":75,"tmin":-20,"tmax":500,"tensile":"1600","elong":"125","nc":1,"url":"https://warco.com/products/polymers/fkm-viton/fluorozone-mil-spec/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["High temperature","Fuel resistant","Ozone resistant"],"specification":["AMS 3216","MIL-R-83248C"],"industry":[],"compliance":[],"product_line":["Viton\u2122"],"electrical_property":[],"insert":[],"finish":["Smooth"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":["AMS","MIL / defense"],"custom_tolerance_available":null,"talc_free":false},{"t":"Fluorozone Premium Performance FKM","s":"fluorozone-premium","mf":"FKM","ff":"sheet","dmin":60,"dmax":75,"tmin":-20,"tmax":400,"tensile":"800|1000","elong":"200|250","nc":3,"url":"https://warco.com/products/polymers/fkm-viton/fluorozone-premium/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["High temperature","Fuel resistant","Ozone resistant"],"specification":[],"industry":[],"compliance":[],"product_line":["Viton\u2122"],"electrical_property":[],"insert":[],"finish":["Smooth","Nylon"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":[],"custom_tolerance_available":null,"talc_free":true},{"t":"Viton\u2122 A Brown Sheet: High Temp & Chemical Resistance","s":"viton-a-brown-sheet","mf":"FKM","ff":"sheet","dmin":75,"dmax":75,"tmin":-20,"tmax":400,"tensile":"1000","elong":"175","nc":1,"url":"https://warco.com/products/polymers/fkm-viton/viton-a-brown-sheet/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["High temperature","Fuel resistant"],"specification":[],"industry":[],"compliance":[],"product_line":["Viton\u2122"],"electrical_property":[],"insert":[],"finish":["Smooth"],"color":["Brown"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":[],"custom_tolerance_available":null,"talc_free":false},{"t":"Viton\u2122 A FDA Sheet: Chemical & Temperature Resistant","s":"viton-a-fda-sheet","mf":"FKM","ff":"sheet","dmin":75,"dmax":75,"tmin":-20,"tmax":450,"tensile":"700","elong":"150","nc":1,"url":"https://warco.com/products/polymers/fkm-viton/viton-a-fda-sheet/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["High temperature","FDA compliant","Fuel resistant"],"specification":["FDA 21 CFR 177.2600"],"industry":[],"compliance":[],"product_line":["Viton\u2122"],"electrical_property":[],"insert":[],"finish":["Smooth","Nylon"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":["FDA"],"custom_tolerance_available":null,"talc_free":true},{"t":"Viton\u2122 A Sheet","s":"viton-a-sheet","mf":"FKM","ff":"sheet","dmin":60,"dmax":80,"tmin":-20,"tmax":450,"tensile":"1000","elong":"150|200","nc":5,"url":"https://warco.com/products/polymers/fkm-viton/viton-a-sheet/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["High temperature","Fuel resistant"],"specification":["ASTM D2000 HK"],"industry":[],"compliance":[],"product_line":["Viton\u2122"],"electrical_property":[],"insert":[],"finish":["Smooth","Nylon"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":["ASTM D2000"],"custom_tolerance_available":null,"talc_free":false},{"t":"Viton\u2122 A Specification Grade Sheet","s":"viton-a-specification-grade-sheet","mf":"FKM","ff":"sheet","dmin":75,"dmax":75,"tmin":-20,"tmax":500,"tensile":"1600","elong":"125","nc":1,"url":"https://warco.com/products/polymers/fkm-viton/viton-a-specification-grade-sheet/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["High temperature","Fuel resistant"],"specification":["AMS 3216","MIL-R-83248C"],"industry":[],"compliance":[],"product_line":["Viton\u2122"],"electrical_property":[],"insert":[],"finish":["Smooth"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":["AMS","MIL / defense"],"custom_tolerance_available":null,"talc_free":false},{"t":"Viton\u2122 B Sheet","s":"viton-b-sheet","mf":"FKM","ff":"sheet","dmin":70,"dmax":75,"tmin":-20,"tmax":450,"tensile":"1000","elong":"150|175","nc":2,"url":"https://warco.com/products/polymers/fkm-viton/viton-b-sheet/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["High temperature","Fuel resistant"],"specification":["ASTM D2000 HK"],"industry":[],"compliance":[],"product_line":["Viton\u2122"],"electrical_property":[],"insert":[],"finish":["Smooth","Nylon"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":["ASTM D2000"],"custom_tolerance_available":null,"talc_free":false},{"t":"EZ Cut Non-Floating Gum Natural Rubber","s":"ez-cut-non-floating-gum","mf":"Natural Rubber","ff":"sheet","dmin":40,"dmax":40,"tmin":-40,"tmax":160,"tensile":"2500","elong":"500","nc":1,"url":"https://warco.com/products/polymers/natural-rubber/ez-cut-non-floating-gum/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["Abrasion resistant"],"specification":["ASTM D2000 AA","FDA 21 CFR 177.2600"],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":["Smooth"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":["ASTM D2000","FDA"],"custom_tolerance_available":null,"talc_free":false},{"t":"Pure Gum Floating Natural Rubber","s":"gum-floating","mf":"Natural Rubber","ff":"sheet","dmin":40,"dmax":40,"tmin":-40,"tmax":160,"tensile":"2465","elong":"500","nc":1,"url":"https://warco.com/products/polymers/natural-rubber/gum-floating/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["Abrasion resistant"],"specification":["ASTM D2000 AA","FDA 21 CFR 177.2600","NSF/ANSI/CAN 61"],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":["Smooth","Nylon"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":["ASTM D2000","FDA","NSF / ANSI"],"custom_tolerance_available":null,"talc_free":true},{"t":"Natural Rubber (Black)","s":"natural-rubber-black","mf":"Natural Rubber","ff":"sheet","dmin":40,"dmax":60,"tmin":-40,"tmax":160,"tensile":"2700|2800","elong":"500|600","nc":3,"url":"https://warco.com/products/polymers/natural-rubber/natural-rubber-black/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["Abrasion resistant"],"specification":["ASTM D2000 AA"],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":["Smooth","Nylon"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":["ASTM D2000"],"custom_tolerance_available":null,"talc_free":true},{"t":"Protein Free (Synthetic Polyisoprene) Natural Rubber","s":"protein-free","mf":"Natural Rubber","ff":"sheet","dmin":40,"dmax":40,"tmin":-40,"tmax":160,"tensile":"2800","elong":"600","nc":1,"url":"https://warco.com/products/polymers/natural-rubber/protein-free/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["Abrasion resistant"],"specification":["ASTM D2000 AA","FDA 21 CFR 177.2600"],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":["Smooth"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":["ASTM D2000","FDA"],"custom_tolerance_available":null,"talc_free":false},{"t":"Tuff-Stuff Natural Rubber","s":"tuff-stuff","mf":"Natural Rubber","ff":"sheet","dmin":40,"dmax":40,"tmin":-40,"tmax":160,"tensile":"3046","elong":"600","nc":1,"url":"https://warco.com/products/polymers/natural-rubber/tuff-stuff/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["Abrasion resistant"],"specification":["ASTM D2000 AA"],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":["Smooth","Nylon"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":["ASTM D2000"],"custom_tolerance_available":null,"talc_free":true},{"t":"20 Durometer Neoprene Molded Slabs","s":"20-durometer-neoprene-molded-slabs","mf":"Neoprene","ff":"molded","dmin":20,"dmax":20,"tmin":-30,"tmax":200,"tensile":"500","elong":"550","nc":1,"url":"https://warco.com/products/polymers/neoprene/20-durometer-neoprene-molded-slabs/","icon":"box","tag":"Molded","notes":"","form_factor":["Molded"],"shape_profile":[],"performance_tag":["Weather resistant","Ozone resistant"],"specification":[],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":["Smooth"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":[],"custom_tolerance_available":null,"talc_free":true},{"t":"Neoprene 5100 Series","s":"5100-series","mf":"Neoprene","ff":"sheet","dmin":30,"dmax":80,"tmin":-30,"tmax":200,"tensile":"430|1015","elong":"100|300","nc":6,"url":"https://warco.com/products/polymers/neoprene/5100-series/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["Weather resistant","Ozone resistant"],"specification":["ASTM D2000 BC"],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":["Smooth","Nylon"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":["ASTM D2000"],"custom_tolerance_available":null,"talc_free":true},{"t":"60 Durometer Neoprene Tubing","s":"60-durometer-neoprene-tubing","mf":"Neoprene","ff":"extrusion","dmin":60,"dmax":60,"tmin":-50,"tmax":220,"tensile":"1500","elong":"300","nc":1,"url":"https://warco.com/products/polymers/neoprene/60-durometer-neoprene-tubing/","icon":"git-commit-horizontal","tag":"Extrusion","notes":"","form_factor":["Extrusion"],"shape_profile":[],"performance_tag":["Weather resistant","Ozone resistant"],"specification":["MIL-PRF-6855"],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":[],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":["MIL / defense"],"custom_tolerance_available":null,"talc_free":false},{"t":"AASHTO Unsupported Calendered Neoprene Bearing Pads","s":"aashto-unsupported-calendered-neoprene-bearing-pads","mf":"Neoprene","ff":"molded","dmin":50,"dmax":70,"tmin":-40,"tmax":220,"tensile":"2250","elong":"300|440","nc":3,"url":"https://warco.com/products/polymers/neoprene/aashto-unsupported-calendered-neoprene-bearing-pads/","icon":"box","tag":"Molded","notes":"","form_factor":["Molded"],"shape_profile":[],"performance_tag":["Weather resistant","Ozone resistant"],"specification":["AASHTO Grade 3"],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":["Smooth"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":["AASHTO"],"custom_tolerance_available":null,"talc_free":false},{"t":"AASHTO Unsupported Molded Neoprene Bearing Pads","s":"aashto-unsupported-molded-neoprene-bearing-pads","mf":"Neoprene","ff":"molded","dmin":50,"dmax":70,"tmin":-40,"tmax":220,"tensile":"2250|2700","elong":"300|480","nc":3,"url":"https://warco.com/products/polymers/neoprene/aashto-unsupported-molded-neoprene-bearing-pads/","icon":"box","tag":"Molded","notes":"","form_factor":["Molded"],"shape_profile":[],"performance_tag":["Weather resistant","Ozone resistant"],"specification":["AASHTO Grade 3"],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":["Smooth"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":["AASHTO"],"custom_tolerance_available":null,"talc_free":false},{"t":"Neoprene AMS 3205 Low Temperature","s":"ams-3205-low-temperature","mf":"Neoprene","ff":"sheet","dmin":50,"dmax":50,"tmin":-40,"tmax":220,"tensile":"1600","elong":"400","nc":1,"url":"https://warco.com/products/polymers/neoprene/ams-3205-low-temperature/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["Low temperature","Weather resistant","Ozone resistant"],"specification":["AMS 3205"],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":["Smooth","Nylon"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":["AMS"],"custom_tolerance_available":null,"talc_free":false},{"t":"Neoprene AMS 3208 Weather Resistant","s":"ams-3208-weather-resistant","mf":"Neoprene","ff":"sheet","dmin":50,"dmax":50,"tmin":-30,"tmax":220,"tensile":"1200","elong":"300","nc":1,"url":"https://warco.com/products/polymers/neoprene/ams-3208-weather-resistant/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["Weather resistant","Ozone resistant"],"specification":["AMS 3208"],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":["Smooth","Nylon"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":["AMS"],"custom_tolerance_available":null,"talc_free":false},{"t":"Anti-Microbial Neoprene","s":"anti-microbial","mf":"Neoprene","ff":"sheet","dmin":40,"dmax":60,"tmin":-40,"tmax":220,"tensile":"1015|1450","elong":"350|400","nc":3,"url":"https://warco.com/products/polymers/neoprene/anti-microbial/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["Weather resistant","Ozone resistant","Anti-microbial"],"specification":["ASTM D2000 BC"],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":["Smooth"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":["ASTM D2000"],"custom_tolerance_available":null,"talc_free":false},{"t":"Neoprene ASTM D2000 M2BC","s":"astm-d2000-m2bc","mf":"Neoprene","ff":"sheet","dmin":40,"dmax":70,"tmin":-50,"tmax":200,"tensile":"1600|2000","elong":"270|550","nc":4,"url":"https://warco.com/products/polymers/neoprene/astm-d2000-m2bc/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["Weather resistant","Ozone resistant"],"specification":["ASTM D2000 BC"],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":["Smooth","Nylon"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":["ASTM D2000"],"custom_tolerance_available":null,"talc_free":true},{"t":"Neoprene Cable Jacket Tubing to MIL-R-6855 / MIL-PRF-6855","s":"cable-jacket-tubing-to-mil-r-6855","mf":"Neoprene","ff":"extrusion","dmin":60,"dmax":60,"tmin":-67,"tmax":220,"tensile":"1500","elong":"300","nc":1,"url":"https://warco.com/products/polymers/neoprene/cable-jacket-tubing-to-mil-r-6855/","icon":"git-commit-horizontal","tag":"Extrusion","notes":"","form_factor":["Extrusion"],"shape_profile":[],"performance_tag":["Weather resistant","Ozone resistant"],"specification":["MIL-PRF-6855","MIL-PRF-6855 Class 2"],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":[],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":["MIL / defense"],"custom_tolerance_available":null,"talc_free":false},{"t":"Caltrans Strip Waterstops","s":"cal-trans-strip-waterstops","mf":"Neoprene","ff":"extrusion","dmin":55,"dmax":55,"tmin":-40,"tmax":200,"tensile":"2700","elong":"420","nc":1,"url":"https://warco.com/products/polymers/neoprene/cal-trans-strip-waterstops/","icon":"git-commit-horizontal","tag":"Extrusion","notes":"","form_factor":["Extrusion"],"shape_profile":[],"performance_tag":["Weather resistant","Ozone resistant"],"specification":[],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":["Smooth","Nylon"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":[],"custom_tolerance_available":null,"talc_free":true},{"t":"Cloth Inserted Neoprene \u2013 Regular Cotton Ply","s":"cloth-inserted-neoprene-regular-cotton-ply","mf":"Neoprene","ff":"sheet","dmin":70,"dmax":70,"tmin":-30,"tmax":200,"tensile":"1000","elong":"","nc":1,"url":"https://warco.com/products/polymers/neoprene/cloth-inserted-neoprene-regular-cotton-ply/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["Weather resistant","Ozone resistant"],"specification":[],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":["Cotton"],"finish":["Smooth","Nylon"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":[],"custom_tolerance_available":null,"talc_free":true},{"t":"Cloth Inserted Neoprene \u2013 Regular Polyester Ply","s":"cloth-inserted-neoprene-regular-polyester-ply","mf":"Neoprene","ff":"sheet","dmin":70,"dmax":70,"tmin":-30,"tmax":200,"tensile":"1000","elong":"200","nc":1,"url":"https://warco.com/products/polymers/neoprene/cloth-inserted-neoprene-regular-polyester-ply/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["Weather resistant","Ozone resistant"],"specification":[],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":["Cotton"],"finish":["Smooth","Nylon"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":[],"custom_tolerance_available":null,"talc_free":true},{"t":"Commercial Neoprene \u2013 1300 Series","s":"commercial-neoprene-1300-series","mf":"Neoprene","ff":"sheet","dmin":40,"dmax":80,"tmin":-30,"tmax":200,"tensile":"700|1000","elong":"150|350","nc":5,"url":"https://warco.com/products/polymers/neoprene/commercial-neoprene-1300-series/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["Weather resistant","Ozone resistant"],"specification":[],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":["Smooth","Nylon","Paper"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":[],"custom_tolerance_available":null,"talc_free":true},{"t":"FDA Neoprene","s":"fda","mf":"Neoprene","ff":"sheet","dmin":40,"dmax":60,"tmin":-30,"tmax":220,"tensile":"800|1400","elong":"450|650","nc":3,"url":"https://warco.com/products/polymers/neoprene/fda/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["FDA compliant","Weather resistant","Ozone resistant"],"specification":["FDA 21 CFR 177.2600"],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":["Smooth"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":["FDA"],"custom_tolerance_available":null,"talc_free":true},{"t":"Low Smoke, Low Flame, Low Toxicity Neoprene","s":"low-smoke-low-flame-low-toxicity-neoprene","mf":"Neoprene","ff":"sheet","dmin":65,"dmax":65,"tmin":-30,"tmax":220,"tensile":"1200","elong":"300","nc":1,"url":"https://warco.com/products/polymers/neoprene/low-smoke-low-flame-low-toxicity-neoprene/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["Weather resistant","Ozone resistant","Flame resistant"],"specification":[],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":["Smooth","Nylon"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":[],"custom_tolerance_available":null,"talc_free":false},{"t":"Neoprene MIL-G-1149 / MIL-PRF-1149","s":"mil-g-1149","mf":"Neoprene","ff":"sheet","dmin":50,"dmax":50,"tmin":-40,"tmax":180,"tensile":"1300","elong":"400","nc":3,"url":"https://warco.com/products/polymers/sbr/mil-g-1149/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["Weather resistant","Ozone resistant"],"specification":["MIL-PRF-1149"],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":["Smooth"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":["MIL / defense"],"custom_tolerance_available":null,"talc_free":true},{"t":"Neoprene MIL-R-3065 SC","s":"mil-r-3065-sc","mf":"Neoprene","ff":"sheet","dmin":30,"dmax":80,"tmin":-60,"tmax":220,"tensile":"1000|1500","elong":"100|500","nc":6,"url":"https://warco.com/products/polymers/neoprene/mil-r-3065-sc/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["Weather resistant","Ozone resistant"],"specification":["MIL-R-3065 SC"],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":["Smooth","Nylon"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":["MIL / defense"],"custom_tolerance_available":null,"talc_free":true},{"t":"MIL-R-6855 Class 2 / MIL-PRF-6855 Class 2","s":"mil-r-6855-class-2","mf":"Neoprene","ff":"sheet","dmin":30,"dmax":80,"tmin":-50,"tmax":220,"tensile":"1300|1900","elong":"160|550","nc":6,"url":"https://warco.com/products/polymers/neoprene/mil-r-6855-class-2/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["Weather resistant","Ozone resistant"],"specification":["MIL-PRF-6855 Class 2"],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":["Smooth"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":["MIL / defense"],"custom_tolerance_available":null,"talc_free":true},{"t":"WARCO Neoprene Molded Slabs Products","s":"molded-slabs","mf":"Neoprene","ff":"molded","dmin":null,"dmax":null,"tmin":null,"tmax":null,"tensile":"","elong":"","nc":0,"url":"https://warco.com/products/polymers/neoprene/molded-slabs/","icon":"box","tag":"Molded","notes":"","form_factor":["Molded"],"shape_profile":[],"performance_tag":["Weather resistant","Ozone resistant"],"specification":[],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":[],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":[],"custom_tolerance_available":null,"talc_free":null},{"t":"Neoprene Performance Molded Sheets","s":"performance-molded-sheets","mf":"Neoprene","ff":"molded","dmin":20,"dmax":80,"tmin":-30,"tmax":200,"tensile":"500|700","elong":"100|550","nc":6,"url":"https://warco.com/products/polymers/neoprene/performance-molded-sheets/","icon":"box","tag":"Molded","notes":"","form_factor":["Molded"],"shape_profile":[],"performance_tag":["Weather resistant","Ozone resistant"],"specification":[],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":["Smooth"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":[],"custom_tolerance_available":null,"talc_free":false},{"t":"Premium Neoprene","s":"premium-neoprene","mf":"Neoprene","ff":"sheet","dmin":30,"dmax":90,"tmin":-30,"tmax":220,"tensile":"435|1450","elong":"100|400","nc":7,"url":"https://warco.com/products/polymers/neoprene/premium-neoprene/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["Weather resistant","Ozone resistant"],"specification":["ASTM D2000 BC"],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":["Smooth","Nylon"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":["ASTM D2000"],"custom_tolerance_available":null,"talc_free":true},{"t":"PSA-Ready Neoprene","s":"psa-ready-neoprene","mf":"Neoprene","ff":"sheet","dmin":40,"dmax":80,"tmin":-30,"tmax":220,"tensile":"750|1500","elong":"150|550","nc":5,"url":"https://warco.com/products/polymers/neoprene/psa-ready-neoprene/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["Weather resistant","Ozone resistant"],"specification":[],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":["Smooth","Nylon","Matte"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":[],"custom_tolerance_available":null,"talc_free":true},{"t":"Nitrile AMS 3215 Fuel Resistant","s":"ams-3215","mf":"Nitrile","ff":"sheet","dmin":70,"dmax":70,"tmin":-30,"tmax":220,"tensile":"1700","elong":"350","nc":1,"url":"https://warco.com/products/polymers/nitrile/ams-3215/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["Oil resistant","Fuel resistant"],"specification":["AMS 3215"],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":["Smooth"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":["AMS"],"custom_tolerance_available":null,"talc_free":false},{"t":"Nitrile ASTM D2000 M5BG","s":"astm-d2000-m5bg","mf":"Nitrile","ff":"sheet","dmin":40,"dmax":70,"tmin":-40,"tmax":220,"tensile":"1100|1700","elong":"300|500","nc":5,"url":"https://warco.com/products/polymers/nitrile/astm-d2000-m5bg/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["Oil resistant"],"specification":["ASTM D2000 BG"],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":["Smooth"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":["ASTM D2000"],"custom_tolerance_available":null,"talc_free":true},{"t":"Mid-Grade Nitrile","s":"mid-grade-nitrile","mf":"Nitrile","ff":"sheet","dmin":40,"dmax":80,"tmin":-30,"tmax":200,"tensile":"800|1200","elong":"150|400","nc":5,"url":"https://warco.com/products/polymers/nitrile/mid-grade-nitrile/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["Oil resistant"],"specification":["ASTM D2000 BG"],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":["Smooth","Nylon"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":["ASTM D2000"],"custom_tolerance_available":null,"talc_free":true},{"t":"Nitrile MIL-G-1149 / MIL-PRF-1149","s":"mil-g-1149","mf":"Nitrile","ff":"sheet","dmin":50,"dmax":50,"tmin":-40,"tmax":180,"tensile":"1300","elong":"400","nc":3,"url":"https://warco.com/products/polymers/sbr/mil-g-1149/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["Oil resistant"],"specification":["MIL-PRF-1149"],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":["Smooth"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":["MIL / defense"],"custom_tolerance_available":null,"talc_free":true},{"t":"Nitrile MIL-R-2765","s":"mil-r-2765","mf":"Nitrile","ff":"sheet","dmin":40,"dmax":40,"tmin":-50,"tmax":220,"tensile":"1000","elong":"300","nc":1,"url":"https://warco.com/products/polymers/nitrile/mil-r-2765/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["Oil resistant"],"specification":["MIL-R-2765"],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":["Smooth"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":["MIL / defense"],"custom_tolerance_available":null,"talc_free":true},{"t":"Nitrile MIL-R-3065 SB","s":"mil-r-3065-sb","mf":"Nitrile","ff":"sheet","dmin":40,"dmax":80,"tmin":-40,"tmax":220,"tensile":"1000|1600","elong":"150|450","nc":5,"url":"https://warco.com/products/polymers/nitrile/mil-r-3065-sb/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["Oil resistant"],"specification":["MIL-R-3065 SB"],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":["Smooth"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":["MIL / defense"],"custom_tolerance_available":null,"talc_free":true},{"t":"Nitrile MIL-R-6855 / MIL-PRF-6855 Class 1","s":"mil-r-6855-class-1","mf":"Nitrile","ff":"sheet","dmin":40,"dmax":80,"tmin":-50,"tmax":220,"tensile":"1500|2100","elong":"200|600","nc":5,"url":"https://warco.com/products/polymers/nitrile/mil-r-6855-class-1/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["Oil resistant"],"specification":["MIL-PRF-6855 Class 1"],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":["Smooth"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":["MIL / defense"],"custom_tolerance_available":null,"talc_free":true},{"t":"Premium Nitrile","s":"premium-nitrile","mf":"Nitrile","ff":"sheet","dmin":40,"dmax":90,"tmin":-30,"tmax":220,"tensile":"1015|1450","elong":"100|450","nc":6,"url":"https://warco.com/products/polymers/nitrile/premium-nitrile/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["Oil resistant"],"specification":["ASTM D2000 BG"],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":["Smooth","Nylon"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":["ASTM D2000"],"custom_tolerance_available":null,"talc_free":true},{"t":"Transformer Oil Nitrile","s":"transformer-oil","mf":"Nitrile","ff":"sheet","dmin":60,"dmax":70,"tmin":-20,"tmax":250,"tensile":"2000","elong":"250|300","nc":2,"url":"https://warco.com/products/polymers/nitrile/transformer-oil/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["Oil resistant"],"specification":["ASTM D2000 BG","NSF/ANSI/CAN 61"],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":["Smooth"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":["ASTM D2000","NSF / ANSI"],"custom_tolerance_available":null,"talc_free":true},{"t":"WARCO White FDA Nitrile","s":"warco-white-fda-nitrile","mf":"Nitrile","ff":"sheet","dmin":45,"dmax":80,"tmin":-30,"tmax":220,"tensile":"435|1015","elong":"100|300","nc":4,"url":"https://warco.com/products/polymers/nitrile/warco-white-fda-nitrile/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["FDA compliant","Oil resistant"],"specification":["ASTM D2000 BG","FDA 21 CFR 177.2600"],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":["Smooth","Nylon"],"color":["White"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":["ASTM D2000","FDA"],"custom_tolerance_available":null,"talc_free":true},{"t":"Cloth Inserted SBR \u2013 Reduced Cotton Ply","s":"cloth-inserted-sbr-reduced-cotton-ply","mf":"SBR","ff":"sheet","dmin":65,"dmax":65,"tmin":-30,"tmax":170,"tensile":"400","elong":"200","nc":1,"url":"https://warco.com/products/polymers/sbr/cloth-inserted-sbr-reduced-cotton-ply/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":[],"specification":[],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":["Cotton"],"finish":["Smooth"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":[],"custom_tolerance_available":null,"talc_free":false},{"t":"Cloth Inserted SBR \u2013 Reduced Polyester Ply","s":"cloth-inserted-sbr-reduced-polyester-ply","mf":"SBR","ff":"sheet","dmin":65,"dmax":65,"tmin":-30,"tmax":170,"tensile":"400","elong":"200","nc":1,"url":"https://warco.com/products/polymers/sbr/cloth-inserted-sbr-reduced-polyester-ply/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":[],"specification":[],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":["Cotton"],"finish":["Smooth"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":[],"custom_tolerance_available":null,"talc_free":false},{"t":"Cloth Inserted SBR \u2013 Regular Cotton Ply","s":"cloth-inserted-sbr-regular-cotton-ply","mf":"SBR","ff":"sheet","dmin":65,"dmax":65,"tmin":-30,"tmax":170,"tensile":"1500","elong":"350","nc":1,"url":"https://warco.com/products/polymers/sbr/cloth-inserted-sbr-regular-cotton-ply/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":[],"specification":[],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":["Cotton"],"finish":["Smooth"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":[],"custom_tolerance_available":null,"talc_free":false},{"t":"Cloth Inserted SBR \u2013 Regular Polyester Ply","s":"cloth-inserted-sbr-regular-polyester-ply","mf":"SBR","ff":"sheet","dmin":60,"dmax":60,"tmin":-30,"tmax":170,"tensile":"1500","elong":"350","nc":1,"url":"https://warco.com/products/polymers/sbr/cloth-inserted-sbr-regular-polyester-ply/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":[],"specification":[],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":["Cotton"],"finish":["Smooth"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":[],"custom_tolerance_available":null,"talc_free":false},{"t":"Commercial SBR","s":"commercial-sbr","mf":"SBR","ff":"sheet","dmin":40,"dmax":80,"tmin":-40,"tmax":180,"tensile":"800|1000","elong":"100|300","nc":4,"url":"https://warco.com/products/polymers/sbr/commercial-sbr/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":[],"specification":[],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":["Smooth","Nylon"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":[],"custom_tolerance_available":null,"talc_free":true},{"t":"SBR MIL-G-1149 / MIL-PRF-1149","s":"mil-g-1149","mf":"SBR","ff":"sheet","dmin":50,"dmax":50,"tmin":-40,"tmax":180,"tensile":"1300","elong":"400","nc":3,"url":"https://warco.com/products/polymers/sbr/mil-g-1149/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":[],"specification":["MIL-PRF-1149"],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":["Smooth"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":["MIL / defense"],"custom_tolerance_available":null,"talc_free":true},{"t":"Specification Grade SBR","s":"specification-grade-sbr","mf":"SBR","ff":"sheet","dmin":75,"dmax":75,"tmin":-40,"tmax":180,"tensile":"435","elong":"150","nc":1,"url":"https://warco.com/products/polymers/sbr/specification-grade-sbr/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":[],"specification":["ASTM D2000 AA"],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":["Smooth"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":["ASTM D2000"],"custom_tolerance_available":null,"talc_free":false},{"t":"INFINISIL FDA Performance Silicone","s":"infinisil-fda-performance-silicone","mf":"Silicone","ff":"sheet","dmin":40,"dmax":80,"tmin":-80,"tmax":450,"tensile":"450","elong":"150|300","nc":5,"url":"https://warco.com/products/polymers/silicone/infinisil-fda-performance-silicone/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["High temperature","FDA compliant"],"specification":["FDA 21 CFR 177.2600"],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":["Smooth"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":["FDA"],"custom_tolerance_available":null,"talc_free":true},{"t":"INFINISIL Fiberglass Inserted Silicone","s":"infinisil-fiberglass-inserted-silicone","mf":"Silicone","ff":"sheet","dmin":40,"dmax":70,"tmin":-80,"tmax":450,"tensile":"750|800","elong":"300|450","nc":4,"url":"https://warco.com/products/polymers/silicone/infinisil-fiberglass-inserted-silicone/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["High temperature"],"specification":[],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":["Smooth","Nylon"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":[],"custom_tolerance_available":null,"talc_free":true},{"t":"INFINISIL Performance Silicone","s":"infinisil-performance-silicone","mf":"Silicone","ff":"sheet","dmin":40,"dmax":80,"tmin":-65,"tmax":450,"tensile":"750|800","elong":"150|450","nc":5,"url":"https://warco.com/products/polymers/silicone/infinisil-performance-silicone/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["High temperature"],"specification":[],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":["Smooth","Nylon"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":[],"custom_tolerance_available":null,"talc_free":true},{"t":"INFINISIL Spec Grade Performance Silicone","s":"infinisil-spec-grade-performance-silicone","mf":"Silicone","ff":"sheet","dmin":40,"dmax":70,"tmin":-80,"tmax":450,"tensile":"725","elong":"150|300","nc":4,"url":"https://warco.com/products/polymers/silicone/infinisil-spec-grade-performance-silicone/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["High temperature"],"specification":["AMS 3301","ASTM D2000 GE"],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":["Smooth","Nylon"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":["AMS","ASTM D2000"],"custom_tolerance_available":null,"talc_free":true},{"t":"AASHTO Grade Bearing Pads","s":"aashto-bearing-pads","mf":"Neoprene","ff":"molded","dmin":null,"dmax":null,"tmin":null,"tmax":null,"tensile":"","elong":"","nc":0,"url":"https://warco.com/products/specialty-products/aashto-bearing-pads/","icon":"box","tag":"Molded","notes":"","form_factor":["Molded"],"shape_profile":[],"performance_tag":[],"specification":[],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":[],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":[],"custom_tolerance_available":null,"talc_free":null},{"t":"Bio Diesel Nitrile","s":"bio-diesel-nitrile","mf":"Nitrile","ff":"sheet","dmin":60,"dmax":70,"tmin":-40,"tmax":220,"tensile":"1000|1050","elong":"300|350","nc":2,"url":"https://warco.com/products/specialty-products/bio-diesel-nitrile/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["Oil resistant","Fuel resistant"],"specification":[],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":["Smooth"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":[],"custom_tolerance_available":null,"talc_free":false},{"t":"Butyl Rubber\u2019s Properties & Uses","s":"butyl","mf":"Butyl","ff":"sheet","dmin":30,"dmax":75,"tmin":null,"tmax":null,"tensile":"","elong":"","nc":20,"url":"https://warco.com/products/specialty-products/butyl/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":[],"specification":[],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":[],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":[],"custom_tolerance_available":null,"talc_free":null},{"t":"Chute Lining","s":"chute-lining-skirtboard","mf":"Natural Rubber","ff":"sheet","dmin":null,"dmax":null,"tmin":null,"tmax":null,"tensile":"","elong":"","nc":0,"url":"https://warco.com/products/specialty-products/chute-lining-skirtboard/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["Abrasion resistant"],"specification":[],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":[],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":[],"custom_tolerance_available":null,"talc_free":null},{"t":"Cloth Inserted (CI) Sheet Rubber","s":"cloth-inserted-sheet-rubber","mf":"Blended","ff":"sheet","dmin":null,"dmax":null,"tmin":null,"tmax":null,"tensile":"","elong":"","nc":0,"url":"https://warco.com/products/specialty-products/cloth-inserted-sheet-rubber/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":[],"specification":[],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":["Cotton"],"finish":[],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":[],"custom_tolerance_available":null,"talc_free":null},{"t":"HHP-151F Cloth-Inserted Sheet: Ideal for Ventilating Systems- WARCO","s":"hhp-151f-cloth-inserted-sheet","mf":"Blended","ff":"sheet","dmin":50,"dmax":60,"tmin":-40,"tmax":250,"tensile":"1600|1800","elong":"350|600","nc":3,"url":"https://warco.com/products/specialty-products/cloth-inserted-sheet-rubber/hhp-151f-cloth-inserted-sheet/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":[],"specification":[],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":["Cotton"],"finish":["Smooth"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":[],"custom_tolerance_available":null,"talc_free":true},{"t":"PURE\u2122: NSF/ANSI/CAN 61 Certified Rubber","s":"pure-nsf-61-rubber","mf":"EPDM","ff":"sheet","dmin":null,"dmax":null,"tmin":null,"tmax":null,"tensile":"","elong":"","nc":0,"url":"https://warco.com/products/specialty-products/pure-nsf-61-rubber/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":[],"specification":["NSF/ANSI/CAN 61"],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":[],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":["NSF / ANSI"],"custom_tolerance_available":null,"talc_free":null},{"t":"PURE","s":"pure-nsf-ansi-can-61-certified-molded-rubber","mf":"Blended","ff":"sheet","dmin":null,"dmax":null,"tmin":null,"tmax":null,"tensile":"","elong":"","nc":0,"url":"https://warco.com/products/specialty-products/pure-nsf-ansi-can-61-certified-sheet-rubber/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":[],"specification":["NSF/ANSI/CAN 61"],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":[],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":["NSF / ANSI"],"custom_tolerance_available":null,"talc_free":null},{"t":"PURE","s":"pure-nsf-ansi-can-61-certified-rubber-extrusions","mf":"Blended","ff":"sheet","dmin":null,"dmax":null,"tmin":null,"tmax":null,"tensile":"","elong":"","nc":0,"url":"https://warco.com/products/specialty-products/pure-nsf-ansi-can-61-certified-sheet-rubber/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":[],"specification":["NSF/ANSI/CAN 61"],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":[],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":["NSF / ANSI"],"custom_tolerance_available":null,"talc_free":null},{"t":"PURE","s":"pure-nsf-ansi-can-61-certified-sheet-rubber","mf":"Blended","ff":"sheet","dmin":null,"dmax":null,"tmin":null,"tmax":null,"tensile":"","elong":"","nc":0,"url":"https://warco.com/products/specialty-products/pure-nsf-ansi-can-61-certified-sheet-rubber/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":[],"specification":["NSF/ANSI/CAN 61"],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":[],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":["NSF / ANSI"],"custom_tolerance_available":null,"talc_free":null},{"t":"Rebounds\u2122: Protection by Absorbing Pressure & Impact","s":"rebounds","mf":"Blended","ff":"molded","dmin":null,"dmax":null,"tmin":null,"tmax":null,"tensile":"","elong":"","nc":0,"url":"https://warco.com/products/specialty-products/rebounds/","icon":"box","tag":"Molded","notes":"","form_factor":["Molded"],"shape_profile":[],"performance_tag":[],"specification":[],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":[],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":[],"custom_tolerance_available":null,"talc_free":null},{"t":"Rubber Expansion Joints & Pavement Seals","s":"rubber-expansion-joints-and-pavement-seals","mf":"Blended","ff":"sheet","dmin":null,"dmax":null,"tmin":null,"tmax":null,"tensile":"","elong":"","nc":0,"url":"https://warco.com/products/specialty-products/rubber-expansion-joints-and-pavement-seals/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":[],"specification":[],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":[],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":[],"custom_tolerance_available":null,"talc_free":null},{"t":"Rubber Waterstop","s":"rubber-waterstop","mf":"Blended","ff":"extrusion","dmin":65,"dmax":65,"tmin":null,"tmax":null,"tensile":"","elong":"","nc":1,"url":"https://warco.com/products/specialty-products/rubber-waterstop/","icon":"git-commit-horizontal","tag":"Extrusion","notes":"","form_factor":["Extrusion"],"shape_profile":[],"performance_tag":[],"specification":[],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":[],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":[],"custom_tolerance_available":null,"talc_free":null},{"t":"Thermoplastic Elastomer (TPE)","s":"thermoplastic-elastomer","mf":"TPE","ff":"sheet","dmin":null,"dmax":null,"tmin":null,"tmax":null,"tensile":"","elong":"","nc":0,"url":"https://warco.com/products/specialty-products/thermoplastic-elastomer/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":[],"specification":[],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":[],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":[],"custom_tolerance_available":null,"talc_free":null},{"t":"FDA Approved Grade TPE (Black)","s":"fda-black","mf":"TPE","ff":"sheet","dmin":55,"dmax":73,"tmin":-50,"tmax":275,"tensile":"640|1200","elong":"330|460","nc":3,"url":"https://warco.com/products/specialty-products/thermoplastic-elastomer/fda-black/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["FDA compliant"],"specification":["FDA 21 CFR 177.2600"],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":["Smooth"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":["FDA"],"custom_tolerance_available":null,"talc_free":null},{"t":"FDA Approved Grade TPE (Neutral)","s":"fda-neutral","mf":"TPE","ff":"sheet","dmin":40,"dmax":87,"tmin":-50,"tmax":275,"tensile":"640|4000","elong":"330|550","nc":7,"url":"https://warco.com/products/specialty-products/thermoplastic-elastomer/fda-neutral/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["FDA compliant"],"specification":["FDA 21 CFR 177.2600"],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":["Smooth"],"color":["Neutral"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":["FDA"],"custom_tolerance_available":null,"talc_free":null},{"t":"Flame Retardant Grade TPE","s":"flame-retardant","mf":"TPE","ff":"sheet","dmin":36,"dmax":92,"tmin":-50,"tmax":275,"tensile":"1050|3720","elong":"410|660","nc":5,"url":"https://warco.com/products/specialty-products/thermoplastic-elastomer/flame-retardant/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":["Flame resistant"],"specification":[],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":["Smooth"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":[],"custom_tolerance_available":null,"talc_free":null},{"t":"General Purpose Grade TPE (Black)","s":"general-purpose-black","mf":"TPE","ff":"sheet","dmin":50,"dmax":87,"tmin":-50,"tmax":275,"tensile":"640|4000","elong":"330|600","nc":7,"url":"https://warco.com/products/specialty-products/thermoplastic-elastomer/general-purpose-black/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":[],"specification":[],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":["Smooth"],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":[],"custom_tolerance_available":null,"talc_free":null},{"t":"General Purpose Grade TPE (Neutral)","s":"general-purpose-neutral","mf":"TPE","ff":"sheet","dmin":40,"dmax":87,"tmin":-50,"tmax":275,"tensile":"640|4000","elong":"330|600","nc":7,"url":"https://warco.com/products/specialty-products/thermoplastic-elastomer/general-purpose-neutral/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":[],"specification":[],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":["Smooth"],"color":["Neutral"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":[],"custom_tolerance_available":null,"talc_free":null},{"t":"Rubber Utility Tarp Straps","s":"utility-straps","mf":"Natural Rubber","ff":"sheet","dmin":50,"dmax":50,"tmin":null,"tmax":null,"tensile":"","elong":"","nc":1,"url":"https://warco.com/products/specialty-products/utility-straps/","icon":"layers","tag":"Sheet Rubber","notes":"","form_factor":["Sheet"],"shape_profile":[],"performance_tag":[],"specification":[],"industry":[],"compliance":[],"product_line":[],"electrical_property":[],"insert":[],"finish":[],"color":["Black"],"cure_system":[],"tolerance_standard":[],"density_type":[],"hardness_rating":[],"cell_structure":[],"shore_scale":[],"trim":[],"stenciling_available":[],"manufacturing_origin":[],"specification_family":[],"custom_tolerance_available":null,"talc_free":null}],"facets":[{"key":"form_factor","label":"Form factor","role":"Filterable","card":"1","control":"Multi-select","applies":"All","gate":null,"terms":[{"n":"Extrusion","raw":"extrusion","p":""},{"n":"Molded","raw":"molded","p":""},{"n":"Sheet","raw":"sheet","p":""},{"n":"Spliced","raw":"Spliced","p":""}]},{"key":"shape_profile","label":"Shape / profile","role":"Filterable","card":"1+","control":"Multi-select","applies":"All","gate":null,"terms":[{"n":"A Seal","raw":"A Seal","p":""},{"n":"Bearing pad","raw":"bearing pad","p":""},{"n":"Bulb Extrusion","raw":"Bulb Extrusion","p":""},{"n":"Cable Jacketing","raw":"Cable Jacketing","p":""},{"n":"Cord","raw":"cord","p":""},{"n":"Custom","raw":"Custom","p":""},{"n":"Custom extrusion","raw":"custom extrusion","p":""},{"n":"Custom-cut","raw":"custom-cut","p":""},{"n":"D seal","raw":"D seal","p":""},{"n":"Die-cut blank","raw":"die-cut blank","p":""},{"n":"E seal","raw":"E seal","p":""},{"n":"Gasket stock","raw":"gasket stock","p":""},{"n":"H Seal","raw":"H Seal","p":""},{"n":"L profile","raw":"L profile","p":""},{"n":"Lip seal","raw":"lip seal","p":""},{"n":"Molded sheet","raw":"molded sheet","p":""},{"n":"P seal","raw":"P seal","p":""},{"n":"Rectangle","raw":"Rectangle","p":""},{"n":"Roll","raw":"roll","p":""},{"n":"Round / rod","raw":"round / rod","p":""},{"n":"Sheet","raw":"sheet","p":""},{"n":"Slab","raw":"slab","p":""},{"n":"Square","raw":"square","p":""},{"n":"Strip","raw":"strip","p":""},{"n":"T Extrusion","raw":"T Extrusion","p":""},{"n":"Tadpole gasket","raw":"Tadpole gasket","p":""},{"n":"Tubing","raw":"tubing","p":""},{"n":"U channel","raw":"U channel","p":""},{"n":"Waterstop","raw":"waterstop","p":""},{"n":"Wiper Seal","raw":"Wiper Seal","p":""}]},{"key":"performance_tag","label":"Performance tags","role":"Filterable","card":"many","control":"Grouped multi-select","applies":"All","gate":null,"terms":[{"n":"Abrasion resistant","raw":"abrasion resistant","p":""},{"n":"Adhesive compatible","raw":"Adhesive compatible","p":""},{"n":"Anti Slip - high coefficient of friction","raw":"Anti Slip - high coefficient of friction","p":""},{"n":"Anti-fungal","raw":"anti-fungal","p":""},{"n":"Anti-microbial","raw":"anti-microbial","p":""},{"n":"Bio-diesel compatible","raw":"Bio-diesel compatible","p":""},{"n":"Chemical resistant","raw":"chemical resistant","p":""},{"n":"Cut & chip resistant","raw":"Cut & chip resistant","p":""},{"n":"Elemental Sulfur free","raw":"Elemental Sulfur free","p":""},{"n":"Fabric reinforced","raw":"Fabric reinforced","p":""},{"n":"FDA compliant","raw":"FDA compliant","p":""},{"n":"Flame resistant","raw":"flame resistant","p":""},{"n":"Flex crack resistant","raw":"Flex crack resistant","p":""},{"n":"Fuel resistant","raw":"fuel resistant","p":""},{"n":"Halogen-free","raw":"halogen-free","p":""},{"n":"High durometer","raw":"high durometer","p":""},{"n":"High elongation / stretch","raw":"High elongation / stretch","p":""},{"n":"High rebound","raw":"High rebound","p":""},{"n":"High tear strength","raw":"high tear strength","p":""},{"n":"High temperature","raw":"high temperature","p":""},{"n":"High tensile","raw":"high tensile","p":""},{"n":"Hydraulic fluid resistant","raw":"Hydraulic fluid resistant","p":""},{"n":"Impact resistant","raw":"Impact resistant","p":""},{"n":"Lead free","raw":"Lead free","p":""},{"n":"Low coefficient of friction","raw":"Low coefficient of friction","p":""},{"n":"Low compression set","raw":"low compression set","p":""},{"n":"Low durometer","raw":"low durometer","p":""},{"n":"Low outgassing","raw":"low outgassing","p":""},{"n":"Low permeability","raw":"low permeability","p":""},{"n":"Low rebound","raw":"Low rebound","p":""},{"n":"Low smoke","raw":"low smoke","p":""},{"n":"Low temperature","raw":"low temperature","p":""},{"n":"Made in the USA","raw":"Made in the USA","p":""},{"n":"Medical grade","raw":"Medical grade","p":""},{"n":"Non-blooming","raw":"non-blooming","p":""},{"n":"Non-marking","raw":"non-marking","p":""},{"n":"Non-staining","raw":"non-staining","p":""},{"n":"Non-tacky surface","raw":"Non-tacky surface","p":""},{"n":"Oil resistant","raw":"oil resistant","p":""},{"n":"Outdoor-rated","raw":"outdoor-rated","p":""},{"n":"Ozone resistant","raw":"ozone resistant","p":""},{"n":"PFAS-free","raw":"PFAS-free","p":""},{"n":"Radiation resistant","raw":"Radiation resistant","p":""},{"n":"Rubber to metal bondable","raw":"Rubber to metal bondable","p":""},{"n":"Salt water resistant","raw":"salt water resistant","p":""},{"n":"Steam resistant","raw":"Steam resistant","p":""},{"n":"Talc free","raw":"Talc free","p":""},{"n":"UV resistant","raw":"UV resistant","p":""},{"n":"Water resistant","raw":"water resistant","p":""},{"n":"Weather resistant","raw":"weather resistant","p":""},{"n":"Wide temperature range","raw":"Wide temperature range","p":""}]},{"key":"specification_family","label":"Specification family","role":"Filterable","card":"1+","control":"Dropdown (first)","applies":"All","gate":null,"terms":[{"n":"AAMA","raw":"AAMA","p":""},{"n":"AASHTO","raw":"AASHTO","p":""},{"n":"AMS","raw":"AMS","p":""},{"n":"ASTM (other)","raw":"ASTM (other)","p":""},{"n":"ASTM D2000","raw":"ASTM D2000","p":""},{"n":"AWWA","raw":"AWWA","p":""},{"n":"Caltrans / DOT","raw":"Caltrans / DOT","p":""},{"n":"Customer / OEM","raw":"Customer / OEM","p":""},{"n":"FDA","raw":"FDA","p":""},{"n":"Flammability / regulatory","raw":"Flammability / regulatory","p":""},{"n":"MIL / defense","raw":"MIL / defense","p":""},{"n":"NSF / ANSI","raw":"NSF / ANSI","p":""},{"n":"SAE","raw":"SAE","p":""}]},{"key":"specification","label":"Specification","role":"Filterable","card":"many","control":"Dropdown (second) / searchable","applies":"All","gate":null,"terms":[{"n":"AAMA 808.3","raw":"AAMA 808.3","p":"AAMA"},{"n":"AASHTO M251","raw":"AASHTO M251","p":"AASHTO"},{"n":"AASHTO Grade 2","raw":"AASHTO Grade 2","p":"AASHTO M251"},{"n":"AASHTO Grade 3","raw":"AASHTO Grade 3","p":"AASHTO M251"},{"n":"AMS 3195","raw":"AMS 3195","p":"AMS"},{"n":"AMS 3200","raw":"AMS 3200","p":"AMS"},{"n":"AMS 3201","raw":"AMS 3201","p":"AMS"},{"n":"AMS 3202","raw":"AMS 3202","p":"AMS"},{"n":"AMS 3204","raw":"AMS 3204","p":"AMS"},{"n":"AMS 3205","raw":"AMS 3205","p":"AMS"},{"n":"AMS 3207","raw":"AMS 3207","p":"AMS"},{"n":"AMS 3208","raw":"AMS 3208","p":"AMS"},{"n":"AMS 3209","raw":"AMS 3209","p":"AMS"},{"n":"AMS 3212","raw":"AMS 3212","p":"AMS"},{"n":"AMS 3214","raw":"AMS 3214","p":"AMS"},{"n":"AMS 3215","raw":"AMS 3215","p":"AMS"},{"n":"AMS 3216","raw":"AMS 3216","p":"AMS"},{"n":"AMS 3220","raw":"AMS 3220","p":"AMS"},{"n":"AMS 3226","raw":"AMS 3226","p":"AMS"},{"n":"AMS 3228","raw":"AMS 3228","p":"AMS"},{"n":"AMS 3238","raw":"AMS 3238","p":"AMS"},{"n":"AMS 3240","raw":"AMS 3240","p":"AMS"},{"n":"AMS 3241","raw":"AMS 3241","p":"AMS"},{"n":"AMS 3242","raw":"AMS 3242","p":"AMS"},{"n":"AMS 3243","raw":"AMS 3243","p":"AMS"},{"n":"AMS 3248","raw":"AMS 3248","p":"AMS"},{"n":"AMS 3249","raw":"AMS 3249","p":"AMS"},{"n":"AMS 3260","raw":"AMS 3260","p":"AMS"},{"n":"AMS 3301","raw":"AMS 3301","p":"AMS"},{"n":"AMS 3302","raw":"AMS 3302","p":"AMS"},{"n":"AMS 3303","raw":"AMS 3303","p":"AMS"},{"n":"AMS 3304","raw":"AMS 3304","p":"AMS"},{"n":"AMS 3310","raw":"AMS 3310","p":"AMS"},{"n":"AMS 3320","raw":"AMS 3320","p":"AMS"},{"n":"AMS 3325","raw":"AMS 3325","p":"AMS"},{"n":"AMS 3326","raw":"AMS 3326","p":"AMS"},{"n":"AMS 3327","raw":"AMS 3327","p":"AMS"},{"n":"AMS 3332","raw":"AMS 3332","p":"AMS"},{"n":"AMS 3337","raw":"AMS 3337","p":"AMS"},{"n":"AMS 3345","raw":"AMS 3345","p":"AMS"},{"n":"AMS 3346","raw":"AMS 3346","p":"AMS"},{"n":"AMS 3347","raw":"AMS 3347","p":"AMS"},{"n":"AMS 3356","raw":"AMS 3356","p":"AMS"},{"n":"AMS 3357","raw":"AMS 3357","p":"AMS"},{"n":"AMS 7267","raw":"AMS 7267","p":"AMS"},{"n":"AMS 7271","raw":"AMS 7271","p":"AMS"},{"n":"AMS 7274","raw":"AMS 7274","p":"AMS"},{"n":"ASTM C542","raw":"ASTM C542","p":"ASTM (other)"},{"n":"ASTM C564","raw":"ASTM C564","p":"ASTM (other)"},{"n":"ASTM D1056","raw":"ASTM D1056","p":"ASTM (other)"},{"n":"ASTM D1330","raw":"ASTM D1330","p":"ASTM (other)"},{"n":"ASTM D178","raw":"ASTM D178","p":"ASTM (other)"},{"n":"ASTM D4014","raw":"ASTM D4014","p":"ASTM (other)"},{"n":"ASTM E662","raw":"ASTM E662","p":"ASTM (other)"},{"n":"ASTM D2000 AA","raw":"ASTM D2000 AA","p":"ASTM D2000"},{"n":"ASTM D2000 BA","raw":"ASTM D2000 BA","p":"ASTM D2000"},{"n":"ASTM D2000 BC","raw":"ASTM D2000 BC","p":"ASTM D2000"},{"n":"ASTM D2000 BF","raw":"ASTM D2000 BF","p":"ASTM D2000"},{"n":"ASTM D2000 BG","raw":"ASTM D2000 BG","p":"ASTM D2000"},{"n":"ASTM D2000 BK","raw":"ASTM D2000 BK","p":"ASTM D2000"},{"n":"ASTM D2000 CA","raw":"ASTM D2000 CA","p":"ASTM D2000"},{"n":"ASTM D2000 CE","raw":"ASTM D2000 CE","p":"ASTM D2000"},{"n":"ASTM D2000 CH","raw":"ASTM D2000 CH","p":"ASTM D2000"},{"n":"ASTM D2000 DA","raw":"ASTM D2000 DA","p":"ASTM D2000"},{"n":"ASTM D2000 DE","raw":"ASTM D2000 DE","p":"ASTM D2000"},{"n":"ASTM D2000 EE","raw":"ASTM D2000 EE","p":"ASTM D2000"},{"n":"ASTM D2000 EH","raw":"ASTM D2000 EH","p":"ASTM D2000"},{"n":"ASTM D2000 FC","raw":"ASTM D2000 FC","p":"ASTM D2000"},{"n":"ASTM D2000 FE","raw":"ASTM D2000 FE","p":"ASTM D2000"},{"n":"ASTM D2000 FK","raw":"ASTM D2000 FK","p":"ASTM D2000"},{"n":"ASTM D2000 GE","raw":"ASTM D2000 GE","p":"ASTM D2000"},{"n":"ASTM D2000 HK","raw":"ASTM D2000 HK","p":"ASTM D2000"},{"n":"AWWA C-111/A21.11 (Table 4)","raw":"AWWA C-111/A21.11 (Table 4)","p":"AWWA"},{"n":"Caltrans 51-1.12","raw":"Caltrans 51-1.12","p":"Caltrans / DOT"},{"n":"Caltrans 51-1.12H","raw":"Caltrans 51-1.12H","p":"Caltrans / DOT"},{"n":"Caltrans 51-1.14 Waterstop","raw":"Caltrans 51-1.14 Waterstop","p":"Caltrans / DOT"},{"n":"Caltrans 51-2.04","raw":"Caltrans 51-2.04","p":"Caltrans / DOT"},{"n":"Boeing BSS 7230","raw":"Boeing BSS 7230","p":"Customer / OEM"},{"n":"Boeing BSS 7239","raw":"Boeing BSS 7239","p":"Customer / OEM"},{"n":"Bombardier SMP 800-C","raw":"Bombardier SMP 800-C","p":"Customer / OEM"},{"n":"GE EA12C11E7","raw":"GE EA12C11E7","p":"Customer / OEM"},{"n":"GMP.E/P.002","raw":"GMP.E/P.002","p":"Customer / OEM"},{"n":"GMP.E/P.003","raw":"GMP.E/P.003","p":"Customer / OEM"},{"n":"GMP.E/P.004","raw":"GMP.E/P.004","p":"Customer / OEM"},{"n":"GMP.E/P.005","raw":"GMP.E/P.005","p":"Customer / OEM"},{"n":"GMP.E/P.006","raw":"GMP.E/P.006","p":"Customer / OEM"},{"n":"GMP.E/P.007","raw":"GMP.E/P.007","p":"Customer / OEM"},{"n":"MSAR20A","raw":"MSAR20A","p":"Customer / OEM"},{"n":"MSAR20B","raw":"MSAR20B","p":"Customer / OEM"},{"n":"MSAR20C","raw":"MSAR20C","p":"Customer / OEM"},{"n":"MSAR20D","raw":"MSAR20D","p":"Customer / OEM"},{"n":"MSAR20E","raw":"MSAR20E","p":"Customer / OEM"},{"n":"MSAR30A","raw":"MSAR30A","p":"Customer / OEM"},{"n":"MSAR30B","raw":"MSAR30B","p":"Customer / OEM"},{"n":"MSAR40A","raw":"MSAR40A","p":"Customer / OEM"},{"n":"MSAR40B","raw":"MSAR40B","p":"Customer / OEM"},{"n":"WSD-M2D379-A1","raw":"WSD-M2D379-A1","p":"Customer / OEM"},{"n":"WSD-M2D380-A1","raw":"WSD-M2D380-A1","p":"Customer / OEM"},{"n":"WSD-M2D381-A1","raw":"WSD-M2D381-A1","p":"Customer / OEM"},{"n":"WSD-M2D382-A1","raw":"WSD-M2D382-A1","p":"Customer / OEM"},{"n":"WSD-M2D441-A","raw":"WSD-M2D441-A","p":"Customer / OEM"},{"n":"WSD-M2D712-A1","raw":"WSD-M2D712-A1","p":"Customer / OEM"},{"n":"FDA 21 CFR 177.2600","raw":"FDA 21 CFR 177.2600","p":"FDA"},{"n":"FMVSS 302","raw":"FMVSS 302","p":"Flammability / regulatory"},{"n":"UL 94 V-0","raw":"UL 94 V-0","p":"Flammability / regulatory"},{"n":"A-A-59588 2A & 2B","raw":"A-A-59588 2A & 2B","p":"MIL / defense"},{"n":"AMS-R-3242","raw":"AMS-R-3242","p":"MIL / defense"},{"n":"AMS-R-83485","raw":"AMS-R-83485","p":"MIL / defense"},{"n":"MIL-C-8603","raw":"MIL-C-8603","p":"MIL / defense"},{"n":"MIL-DTL-21252","raw":"MIL-DTL-21252","p":"MIL / defense"},{"n":"MIL-DTL-25988","raw":"MIL-DTL-25988","p":"MIL / defense"},{"n":"MIL-G-15624","raw":"MIL-G-15624","p":"MIL / defense"},{"n":"MIL-G-21610","raw":"MIL-G-21610","p":"MIL / defense"},{"n":"MIL-I-3930","raw":"MIL-I-3930","p":"MIL / defense"},{"n":"MIL-P-5315","raw":"MIL-P-5315","p":"MIL / defense"},{"n":"MIL-PRF-1149","raw":"MIL-PRF-1149","p":"MIL / defense"},{"n":"MIL-PRF-6855","raw":"MIL-PRF-6855","p":"MIL / defense"},{"n":"MIL-PRF-6855 Class 1","raw":"MIL-PRF-6855 Class 1","p":"MIL / defense"},{"n":"MIL-PRF-6855 Class 2","raw":"MIL-PRF-6855 Class 2","p":"MIL / defense"},{"n":"MIL-PRF-6855/1","raw":"MIL-PRF-6855/1","p":"MIL / defense"},{"n":"MIL-PRF-6855/2","raw":"MIL-PRF-6855/2","p":"MIL / defense"},{"n":"MIL-PRF-6855/4","raw":"MIL-PRF-6855/4","p":"MIL / defense"},{"n":"MIL-PRF-6855/5","raw":"MIL-PRF-6855/5","p":"MIL / defense"},{"n":"MIL-PRF-6855/6","raw":"MIL-PRF-6855/6","p":"MIL / defense"},{"n":"MIL-PRF-83285","raw":"MIL-PRF-83285","p":"MIL / defense"},{"n":"MIL-R-14328","raw":"MIL-R-14328","p":"MIL / defense"},{"n":"MIL-R-2765","raw":"MIL-R-2765","p":"MIL / defense"},{"n":"MIL-R-3065 RS","raw":"MIL-R-3065 RS","p":"MIL / defense"},{"n":"MIL-R-3065 SB","raw":"MIL-R-3065 SB","p":"MIL / defense"},{"n":"MIL-R-3065 SC","raw":"MIL-R-3065 SC","p":"MIL / defense"},{"n":"MIL-R-7362","raw":"MIL-R-7362","p":"MIL / defense"},{"n":"MIL-R-81828","raw":"MIL-R-81828","p":"MIL / defense"},{"n":"MIL-R-83248C","raw":"MIL-R-83248C","p":"MIL / defense"},{"n":"MIL-R-83285 / SAE-AMS-R-83285 Grade 80","raw":"MIL-R-83285 / SAE-AMS-R-83285 Grade 80","p":"MIL / defense"},{"n":"MIL-R-900","raw":"MIL-R-900","p":"MIL / defense"},{"n":"MIL-STD-1180","raw":"MIL-STD-1180","p":"MIL / defense"},{"n":"MIL-STD-417","raw":"MIL-STD-417","p":"MIL / defense"},{"n":"MIL-STD-810","raw":"MIL-STD-810","p":"MIL / defense"},{"n":"3-A Sanitary Standard","raw":"3-A Sanitary Standard","p":"NSF / ANSI"},{"n":"NSF/ANSI 372","raw":"NSF/ANSI 372","p":"NSF / ANSI"},{"n":"NSF/ANSI/CAN 61","raw":"NSF/ANSI/CAN 61","p":"NSF / ANSI"}]},{"key":"industry","label":"Industry","role":"Filterable","card":"many","control":"Multi-select","applies":"All","gate":null,"terms":[{"n":"Aerospace","raw":"Aerospace","p":""},{"n":"Automotive","raw":"Automotive","p":""},{"n":"Cable & Wire","raw":"Cable & Wire","p":""},{"n":"Construction & Infrastructure","raw":"Construction & Infrastructure","p":""},{"n":"Containers/Storage & Packaging","raw":"Containers/Storage & Packaging","p":""},{"n":"Food Processing","raw":"Food Processing","p":""},{"n":"HVAC & Air Handling","raw":"HVAC & Air Handling","p":""},{"n":"Industrial","raw":"Industrial","p":""},{"n":"Marine","raw":"Marine","p":""},{"n":"Mass Transit/Rail & Transportation","raw":"Mass Transit/Rail & Transportation","p":""},{"n":"Medical","raw":"Medical","p":""},{"n":"Military & Defense","raw":"Military & Defense","p":""},{"n":"Mining","raw":"Mining","p":""},{"n":"Nuclear & Alternative Energy","raw":"Nuclear & Alternative Energy","p":""},{"n":"Oil & Gas","raw":"Oil & Gas","p":""},{"n":"Potable Water","raw":"Potable Water","p":""},{"n":"Power Transmission/Transformer & Electrical","raw":"Power Transmission/Transformer & Electrical","p":""},{"n":"Window & Door","raw":"Window & Door","p":""},{"n":"Bridge","raw":"Bridge","p":"Construction & Infrastructure"},{"n":"Industrial Pipe","raw":"Industrial Pipe","p":"Construction & Infrastructure"},{"n":"Storage Tank","raw":"Storage Tank","p":"Containers/Storage & Packaging"}]},{"key":"compliance","label":"Compliance","role":"Display-only","card":"many","control":"\u2014","applies":"All","gate":null,"terms":[{"n":"BABA","raw":"BABA","p":""},{"n":"Buy American","raw":"Buy American","p":""},{"n":"Conflict Minerals Regulations","raw":"Conflict Minerals Regulations","p":""},{"n":"Prop 65","raw":"Prop 65","p":""},{"n":"REACH","raw":"REACH","p":""},{"n":"RoHS","raw":"RoHS","p":""},{"n":"TSCA","raw":"TSCA","p":""}]},{"key":"product_line","label":"Product line (brand)","role":"Filterable","card":"1+","control":"Multi-select","applies":"All","gate":null,"terms":[{"n":"Fluorozone\u00ae","raw":"Fluorozone\u00ae","p":"FKM"},{"n":"Viton\u2122","raw":"Viton\u2122","p":"FKM"},{"n":"INFINISIL\u00ae","raw":"INFINISIL\u00ae","p":"Silicone"}]},{"key":"electrical_property","label":"Electrical properties","role":"Filterable","card":"1+","control":"Multi-select","applies":"All","gate":null,"terms":[{"n":"Anti-static","raw":"anti-static","p":""},{"n":"Conductive","raw":"conductive","p":""},{"n":"Non-conductive","raw":"non-conductive","p":""},{"n":"Static dissipative","raw":"static dissipative","p":""}]},{"key":"insert","label":"Insert (fabric / cloth insert)","role":"Filterable","card":"1+","control":"Multi-select","applies":"sheet / molded","gate":{"form_factor":["sheet","molded"]},"terms":[{"n":"Cotton","raw":"Cotton","p":""},{"n":"Custom","raw":"Custom","p":""},{"n":"Fiberglass","raw":"fiberglass","p":""},{"n":"None","raw":"None","p":""},{"n":"Nylon","raw":"Nylon","p":""},{"n":"Polyester","raw":"Polyester","p":""}]},{"key":"finish","label":"Finish","role":"Display-only","card":"1+","control":"\u2014","applies":"sheet","gate":{"form_factor":["sheet"]},"terms":[{"n":"Custom","raw":"Custom","p":""},{"n":"Matte","raw":"Matte","p":""},{"n":"Nylon","raw":"Nylon","p":""},{"n":"Paper","raw":"Paper","p":""},{"n":"Smooth","raw":"Smooth","p":""},{"n":"Textured","raw":"Textured","p":""}]},{"key":"color","label":"Color","role":"Filterable","card":"1+","control":"Multi-select","applies":"All","gate":null,"terms":[{"n":"Black","raw":"black","p":""},{"n":"Blue","raw":"blue","p":""},{"n":"Brown","raw":"brown","p":""},{"n":"Custom","raw":"custom","p":""},{"n":"Gray","raw":"gray","p":""},{"n":"Green","raw":"green","p":""},{"n":"Neutral","raw":"neutral","p":""},{"n":"Orange","raw":"orange","p":""},{"n":"Pink","raw":"pink","p":""},{"n":"Red","raw":"red","p":""},{"n":"Tan","raw":"tan","p":""},{"n":"Translucent","raw":"translucent","p":""},{"n":"White","raw":"white","p":""},{"n":"Yellow","raw":"yellow","p":""}]},{"key":"cure_system","label":"Cure system","role":"Filterable","card":"1","control":"Multi-select","applies":"molded / sheet","gate":{"form_factor":["sheet","molded"]},"terms":[{"n":"Peroxide","raw":"peroxide","p":""},{"n":"Platinum","raw":"platinum","p":""}]},{"key":"tolerance_standard","label":"Tolerance standard","role":"Filterable","card":"1","control":"Multi-select","applies":"All","gate":null,"terms":[{"n":"A1","raw":"A1","p":""},{"n":"A2","raw":"A2","p":""},{"n":"A3","raw":"A3","p":""},{"n":"Commercial","raw":"Commercial","p":""},{"n":"E1","raw":"E1","p":""},{"n":"E2","raw":"E2","p":""},{"n":"E3","raw":"E3","p":""},{"n":"Tight tolerance","raw":"Tight tolerance","p":""}]},{"key":"density_type","label":"Density type","role":"Display-only","card":"1","control":"\u2014","applies":"extrusion","gate":{"form_factor":["extrusion"]},"terms":[{"n":"Solid Rubber","raw":"Solid Rubber","p":""},{"n":"Sponge Rubber","raw":"Sponge Rubber","p":""}]},{"key":"hardness_rating","label":"Hardness rating (foam)","role":"Display-only","card":"1","control":"\u2014","applies":"extrusion (sponge / foam)","gate":{"form_factor":["extrusion"],"density_type":["Sponge Rubber"]},"terms":[{"n":"Hard","raw":"Hard","p":""},{"n":"Medium","raw":"Medium","p":""},{"n":"Soft","raw":"Soft","p":""}]},{"key":"cell_structure","label":"Cell structure","role":"Display-only","card":"1","control":"\u2014","applies":"extrusion (sponge / foam)","gate":{"form_factor":["extrusion"],"density_type":["Sponge Rubber"]},"terms":[{"n":"Closed-cell","raw":"closed-cell","p":""},{"n":"Hollow","raw":"hollow","p":""},{"n":"Open-cell","raw":"open-cell","p":""},{"n":"Solid","raw":"solid","p":""}]},{"key":"shore_scale","label":"Shore scale","role":"Filterable","card":"1","control":"Multi-select","applies":"All","gate":null,"terms":[{"n":"A","raw":"A","p":""},{"n":"D","raw":"D","p":""}]},{"key":"trim","label":"Trim","role":"Display-only","card":"1","control":"\u2014","applies":"sheet","gate":{"form_factor":["sheet"]},"terms":[{"n":"Trimmed","raw":"Trimmed","p":""},{"n":"Untrimmed","raw":"Untrimmed","p":""}]},{"key":"stenciling_available","label":"Stenciling available","role":"Display-only","card":"1","control":"\u2014","applies":"All","gate":null,"terms":[{"n":"Non-stenciled","raw":"Non-stenciled","p":""},{"n":"Stenciled","raw":"Stenciled","p":""}]},{"key":"manufacturing_origin","label":"Manufacturing origin","role":"Display-only","card":"1","control":"\u2014","applies":"All","gate":null,"terms":[{"n":"Made in the USA","raw":"Made in the USA","p":""}]}],"bools":[{"key":"custom_tolerance_available","label":"Custom tolerance available","gate":null},{"key":"talc_free","label":"Talc-free","gate":{"form_factor":["sheet","molded"]}}],"nums":[{"key":"durometer","min_col":"durometer_min","max_col":"durometer_max","unit":"Shore"},{"key":"temperature","min_col":"temp_min_f","max_col":"temp_max_f","unit":"\u00b0F"}],"materials":["AEM","Blended","Butyl","CSM/CSPE","EPDM","FKM","Fluorosilicone","HNBR","Hydrin","Natural Rubber","Neoprene","Nitrile","SBR","Silicone","Synthetic Natural Rubber","TPE"],"material_children":{"FKM":["Fluorozone\u00ae","Viton\u2122"],"Silicone":["INFINISIL\u00ae"]},"product_lines":[{"n":"Fluorozone\u00ae","parent":"FKM"},{"n":"Viton\u2122","parent":"FKM"},{"n":"INFINISIL\u00ae","parent":"Silicone"}],"n_products":85,"n_compounds":226};</script>
+<script>
+/* ------------------------------------------------------------------ *
+ * WARCO Product Finder — prototype engine
+ * Data comes from warco_product_finder_MASTER (Client_Tagging + Import_Terms
+ * + Attributes). Facet counts, gating and filtering are all real.
+ * ------------------------------------------------------------------ */
+(function () {
+  'use strict';
+  var D = window.__WARCO__;
+  var P = D.products, FACETS = D.facets, BOOLS = D.bools;
+  var SHOW_N = 8, PAGE = 12;
+
+  var esc = function (s) {
+    return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  };
+  var byKey = {};
+  FACETS.forEach(function (f) { byKey[f.key] = f; });
+
+  /* ---------------------------------------------------------- state */
+  var S = { mat: '', sel: {}, bool: {}, num: {}, q: '', page: PAGE };
+  FACETS.forEach(function (f) { S.sel[f.key] = []; });
+  BOOLS.forEach(function (b) { S.bool[b.key] = null; });
+
+  var DURO = extent('dmin', 'dmax'), TEMP = extent('tmin', 'tmax');
+  function extent(a, b) {
+    var lo = Infinity, hi = -Infinity;
+    P.forEach(function (p) {
+      if (p[a] != null) { lo = Math.min(lo, p[a]); hi = Math.max(hi, p[a]); }
+      if (p[b] != null) { lo = Math.min(lo, p[b]); hi = Math.max(hi, p[b]); }
+    });
+    return lo === Infinity ? [0, 100] : [lo, hi];
+  }
+  S.num.durometer = DURO.slice();
+  S.num.temperature = TEMP.slice();
+
+  /* ------------------------------------------- conditional gating
+   * A facet's `gate` comes from Attributes "Applies to (form factor)".
+   * The model says these are shown once form factor is chosen, so a gated
+   * facet stays closed until the selection satisfies it.                */
+  function gateState(f) {
+    if (!f.gate) return { ok: true };
+    var needFF = f.gate.form_factor, needDT = f.gate.density_type;
+    var chosenFF = S.sel.form_factor.map(function (x) { return x.toLowerCase(); });
+    if (needFF) {
+      if (!chosenFF.length)
+        return { ok: false, why: 'Choose a form factor (' + needFF.join(' or ') + ') to use this filter' };
+      var hit = chosenFF.some(function (x) { return needFF.indexOf(x) > -1; });
+      if (!hit)
+        return { ok: false, why: 'Applies to ' + needFF.join(' / ') + ' only' };
+    }
+    if (needDT) {
+      var chosenDT = S.sel.density_type || [];
+      if (!chosenDT.length)
+        return { ok: false, why: 'Also requires Density = ' + needDT.join(' / ') };
+      if (!chosenDT.some(function (x) { return needDT.indexOf(x) > -1; }))
+        return { ok: false, why: 'Applies to ' + needDT.join(' / ') + ' only' };
+    }
+    return { ok: true };
+  }
+
+  /* Terms visible in a facet can themselves be narrowed by a parent facet. */
+  function visibleTerms(f) {
+    if (f.key === 'specification' && S.sel.specification_family.length) {
+      var fams = S.sel.specification_family;
+      return f.terms.filter(function (t) { return fams.indexOf(t.p) > -1; });
+    }
+    if (f.key === 'product_line' && S.mat) {
+      return f.terms.filter(function (t) { return t.p === S.mat; });
+    }
+    return f.terms;
+  }
+
+  /* Drop selections that gating has just made invisible, so no filter
+   * can ever apply from a control the user cannot see.                 */
+  function pruneSelections() {
+    var changed = false;
+    FACETS.forEach(function (f) {
+      if (!S.sel[f.key].length) return;
+      if (!gateState(f).ok) { S.sel[f.key] = []; changed = true; return; }
+      var vis = visibleTerms(f).map(function (t) { return t.n; });
+      var kept = S.sel[f.key].filter(function (v) { return vis.indexOf(v) > -1; });
+      if (kept.length !== S.sel[f.key].length) { S.sel[f.key] = kept; changed = true; }
+    });
+    BOOLS.forEach(function (b) {
+      if (S.bool[b.key] !== null && b.gate && !gateState(b).ok) { S.bool[b.key] = null; changed = true; }
+    });
+    return changed;
+  }
+
+  /* ---------------------------------------------------------- matching */
+  function matchFacet(p, key, chosen) {
+    if (!chosen.length) return true;
+    var have = p[key] || [];
+    for (var i = 0; i < chosen.length; i++) if (have.indexOf(chosen[i]) > -1) return true;
+    return false;   /* OR within a facet, AND across facets */
+  }
+  function inRange(p, a, b, lo, hi, full) {
+    if (lo === full[0] && hi === full[1]) return true;      /* untouched: unknowns pass */
+    if (p[a] == null && p[b] == null) return false;          /* narrowed: unknowns drop */
+    var plo = p[a] != null ? p[a] : p[b], phi = p[b] != null ? p[b] : p[a];
+    return plo <= hi && phi >= lo;                           /* overlap */
+  }
+  var searchBlob = {};
+  P.forEach(function (p) {
+    var bits = [p.t, p.s, p.mf, p.ff];
+    FACETS.forEach(function (f) { bits = bits.concat(p[f.key] || []); });
+    searchBlob[p.s] = bits.join(' ').toLowerCase();
+  });
+
+  function matches(p, skipKey) {
+    if (S.mat && p.mf !== S.mat) return false;
+    if (S.q && searchBlob[p.s].indexOf(S.q.toLowerCase()) === -1) return false;
+    for (var i = 0; i < FACETS.length; i++) {
+      var f = FACETS[i];
+      if (f.key === skipKey) continue;
+      if (!gateState(f).ok) continue;
+      if (!matchFacet(p, f.key, S.sel[f.key])) return false;
+    }
+    for (var j = 0; j < BOOLS.length; j++) {
+      var b = BOOLS[j];
+      if (b.key === skipKey || S.bool[b.key] === null) continue;
+      if (p[b.key] !== S.bool[b.key]) return false;
+    }
+    if (skipKey !== 'durometer' &&
+        !inRange(p, 'dmin', 'dmax', S.num.durometer[0], S.num.durometer[1], DURO)) return false;
+    if (skipKey !== 'temperature' &&
+        !inRange(p, 'tmin', 'tmax', S.num.temperature[0], S.num.temperature[1], TEMP)) return false;
+    return true;
+  }
+
+  /* Real faceted counts: for each term, how many products would remain if
+   * that term were the only choice in its own facet.                    */
+  function countsFor(f) {
+    var pool = P.filter(function (p) { return matches(p, f.key); });
+    var c = {};
+    f.terms.forEach(function (t) { c[t.n] = 0; });
+    pool.forEach(function (p) {
+      (p[f.key] || []).forEach(function (v) { if (c[v] !== undefined) c[v]++; });
+    });
+    return c;
+  }
+
+  /* ---------------------------------------------------------- rendering */
+  function termRow(f, t, n, isChild) {
+    var checked = S.sel[f.key].indexOf(t.n) > -1;
+    return '<label class="term' + (n === 0 ? ' term-zero' : '') + (isChild ? ' term-child' : '') + '">' +
+      '<input type="checkbox" data-facet="' + esc(f.key) + '" value="' + esc(t.n) + '"' +
+      (checked ? ' checked' : '') + '>' +
+      '<span class="box"><i data-lucide="check"></i></span>' +
+      '<span class="term-name">' + esc(t.n) + '</span>' +
+      '<span class="count">' + n + '</span></label>';
+  }
+
+  function renderFilters() {
+    var open = {};
+    document.querySelectorAll('.fgroup').forEach(function (g) {
+      open[g.dataset.facet] = { c: g.classList.contains('collapsed'), e: g.classList.contains('expanded') };
+    });
+    var html = FACETS.map(function (f, idx) {
+      var g = gateState(f);
+      var terms = visibleTerms(f);
+      var counts = g.ok ? countsFor(f) : {};
+      var tagged = terms.filter(function (t) { return (counts[t.n] || 0) > 0; }).length;
+
+      var head = '<button type="button" class="fgroup-head"><h3>' + esc(f.label) + '</h3>' +
+        '<span class="fcount">' + terms.length + '</span>' +
+        '<span class="badge">' + S.sel[f.key].length + '</span>' +
+        '<i data-lucide="chevron-down" class="chev"></i></button>';
+
+      if (!g.ok) {
+        return '<div class="fgroup fgroup-gated" data-facet="' + esc(f.key) + '">' + head +
+          '<div class="fgroup-body"><p class="gate-note"><i data-lucide="lock"></i>' +
+          esc(g.why) + '</p></div></div>';
+      }
+
+      /* parents first, each followed by its children */
+      var parents = terms.filter(function (t) { return !t.p; });
+      var kids = terms.filter(function (t) { return t.p; });
+      var ordered = [];
+      parents.forEach(function (t) {
+        ordered.push([t, false]);
+        kids.filter(function (k) { return k.p === t.n; }).forEach(function (k) { ordered.push([k, true]); });
+      });
+      kids.forEach(function (k) {
+        if (!ordered.some(function (o) { return o[0] === k; })) ordered.push([k, false]);
+      });
+
+      var rows = ordered.map(function (o) { return termRow(f, o[0], counts[o[0].n] || 0, o[1]); });
+      var vis = rows.slice(0, SHOW_N).join('');
+      var rest = rows.slice(SHOW_N);
+      var more = rest.length
+        ? '<div class="extra">' + rest.join('') + '</div>' +
+          '<button type="button" class="show-more">' +
+          (open[f.key] && open[f.key].e ? 'Show less' : '+' + rest.length + ' More') +
+          ' <i data-lucide="chevron-down"></i></button>'
+        : '';
+      var meta = tagged === 0
+        ? '<p class="fmeta fmeta-empty"><i data-lucide="circle-alert"></i>No products tagged yet — ' +
+          terms.length + ' terms ready</p>'
+        : '';
+
+      var st = open[f.key] || { c: idx > 2, e: false };
+      return '<div class="fgroup' + (st.c ? ' collapsed' : '') + (st.e ? ' expanded' : '') +
+        (S.sel[f.key].length ? ' has-active' : '') + '" data-facet="' + esc(f.key) + '">' +
+        head + '<div class="fgroup-body">' + meta + vis + more + '</div></div>';
+    }).join('');
+
+    /* numeric + boolean groups */
+    html += D.nums.map(function (n) {
+      var full = n.key === 'durometer' ? DURO : TEMP;
+      var cur = S.num[n.key];
+      var touched = cur[0] !== full[0] || cur[1] !== full[1];
+      return '<div class="fgroup fgroup-range' + (touched ? ' has-active' : '') + '" data-facet="' + esc(n.key) + '">' +
+        '<button type="button" class="fgroup-head"><h3>' + esc(cap(n.key)) + '</h3>' +
+        '<span class="fcount">' + n.unit + '</span>' +
+        '<span class="badge">1</span><i data-lucide="chevron-down" class="chev"></i></button>' +
+        '<div class="fgroup-body"><div class="rng">' +
+        '<div class="rng-val"><b>' + cur[0] + '</b> to <b>' + cur[1] + '</b> ' + esc(n.unit) + '</div>' +
+        '<input type="range" data-rng="' + n.key + '" data-end="0" min="' + full[0] + '" max="' + full[1] + '" value="' + cur[0] + '">' +
+        '<input type="range" data-rng="' + n.key + '" data-end="1" min="' + full[0] + '" max="' + full[1] + '" value="' + cur[1] + '">' +
+        (touched ? '<button type="button" class="rng-reset" data-rng-reset="' + n.key + '">Reset</button>' : '') +
+        '</div></div></div>';
+    }).join('');
+
+    html += '<div class="fgroup" data-facet="__bools"><button type="button" class="fgroup-head">' +
+      '<h3>Options</h3><span class="fcount">' + BOOLS.length + '</span><span class="badge">' +
+      BOOLS.filter(function (b) { return S.bool[b.key] !== null; }).length +
+      '</span><i data-lucide="chevron-down" class="chev"></i></button><div class="fgroup-body">' +
+      BOOLS.map(function (b) {
+        var g = b.gate ? gateState(b) : { ok: true };
+        if (!g.ok) return '<p class="gate-note"><i data-lucide="lock"></i>' + esc(b.label) + ' — ' + esc(g.why) + '</p>';
+        var n = P.filter(function (p) { return matches(p, b.key) && p[b.key] === true; }).length;
+        return '<label class="term' + (n === 0 ? ' term-zero' : '') + '">' +
+          '<input type="checkbox" data-bool="' + esc(b.key) + '"' + (S.bool[b.key] === true ? ' checked' : '') + '>' +
+          '<span class="box"><i data-lucide="check"></i></span>' +
+          '<span class="term-name">' + esc(b.label) + '</span><span class="count">' + n + '</span></label>';
+      }).join('') + '</div></div>';
+
+    document.getElementById('filters').innerHTML = html;
+  }
+
+  function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+  function renderProducts(list) {
+    var CUSTOM = '<article class="pcard pcard-custom">' +
+      '<h3>Need a Custom Product?</h3>' +
+      '<p>Tell us the spec and our materials team will build a compound around it.</p>' +
+      '<a class="cbtn" href="#">Request a Quote <i data-lucide="arrow-right"></i></a></article>';
+    if (!list.length) {
+      document.getElementById('product-grid').innerHTML = CUSTOM +
+        '<article class="pcard pcard-empty"><div class="pcard-body">' +
+        '<div class="pcard-tag">No matches</div><h3>Nothing fits every filter</h3>' +
+        '<p>Try removing a filter, or start a custom request — WARCO compounds to spec.</p>' +
+        '</div></article>';
+      document.querySelector('.load-more').style.display = 'none';
+      return;
+    }
+    var shown = list.slice(0, S.page);
+    document.getElementById('product-grid').innerHTML = CUSTOM + shown.map(function (p) {
+      var meta = [p.mf, cap(p.ff)];
+      ['performance_tag', 'specification', 'finish', 'color'].forEach(function (k) {
+        (p[k] || []).slice(0, 1).forEach(function (v) { if (meta.indexOf(v) === -1) meta.push(v); });
+      });
+      var desc = describe(p);
+      return '<article class="pcard">' +
+        '<span class="pcard-corner"><i data-lucide="' + esc(p.icon) + '"></i></span>' +
+        '<div class="pcard-body">' +
+          '<div class="pcard-tag">' + esc(p.tag) + '</div>' +
+          '<h3>' + esc(p.t) + '</h3>' +
+          '<p>' + esc(desc) + '</p>' +
+          '<div class="pcard-meta">' + meta.slice(0, 5).map(function (m) {
+            return '<span>' + esc(m) + '</span>'; }).join('') + '</div>' +
+        '</div></article>';
+    }).join('');
+    var lm = document.querySelector('.load-more');
+    lm.style.display = list.length > S.page ? '' : 'none';
+    lm.querySelector('button').innerHTML = 'Load more products (' +
+      (list.length - S.page) + ' left) <i data-lucide="chevron-down"></i>';
+  }
+
+  function describe(p) {
+    var bits = [];
+    bits.push(p.mf + ' ' + p.ff);
+    if (p.dmin != null) bits.push(p.dmin === p.dmax ? p.dmin + ' Shore A' : p.dmin + '–' + p.dmax + ' Shore A');
+    if (p.tmin != null && p.tmax != null) bits.push(p.tmin + '° to ' + p.tmax + '°F');
+    if (p.nc) bits.push(p.nc + (p.nc === 1 ? ' compound' : ' compounds'));
+    return bits.join(' · ') + '.';
+  }
+
+  function renderChips() {
+    var parts = [];
+    if (S.mat) parts.push(chip('Material: ' + S.mat, 'mat', ''));
+    FACETS.forEach(function (f) {
+      S.sel[f.key].forEach(function (v) { parts.push(chip(f.label + ': ' + v, 'facet', f.key, v)); });
+    });
+    BOOLS.forEach(function (b) {
+      if (S.bool[b.key] !== null) parts.push(chip(b.label, 'bool', b.key, ''));
+    });
+    D.nums.forEach(function (n) {
+      var full = n.key === 'durometer' ? DURO : TEMP, cur = S.num[n.key];
+      if (cur[0] !== full[0] || cur[1] !== full[1])
+        parts.push(chip(cap(n.key) + ': ' + cur[0] + '–' + cur[1] + ' ' + n.unit, 'rng', n.key, ''));
+    });
+    if (S.q) parts.push(chip('“' + S.q + '”', 'q', '', ''));
+    document.getElementById('chip-row').innerHTML = parts.join('');
+  }
+  function chip(label, kind, key, val) {
+    return '<button type="button" class="chip" data-kind="' + kind + '" data-key="' + esc(key) +
+      '" data-val="' + esc(val) + '">' + esc(label) + ' <i data-lucide="x"></i></button>';
+  }
+
+  /* ---------------------------------------------------------- paint */
+  function paint() {
+    pruneSelections();
+    var list = P.filter(function (p) { return matches(p, null); });
+    renderFilters();
+    renderChips();
+    renderProducts(list);
+    document.getElementById('res-title').textContent = S.mat || 'All Products';
+    document.getElementById('res-count').textContent = list.length;
+    document.getElementById('hint-count').textContent = list.length;
+    var gated = FACETS.filter(function (f) { return !gateState(f).ok; }).length;
+    var gn = document.getElementById('gate-summary');
+    gn.innerHTML = gated
+      ? '<i data-lucide="git-branch"></i>' + gated + ' of ' + FACETS.length +
+        ' filters are conditional and stay locked until form factor / density make them relevant.'
+      : '<i data-lucide="git-branch"></i>All ' + FACETS.length + ' filters are in play for this selection.';
+    if (window.lucide) lucide.createIcons();
+  }
+
+  /* ---------------------------------------------------------- events */
+  function init() {
+    var sel = document.getElementById('material');
+    sel.innerHTML = '<option value="">All Materials</option>' +
+      D.materials.map(function (m) {
+        var n = P.filter(function (p) { return p.mf === m; }).length;
+        return '<option value="' + esc(m) + '">' + esc(m) + ' (' + n + ')</option>';
+      }).join('');
+
+    sel.addEventListener('change', function () { S.mat = sel.value; S.page = PAGE; paint(); });
+
+    var f = document.getElementById('filters');
+    f.addEventListener('click', function (e) {
+      var head = e.target.closest('.fgroup-head');
+      if (head) { head.parentElement.classList.toggle('collapsed'); return; }
+      var more = e.target.closest('.show-more');
+      if (more) {
+        var g = more.closest('.fgroup');
+        g.classList.toggle('expanded');
+        var hidden = g.querySelectorAll('.extra .term').length;
+        more.innerHTML = (g.classList.contains('expanded') ? 'Show less' : '+' + hidden + ' More') +
+          ' <i data-lucide="chevron-down"></i>';
+        if (window.lucide) lucide.createIcons();
+        return;
+      }
+      var rst = e.target.closest('[data-rng-reset]');
+      if (rst) {
+        var k = rst.dataset.rngReset;
+        S.num[k] = (k === 'durometer' ? DURO : TEMP).slice();
+        S.page = PAGE; paint();
+      }
+    });
+    f.addEventListener('change', function (e) {
+      var cb = e.target.closest('input[type=checkbox]');
+      if (cb) {
+        if (cb.dataset.facet) {
+          var arr = S.sel[cb.dataset.facet];
+          var i = arr.indexOf(cb.value);
+          if (cb.checked && i === -1) arr.push(cb.value);
+          if (!cb.checked && i > -1) arr.splice(i, 1);
+        } else if (cb.dataset.bool) {
+          S.bool[cb.dataset.bool] = cb.checked ? true : null;
+        }
+        S.page = PAGE; paint();
+      }
+    });
+    f.addEventListener('input', function (e) {
+      var r = e.target.closest('input[type=range]');
+      if (!r) return;
+      var k = r.dataset.rng, end = +r.dataset.end, v = +r.value;
+      var cur = S.num[k].slice();
+      cur[end] = v;
+      if (cur[0] > cur[1]) { end === 0 ? cur[1] = v : cur[0] = v; }
+      S.num[k] = cur;
+      var box = r.closest('.rng').querySelector('.rng-val');
+      box.innerHTML = '<b>' + cur[0] + '</b> to <b>' + cur[1] + '</b> ' +
+        (k === 'durometer' ? 'Shore' : '°F');
+    });
+    f.addEventListener('change', function (e) {
+      if (e.target.closest('input[type=range]')) { S.page = PAGE; paint(); }
+    });
+
+    document.getElementById('chip-row').addEventListener('click', function (e) {
+      var c = e.target.closest('.chip');
+      if (!c) return;
+      var kind = c.dataset.kind, key = c.dataset.key, val = c.dataset.val;
+      if (kind === 'mat') { S.mat = ''; document.getElementById('material').value = ''; }
+      else if (kind === 'facet') {
+        var arr = S.sel[key], i = arr.indexOf(val);
+        if (i > -1) arr.splice(i, 1);
+      } else if (kind === 'bool') S.bool[key] = null;
+      else if (kind === 'rng') S.num[key] = (key === 'durometer' ? DURO : TEMP).slice();
+      else if (kind === 'q') { S.q = ''; document.getElementById('q').value = ''; }
+      S.page = PAGE; paint();
+    });
+
+    document.getElementById('clear-all').addEventListener('click', function () {
+      S.mat = ''; S.q = ''; S.page = PAGE;
+      document.getElementById('material').value = '';
+      document.getElementById('q').value = '';
+      FACETS.forEach(function (x) { S.sel[x.key] = []; });
+      BOOLS.forEach(function (b) { S.bool[b.key] = null; });
+      S.num.durometer = DURO.slice(); S.num.temperature = TEMP.slice();
+      paint();
+    });
+
+    var q = document.getElementById('q');
+    q.addEventListener('input', function () { S.q = q.value.trim(); S.page = PAGE; paint(); });
+
+    document.querySelector('.load-more button').addEventListener('click', function () {
+      S.page += PAGE; paint();
+    });
+
+    paint();
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+
+</script>
+
+
+
+</body></html>
