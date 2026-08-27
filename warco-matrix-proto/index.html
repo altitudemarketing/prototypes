@@ -32,6 +32,8 @@
   --gold-soft:#fdf0d8;
   --red:#921b1d;
   --red-soft:#f7dede;
+  --tile-bg:#0c0707;
+  --tile-line:transparent;
 
   --r-a:#2f6b3f; --r-a-bg:#e4efe3;
   --r-b:#8a6410; --r-b-bg:#fbefd5;
@@ -58,6 +60,8 @@
     --gold-soft:#33260f;
     --red:#d2554f;
     --red-soft:#3a1c1c;
+    --tile-bg:#2a2220;
+    --tile-line:#3a302d;
 
     --r-a:#6fc286; --r-a-bg:#16301f;
     --r-b:#e0b45c; --r-b-bg:#332813;
@@ -72,6 +76,7 @@
   --ink:#f4efec; --ink-2:#b6a9a4; --ink-3:#8d7f7a;
   --line:#2c2321; --line-2:#241d1b;
   --gold-deep:#ffba49; --gold-soft:#33260f; --red:#d2554f; --red-soft:#3a1c1c;
+  --tile-bg:#2a2220; --tile-line:#3a302d;
   --r-a:#6fc286; --r-a-bg:#16301f;
   --r-b:#e0b45c; --r-b-bg:#332813;
   --r-c:#e79567; --r-c-bg:#372018;
@@ -118,17 +123,22 @@ h1 em{font-style:normal; color:var(--gold)}
 }
 .stat span{font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.55); font-weight:600}
 
-.tabs{display:flex; gap:8px; margin-top:30px}
+.tabs{
+  display:inline-grid; grid-auto-flow:column; grid-auto-columns:1fr;
+  background:var(--paper); border-radius:10px; padding:5px; gap:4px;
+  margin:32px 0 30px; max-width:520px; width:100%;
+}
 .tab{
-  appearance:none; border:1px solid rgba(255,255,255,.16); background:rgba(255,255,255,.05);
-  color:rgba(255,255,255,.72); font-family:var(--sans); font-weight:600; font-size:14.5px;
-  padding:10px 20px; border-radius:999px 999px 0 0; cursor:pointer;
-  transition:color .16s, background .16s, border-color .16s;
+  appearance:none; border:none; background:transparent; cursor:pointer;
+  font-family:var(--sans); color:var(--ink); border-radius:7px;
+  padding:9px 20px; text-align:center; line-height:1.25;
+  transition:background .16s, color .16s;
 }
-.tab:hover{color:#fff; background:rgba(255,255,255,.1)}
-.tab[aria-selected="true"]{
-  background:var(--paper); color:var(--ink); border-color:transparent; font-weight:700;
-}
+.tab .t{display:block; font-weight:700; font-size:15px; letter-spacing:-.005em}
+.tab .s{display:block; font-weight:400; font-size:12px; color:var(--ink-3); margin-top:2px}
+.tab:hover:not([aria-selected="true"]){background:rgba(146,27,29,.07)}
+.tab[aria-selected="true"]{background:var(--red); color:#fff}
+.tab[aria-selected="true"] .s{color:rgba(255,255,255,.72)}
 
 /* ---------- workbench ---------- */
 main{padding-block:34px 72px}
@@ -138,6 +148,7 @@ main{padding-block:34px 72px}
 .panel{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow)}
 .panel-hd{padding:16px 20px; border-bottom:1px solid var(--line-2); display:flex; align-items:baseline; gap:10px}
 .panel-hd h2{font-weight:800; font-size:17px; margin:0; letter-spacing:-.01em}
+.panel--list .panel-hd{border-bottom:none}
 .panel-hd .hint{
   font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase;
   color:var(--ink-3); margin-left:auto;
@@ -196,33 +207,35 @@ main{padding-block:34px 72px}
 }
 .fact b{color:var(--ink-2); font-weight:700}
 
-/* ---------- verdict rows: modelled on the site's Material Row card ---------- */
-.verdicts{list-style:none; margin:0; padding:0; display:flex; flex-direction:column}
+/* ---------- verdict rows: the site's Material Row card ---------- */
+.verdicts{list-style:none; margin:0; padding:16px 18px 18px; display:flex; flex-direction:column; gap:10px}
 .v{
-  display:grid; grid-template-columns:auto 1fr auto; gap:0 16px; align-items:center;
-  padding:15px 20px; border-bottom:1px solid var(--line-2);
+  display:grid; grid-template-columns:48px 1fr auto; gap:0 16px; align-items:start;
+  background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
+  padding:15px 16px; box-shadow:0 1px 2px rgba(26,20,19,.04);
+  transition:border-color .16s, box-shadow .16s;
 }
-.v:last-child{border-bottom:none}
-.v.dim{opacity:.52}
-.rank{
-  font-family:var(--mono); font-size:11px; color:var(--ink-3); width:22px;
-  font-variant-numeric:tabular-nums;
+.v:hover{border-color:var(--gold); box-shadow:var(--shadow)}
+.v.dim{opacity:.6}
+.tile{
+  width:48px; height:48px; border-radius:12px; background:var(--tile-bg);
+  border:1px solid var(--tile-line);
+  display:flex; align-items:center; justify-content:center; align-self:center;
+  font-family:var(--mono); font-weight:500; font-size:11.5px; color:var(--gold);
+  letter-spacing:.02em;
 }
-.v-name{font-weight:800; font-size:18px; letter-spacing:-.01em}
-.v-astm{
-  font-family:var(--mono); font-size:10.5px; color:var(--ink-3);
-  letter-spacing:.05em; margin-left:9px;
-}
-.v-meta{grid-column:2; font-size:13px; color:var(--ink-2); margin-top:1px}
-.dots{grid-column:2; display:flex; flex-wrap:wrap; gap:5px; margin-top:9px}
+.v-body{min-width:0}
+.v-name{font-weight:700; font-size:16.5px; letter-spacing:-.01em; line-height:1.3}
+.v-meta{font-size:13.5px; color:var(--ink-2); margin-top:2px}
+.dots{display:flex; flex-wrap:wrap; gap:5px; margin-top:9px}
 .dot{
   font-family:var(--mono); font-size:10.5px; font-weight:500; letter-spacing:.01em;
-  padding:3px 8px; border-radius:999px; white-space:nowrap;
+  padding:3px 9px; border-radius:999px; white-space:nowrap;
 }
 .badge{
-  grid-row:1/3; grid-column:3; font-weight:800; font-size:12px;
-  letter-spacing:.05em; text-transform:uppercase; padding:7px 13px; border-radius:999px;
-  text-align:center; min-width:112px;
+  align-self:center; font-weight:700; font-size:11.5px; letter-spacing:.05em;
+  text-transform:uppercase; padding:8px 14px; border-radius:999px;
+  text-align:center; min-width:116px;
 }
 .r-a{background:var(--r-a-bg); color:var(--r-a)}
 .r-b{background:var(--r-b-bg); color:var(--r-b)}
@@ -231,8 +244,9 @@ main{padding-block:34px 72px}
 .r-n{background:var(--r-n-bg); color:var(--r-n)}
 
 .callout{
-  margin:0; padding:16px 20px; border-bottom:1px solid var(--line-2);
-  background:var(--gold-soft); font-size:14.5px; color:var(--ink);
+  margin:16px 18px 0; padding:14px 16px; border-radius:var(--radius);
+  background:var(--gold-soft); border:1px solid var(--gold);
+  font-size:14.5px; color:var(--ink);
 }
 .callout b{font-weight:800}
 
@@ -289,8 +303,12 @@ footer b{color:var(--ink-2); font-weight:700}
       <div class="stat"><b>6,164</b><span>Ratings</span></div>
     </div>
     <div class="tabs" role="tablist">
-      <button class="tab" id="tab-build" role="tab" aria-selected="true" aria-controls="v-build">Service environment</button>
-      <button class="tab" id="tab-matrix" role="tab" aria-selected="false" aria-controls="v-matrix">Full matrix</button>
+      <button class="tab" id="tab-build" role="tab" aria-selected="true" aria-controls="v-build">
+        <span class="t">Service environment</span><span class="s">Name your fluids</span>
+      </button>
+      <button class="tab" id="tab-matrix" role="tab" aria-selected="false" aria-controls="v-matrix">
+        <span class="t">Full matrix</span><span class="s">All 663 chemicals</span>
+      </button>
     </div>
   </div>
 </div>
@@ -319,7 +337,7 @@ footer b{color:var(--ink-2); font-weight:700}
         </div>
       </div>
 
-      <div class="panel">
+      <div class="panel panel--list">
         <div class="panel-hd"><h2 id="resultTitle">All 11 materials</h2><span class="hint" id="resultHint">ranked by breadth of resistance</span></div>
         <div id="calloutSlot"></div>
         <ul class="verdicts" id="verdicts"></ul>
@@ -349,6 +367,7 @@ const SHORT = {A:"Recommended", B:"Caution", C:"Marginal", U:"Do not use", "-":"
 const CLS   = {A:"r-a", B:"r-b", C:"r-c", U:"r-u", "-":"r-n"};
 const SCORE = {A:3, B:2, C:1, U:0};
 
+const shortCode = f => f.astm.split(" / ")[0].trim();
 const totals = FAMS.map((f,i)=>ROWS.filter(r=>r[1][i]==="A").length);
 const soloList = [];
 ROWS.forEach(r=>{
@@ -442,12 +461,14 @@ function render(){
     $("resultTitle").textContent = "All 11 materials";
     $("resultHint").textContent = "ranked by breadth of resistance";
     $("calloutSlot").innerHTML = "";
-    $("verdicts").innerHTML = list.map((m,n)=>`
+    $("verdicts").innerHTML = list.map(m=>`
       <li class="v">
-        <span class="rank">${String(n+1).padStart(2,"0")}</span>
-        <span><span class="v-name">${esc(m.f.name)}</span><span class="v-astm">${esc(m.f.astm)}</span></span>
+        <span class="tile" title="${esc(m.f.astm)}">${esc(shortCode(m.f))}</span>
+        <div class="v-body">
+          <div class="v-name">${esc(m.f.name)}</div>
+          <div class="v-meta">${esc(m.f.astm)} &middot; rated Recommended against ${totals[m.fi]} of 663 chemicals.</div>
+        </div>
         <span class="badge r-a">${totals[m.fi]} ok</span>
-        <span class="v-meta">Rated Recommended against ${totals[m.fi]} of 663 chemicals.</span>
       </li>`).join("");
     return;
   }
@@ -468,15 +489,17 @@ function render(){
   }
   $("calloutSlot").innerHTML = note;
 
-  $("verdicts").innerHTML = list.map((m,n)=>{
+  $("verdicts").innerHTML = list.map(m=>{
     const dots = m.cells.map(c=>`<span class="dot ${CLS[c.r]}" title="${esc(c.chem)} — ${LABEL[c.r]}">${esc(c.chem)}</span>`).join("");
     const gapNote = m.gaps ? ` · ${m.gaps} with no published data` : "";
     return `<li class="v${SCORE[m.verdict]===undefined||SCORE[m.verdict]<=0?" dim":""}">
-      <span class="rank">${String(n+1).padStart(2,"0")}</span>
-      <span><span class="v-name">${esc(m.f.name)}</span><span class="v-astm">${esc(m.f.astm)}</span></span>
+      <span class="tile" title="${esc(m.f.astm)}">${esc(shortCode(m.f))}</span>
+      <div class="v-body">
+        <div class="v-name">${esc(m.f.name)}</div>
+        <div class="v-meta">Resistant to ${totals[m.fi]} chemicals overall${gapNote}.</div>
+        <div class="dots">${dots}</div>
+      </div>
       <span class="badge ${CLS[m.verdict]}">${SHORT[m.verdict]}</span>
-      <span class="v-meta">Resistant to ${totals[m.fi]} chemicals overall${gapNote}.</span>
-      <span class="dots">${dots}</span>
     </li>`;
   }).join("");
 }
