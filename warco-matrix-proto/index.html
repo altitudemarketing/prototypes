@@ -9,155 +9,220 @@
 <title>Which Rubber Survives?</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;450;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Figtree:wght@400;500;600;700;800;900&display=swap">
 
 <style>
+/* ------------------------------------------------------------------
+   Palette lifted from the WARCO Website Design file (Figma variables):
+   color/hero-bg #0c0707 · color/ink #1a1413 · color/bg-warm #f7f3ee
+   color/line #e8e3e0 · color/gold #ffba49 · color/red #921b1d
+   ------------------------------------------------------------------ */
 :root{
-  --paper:#EFF2F2; --surface:#FFFFFF; --surface-2:#F6F8F8;
-  --ink:#0F1718; --ink-2:#41504F; --ink-3:#6E7C7B;
-  --line:#D6DEDD; --line-2:#E7EDEC;
-  --accent:#0D5561; --accent-ink:#FFFFFF; --accent-soft:#DCEAEC;
-  --r-a:#1B7A4B; --r-b:#93700F; --r-c:#B44D1D; --r-u:#9E2A2A; --r-n:#93A0A0;
-  --r-a-bg:#E2F1E8; --r-b-bg:#F5ECD6; --r-c-bg:#F8E6DB; --r-u-bg:#F6DEDE; --r-n-bg:#EDF1F1;
-  --shadow:0 1px 2px rgba(15,23,24,.05), 0 8px 24px -12px rgba(15,23,24,.18);
-  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
-  --sans:"IBM Plex Sans",system-ui,-apple-system,Segoe UI,sans-serif;
-  --cond:"IBM Plex Sans Condensed","IBM Plex Sans",system-ui,sans-serif;
+  --hero-bg:#0c0707;
+  --paper:#f7f3ee;
+  --surface:#ffffff;
+  --surface-2:#fbf9f6;
+  --ink:#1a1413;
+  --ink-2:#5b504c;
+  --ink-3:#8a7d78;
+  --line:#e8e3e0;
+  --line-2:#f0ebe7;
+  --gold:#ffba49;
+  --gold-deep:#a97407;
+  --gold-soft:#fdf0d8;
+  --red:#921b1d;
+  --red-soft:#f7dede;
+
+  --r-a:#2f6b3f; --r-a-bg:#e4efe3;
+  --r-b:#8a6410; --r-b-bg:#fbefd5;
+  --r-c:#a9541c; --r-c-bg:#f9e5d6;
+  --r-u:#921b1d; --r-u-bg:#f7dede;
+  --r-n:#8a7d78; --r-n-bg:#f0ebe7;
+
+  --shadow:0 1px 2px rgba(26,20,19,.04), 0 10px 28px -18px rgba(26,20,19,.25);
+  --radius:12px;
+  --mono:"DM Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --sans:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
 }
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
-    --paper:#0C1213; --surface:#141C1E; --surface-2:#182224;
-    --ink:#E6ECEC; --ink-2:#A8B6B6; --ink-3:#7C8B8B;
-    --line:#243032; --line-2:#1D2729;
-    --accent:#5FB8C6; --accent-ink:#06181C; --accent-soft:#16333A;
-    --r-a:#5BC98A; --r-b:#D6B155; --r-c:#E8895A; --r-u:#E86A6A; --r-n:#6B7A7A;
-    --r-a-bg:#14301F; --r-b-bg:#332A12; --r-c-bg:#372115; --r-u-bg:#3A1B1B; --r-n-bg:#1B2426;
-    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px -14px rgba(0,0,0,.7);
+    --paper:#0c0707;
+    --surface:#171110;
+    --surface-2:#1e1716;
+    --ink:#f4efec;
+    --ink-2:#b6a9a4;
+    --ink-3:#8d7f7a;
+    --line:#2c2321;
+    --line-2:#241d1b;
+    --gold-deep:#ffba49;
+    --gold-soft:#33260f;
+    --red:#d2554f;
+    --red-soft:#3a1c1c;
+
+    --r-a:#6fc286; --r-a-bg:#16301f;
+    --r-b:#e0b45c; --r-b-bg:#332813;
+    --r-c:#e79567; --r-c-bg:#372018;
+    --r-u:#e5766f; --r-u-bg:#3a1c1c;
+    --r-n:#8d7f7a; --r-n-bg:#241d1b;
+    --shadow:0 1px 2px rgba(0,0,0,.5), 0 12px 30px -18px rgba(0,0,0,.8);
   }
 }
 :root[data-theme="dark"]{
-  --paper:#0C1213; --surface:#141C1E; --surface-2:#182224;
-  --ink:#E6ECEC; --ink-2:#A8B6B6; --ink-3:#7C8B8B;
-  --line:#243032; --line-2:#1D2729;
-  --accent:#5FB8C6; --accent-ink:#06181C; --accent-soft:#16333A;
-  --r-a:#5BC98A; --r-b:#D6B155; --r-c:#E8895A; --r-u:#E86A6A; --r-n:#6B7A7A;
-  --r-a-bg:#14301F; --r-b-bg:#332A12; --r-c-bg:#372115; --r-u-bg:#3A1B1B; --r-n-bg:#1B2426;
-  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px -14px rgba(0,0,0,.7);
+  --paper:#0c0707; --surface:#171110; --surface-2:#1e1716;
+  --ink:#f4efec; --ink-2:#b6a9a4; --ink-3:#8d7f7a;
+  --line:#2c2321; --line-2:#241d1b;
+  --gold-deep:#ffba49; --gold-soft:#33260f; --red:#d2554f; --red-soft:#3a1c1c;
+  --r-a:#6fc286; --r-a-bg:#16301f;
+  --r-b:#e0b45c; --r-b-bg:#332813;
+  --r-c:#e79567; --r-c-bg:#372018;
+  --r-u:#e5766f; --r-u-bg:#3a1c1c;
+  --r-n:#8d7f7a; --r-n-bg:#241d1b;
+  --shadow:0 1px 2px rgba(0,0,0,.5), 0 12px 30px -18px rgba(0,0,0,.8);
 }
 
 *{box-sizing:border-box}
 body{
   margin:0; background:var(--paper); color:var(--ink);
-  font-family:var(--sans); font-size:15px; line-height:1.55;
+  font-family:var(--sans); font-size:15.5px; line-height:1.6;
   -webkit-font-smoothing:antialiased;
 }
-:focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:3px}
+:focus-visible{outline:2px solid var(--gold); outline-offset:2px; border-radius:4px}
 @media (prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important}}
+/* .wrap owns HORIZONTAL rhythm only. Vertical padding belongs to the section
+   (main/footer/.hero-in) - mixing the two in one shorthand makes them cancel. */
+.wrap{max-width:1280px; margin:0 auto; padding-inline:32px}
+@media (max-width:640px){.wrap{padding-inline:20px}}
 
-.wrap{max-width:1240px; margin:0 auto; padding:0 24px}
-
-/* ---------- masthead ---------- */
-.mast{border-bottom:1px solid var(--line); background:var(--surface)}
-.mast-in{display:flex; flex-wrap:wrap; align-items:flex-end; gap:20px 32px; padding:26px 0 0}
-.brandmark{
-  font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase;
-  color:var(--ink-3); display:flex; align-items:center; gap:8px;
+/* ---------- hero band: dark warm ground + crimson halo, as on the site ---------- */
+.hero{position:relative; background:var(--hero-bg); color:#fff; overflow:hidden}
+.hero::before{
+  content:""; position:absolute; left:50%; top:-38%; transform:translateX(-50%);
+  width:1100px; height:700px; border-radius:50%; pointer-events:none;
+  background:radial-gradient(ellipse at center, rgba(146,27,29,.55) 0%, rgba(146,27,29,.16) 45%, transparent 70%);
 }
-.brandmark::before{content:""; width:22px; height:2px; background:var(--accent)}
+.hero-in{position:relative; z-index:1; padding-block:44px 0}
+.eyebrow{
+  font-family:var(--sans); font-weight:700; font-size:12px; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--gold); margin-bottom:14px;
+}
 h1{
-  font-family:var(--cond); font-weight:700; font-size:clamp(30px,4.4vw,46px);
-  line-height:1.02; letter-spacing:-.015em; margin:6px 0 4px; text-wrap:balance;
+  font-weight:900; font-size:clamp(34px,5vw,58px); line-height:1.02;
+  letter-spacing:-.02em; margin:0 0 12px; text-wrap:balance; color:#fff;
 }
-.sub{color:var(--ink-2); max-width:60ch; margin:0 0 4px; font-size:15px}
-.mast-stats{display:flex; gap:26px; margin-left:auto; padding-bottom:4px}
-.stat b{display:block; font-family:var(--mono); font-weight:600; font-size:21px; color:var(--ink); font-variant-numeric:tabular-nums}
-.stat span{font-family:var(--mono); font-size:10px; letter-spacing:.11em; text-transform:uppercase; color:var(--ink-3)}
+h1 em{font-style:normal; color:var(--gold)}
+.sub{color:rgba(255,255,255,.74); max-width:60ch; margin:0; font-size:16.5px}
+.hero-stats{display:flex; flex-wrap:wrap; gap:36px; margin:26px 0 0}
+.stat b{
+  display:block; font-weight:800; font-size:30px; line-height:1.1; color:#fff;
+  font-variant-numeric:tabular-nums; letter-spacing:-.01em;
+}
+.stat span{font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.55); font-weight:600}
 
-.tabs{display:flex; gap:2px; margin-top:22px}
+.tabs{display:flex; gap:8px; margin-top:30px}
 .tab{
-  appearance:none; border:1px solid var(--line); border-bottom:none; background:var(--surface-2);
-  color:var(--ink-2); font-family:var(--cond); font-weight:600; font-size:14px; letter-spacing:.01em;
-  padding:9px 18px; border-radius:5px 5px 0 0; cursor:pointer; transition:color .15s, background .15s;
+  appearance:none; border:1px solid rgba(255,255,255,.16); background:rgba(255,255,255,.05);
+  color:rgba(255,255,255,.72); font-family:var(--sans); font-weight:600; font-size:14.5px;
+  padding:10px 20px; border-radius:999px 999px 0 0; cursor:pointer;
+  transition:color .16s, background .16s, border-color .16s;
 }
-.tab:hover{color:var(--ink)}
-.tab[aria-selected="true"]{background:var(--paper); color:var(--ink); border-color:var(--line); position:relative}
-.tab[aria-selected="true"]::after{content:""; position:absolute; left:0; right:0; bottom:-1px; height:1px; background:var(--paper)}
+.tab:hover{color:#fff; background:rgba(255,255,255,.1)}
+.tab[aria-selected="true"]{
+  background:var(--paper); color:var(--ink); border-color:transparent; font-weight:700;
+}
 
 /* ---------- workbench ---------- */
-main{padding:28px 0 64px}
-.bench{display:grid; grid-template-columns:minmax(300px,380px) 1fr; gap:24px; align-items:start}
-@media (max-width:880px){.bench{grid-template-columns:1fr}}
+main{padding-block:34px 72px}
+.bench{display:grid; grid-template-columns:minmax(300px,390px) 1fr; gap:26px; align-items:start}
+@media (max-width:900px){.bench{grid-template-columns:1fr}}
 
-.panel{background:var(--surface); border:1px solid var(--line); border-radius:8px; box-shadow:var(--shadow)}
-.panel-hd{padding:14px 18px; border-bottom:1px solid var(--line-2); display:flex; align-items:baseline; gap:10px}
-.panel-hd h2{font-family:var(--cond); font-weight:600; font-size:16px; margin:0; letter-spacing:.005em}
-.panel-hd .hint{font-family:var(--mono); font-size:10.5px; letter-spacing:.09em; text-transform:uppercase; color:var(--ink-3); margin-left:auto}
-.panel-bd{padding:16px 18px}
+.panel{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow)}
+.panel-hd{padding:16px 20px; border-bottom:1px solid var(--line-2); display:flex; align-items:baseline; gap:10px}
+.panel-hd h2{font-weight:800; font-size:17px; margin:0; letter-spacing:-.01em}
+.panel-hd .hint{
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--ink-3); margin-left:auto;
+}
+.panel-bd{padding:18px 20px}
 
 .search{position:relative}
 .search input{
   width:100%; font-family:var(--sans); font-size:15px; color:var(--ink);
-  background:var(--surface-2); border:1px solid var(--line); border-radius:6px;
-  padding:11px 13px 11px 36px;
+  background:var(--surface-2); border:1px solid var(--line); border-radius:999px;
+  padding:12px 16px 12px 40px;
 }
 .search input::placeholder{color:var(--ink-3)}
-.search svg{position:absolute; left:12px; top:50%; transform:translateY(-50%); color:var(--ink-3)}
+.search svg{position:absolute; left:15px; top:50%; transform:translateY(-50%); color:var(--ink-3)}
 .results{
-  list-style:none; margin:8px 0 0; padding:0; max-height:290px; overflow-y:auto;
-  border:1px solid var(--line-2); border-radius:6px; display:none; background:var(--surface-2);
+  list-style:none; margin:10px 0 0; padding:0; max-height:300px; overflow-y:auto;
+  border:1px solid var(--line); border-radius:var(--radius); display:none;
+  background:var(--surface); box-shadow:var(--shadow);
 }
 .results.on{display:block}
 .results li{border-bottom:1px solid var(--line-2)}
 .results li:last-child{border-bottom:none}
 .results button{
   width:100%; text-align:left; background:none; border:none; cursor:pointer; color:var(--ink);
-  font-family:var(--sans); font-size:14px; padding:9px 12px; display:flex; align-items:center; gap:10px;
+  font-family:var(--sans); font-size:14.5px; font-weight:500; padding:10px 14px;
+  display:flex; align-items:center; gap:10px;
 }
-.results button:hover,.results button:focus-visible{background:var(--accent-soft)}
-.results .n{font-family:var(--mono); font-size:10px; color:var(--ink-3); margin-left:auto; white-space:nowrap}
-.solo-flag{color:var(--r-c); font-family:var(--mono); font-size:10px; letter-spacing:.06em}
+.results button:hover,.results button:focus-visible{background:var(--gold-soft)}
+.results .n{font-family:var(--mono); font-size:10.5px; color:var(--ink-3); margin-left:auto; white-space:nowrap}
+.solo-flag{color:var(--red); font-family:var(--mono); font-size:10.5px; letter-spacing:.04em}
 
-.chips{display:flex; flex-wrap:wrap; gap:7px; margin-top:14px}
+.chips{display:flex; flex-wrap:wrap; gap:8px; margin-top:16px}
 .chip{
-  display:inline-flex; align-items:center; gap:7px; background:var(--accent-soft); color:var(--ink);
-  border:1px solid transparent; border-radius:999px; padding:5px 6px 5px 12px; font-size:13.5px;
+  display:inline-flex; align-items:center; gap:6px; background:var(--gold-soft); color:var(--ink);
+  border:1px solid var(--gold); border-radius:999px; padding:6px 6px 6px 14px;
+  font-size:13.5px; font-weight:600;
 }
 .chip button{
   appearance:none; border:none; background:transparent; color:var(--ink-2); cursor:pointer;
-  font-size:15px; line-height:1; padding:2px 5px; border-radius:999px;
+  font-size:16px; line-height:1; padding:2px 6px; border-radius:999px;
 }
-.chip button:hover{background:rgba(128,128,128,.22); color:var(--ink)}
+.chip button:hover{background:rgba(146,27,29,.12); color:var(--red)}
 
-.empty{color:var(--ink-2); font-size:14px}
+.empty{color:var(--ink-2); font-size:14.5px}
 .empty p{margin:0 0 12px}
-.seed{display:flex; flex-wrap:wrap; gap:6px}
+.seed{display:flex; flex-wrap:wrap; gap:7px}
 .seed button{
-  font-family:var(--sans); font-size:13px; background:var(--surface-2); color:var(--ink-2);
-  border:1px dashed var(--line); border-radius:999px; padding:5px 11px; cursor:pointer;
+  font-family:var(--sans); font-size:13.5px; font-weight:500; background:var(--surface-2);
+  color:var(--ink-2); border:1px solid var(--line); border-radius:999px;
+  padding:6px 13px; cursor:pointer; transition:border-color .16s, color .16s;
 }
-.seed button:hover{border-style:solid; color:var(--ink); border-color:var(--accent)}
-.fact{margin-top:16px!important; padding-top:14px; border-top:1px solid var(--line-2); font-size:13px; color:var(--ink-3)}
-.fact b{color:var(--ink-2)}
+.seed button:hover{color:var(--ink); border-color:var(--gold)}
+.fact{
+  margin-top:18px!important; padding-top:15px; border-top:1px solid var(--line-2);
+  font-size:13.5px; color:var(--ink-3);
+}
+.fact b{color:var(--ink-2); font-weight:700}
 
-/* ---------- verdict list ---------- */
+/* ---------- verdict rows: modelled on the site's Material Row card ---------- */
 .verdicts{list-style:none; margin:0; padding:0; display:flex; flex-direction:column}
-.v{display:grid; grid-template-columns:auto 1fr auto; gap:0 14px; align-items:center;
-   padding:12px 18px; border-bottom:1px solid var(--line-2)}
+.v{
+  display:grid; grid-template-columns:auto 1fr auto; gap:0 16px; align-items:center;
+  padding:15px 20px; border-bottom:1px solid var(--line-2);
+}
 .v:last-child{border-bottom:none}
-.v.dim{opacity:.5}
-.rank{font-family:var(--mono); font-size:11px; color:var(--ink-3); width:20px; font-variant-numeric:tabular-nums}
-.v-name{font-family:var(--cond); font-weight:600; font-size:17px; letter-spacing:.005em}
-.v-astm{font-family:var(--mono); font-size:10.5px; color:var(--ink-3); letter-spacing:.06em; margin-left:8px}
-.v-meta{grid-column:2; font-size:12.5px; color:var(--ink-2); margin-top:2px}
-.dots{grid-column:2; display:flex; flex-wrap:wrap; gap:4px; margin-top:8px}
+.v.dim{opacity:.52}
+.rank{
+  font-family:var(--mono); font-size:11px; color:var(--ink-3); width:22px;
+  font-variant-numeric:tabular-nums;
+}
+.v-name{font-weight:800; font-size:18px; letter-spacing:-.01em}
+.v-astm{
+  font-family:var(--mono); font-size:10.5px; color:var(--ink-3);
+  letter-spacing:.05em; margin-left:9px;
+}
+.v-meta{grid-column:2; font-size:13px; color:var(--ink-2); margin-top:1px}
+.dots{grid-column:2; display:flex; flex-wrap:wrap; gap:5px; margin-top:9px}
 .dot{
-  font-family:var(--mono); font-size:10.5px; font-weight:500; letter-spacing:.02em;
-  padding:2px 7px; border-radius:3px; white-space:nowrap;
+  font-family:var(--mono); font-size:10.5px; font-weight:500; letter-spacing:.01em;
+  padding:3px 8px; border-radius:999px; white-space:nowrap;
 }
 .badge{
-  grid-row:1/3; grid-column:3; font-family:var(--cond); font-weight:700; font-size:12.5px;
-  letter-spacing:.04em; text-transform:uppercase; padding:6px 11px; border-radius:4px; text-align:center;
-  min-width:104px;
+  grid-row:1/3; grid-column:3; font-weight:800; font-size:12px;
+  letter-spacing:.05em; text-transform:uppercase; padding:7px 13px; border-radius:999px;
+  text-align:center; min-width:112px;
 }
 .r-a{background:var(--r-a-bg); color:var(--r-a)}
 .r-b{background:var(--r-b-bg); color:var(--r-b)}
@@ -166,59 +231,62 @@ main{padding:28px 0 64px}
 .r-n{background:var(--r-n-bg); color:var(--r-n)}
 
 .callout{
-  margin:0 0 18px; padding:13px 16px; border-left:3px solid var(--accent);
-  background:var(--accent-soft); border-radius:0 6px 6px 0; font-size:14px;
+  margin:0; padding:16px 20px; border-bottom:1px solid var(--line-2);
+  background:var(--gold-soft); font-size:14.5px; color:var(--ink);
 }
-.callout b{font-family:var(--cond); font-weight:700}
+.callout b{font-weight:800}
 
 /* ---------- matrix ---------- */
-.mx-tools{display:flex; flex-wrap:wrap; gap:12px; align-items:center; margin-bottom:14px}
+.mx-tools{display:flex; flex-wrap:wrap; gap:14px; align-items:center; margin-bottom:16px}
 .mx-tools input{
-  font-family:var(--sans); font-size:14px; color:var(--ink); background:var(--surface);
-  border:1px solid var(--line); border-radius:6px; padding:9px 12px; min-width:240px;
+  font-family:var(--sans); font-size:14.5px; color:var(--ink); background:var(--surface);
+  border:1px solid var(--line); border-radius:999px; padding:10px 16px; min-width:260px;
 }
-.mx-count{font-family:var(--mono); font-size:11px; color:var(--ink-3); letter-spacing:.06em}
-.scroller{overflow:auto; max-height:70vh; border:1px solid var(--line); border-radius:8px; background:var(--surface)}
-table{border-collapse:separate; border-spacing:0; width:100%; font-size:13px}
+.mx-count{font-family:var(--mono); font-size:11px; color:var(--ink-3); letter-spacing:.05em}
+.scroller{
+  overflow:auto; max-height:70vh; border:1px solid var(--line);
+  border-radius:var(--radius); background:var(--surface); box-shadow:var(--shadow);
+}
+table{border-collapse:separate; border-spacing:0; width:100%; font-size:13.5px}
 thead th{
   position:sticky; top:0; z-index:2; background:var(--surface-2); color:var(--ink-2);
-  font-family:var(--mono); font-weight:500; font-size:10px; letter-spacing:.07em; text-transform:uppercase;
-  padding:10px 6px; border-bottom:1px solid var(--line); text-align:center; white-space:nowrap;
+  font-family:var(--sans); font-weight:700; font-size:10.5px; letter-spacing:.06em;
+  text-transform:uppercase; padding:12px 6px; border-bottom:1px solid var(--line);
+  text-align:center; white-space:nowrap;
 }
-thead th:first-child{text-align:left; padding-left:16px; z-index:3; left:0}
+thead th:first-child{text-align:left; padding-left:20px; z-index:3; left:0}
 tbody th{
-  position:sticky; left:0; background:var(--surface); text-align:left; font-weight:450;
-  padding:7px 14px 7px 16px; border-bottom:1px solid var(--line-2); white-space:nowrap;
+  position:sticky; left:0; background:var(--surface); text-align:left; font-weight:500;
+  padding:8px 16px 8px 20px; border-bottom:1px solid var(--line-2); white-space:nowrap;
 }
-tbody td{
-  text-align:center; padding:0; border-bottom:1px solid var(--line-2); border-left:1px solid var(--line-2);
+tbody td{text-align:center; padding:0; border-bottom:1px solid var(--line-2); border-left:1px solid var(--line-2)}
+tbody td span{
+  display:block; font-family:var(--mono); font-size:11.5px; font-weight:500; padding:8px 4px;
 }
-tbody td span{display:block; font-family:var(--mono); font-size:11px; font-weight:600; padding:7px 4px}
 tbody tr:hover th, tbody tr:hover td{background:var(--surface-2)}
 
-.legend{display:flex; flex-wrap:wrap; gap:8px; margin:14px 0 0}
+.legend{display:flex; flex-wrap:wrap; gap:9px; margin:16px 0 0}
 .legend .dot{font-size:11px}
 
-footer{border-top:1px solid var(--line); margin-top:44px; padding:22px 0 40px; color:var(--ink-3); font-size:12.5px}
-footer p{margin:0 0 8px; max-width:78ch}
-footer a{color:var(--accent)}
+footer{
+  border-top:1px solid var(--line); margin-top:52px; padding-block:26px 48px;
+  color:var(--ink-3); font-size:13px;
+}
+footer p{margin:0 0 9px; max-width:78ch}
+footer b{color:var(--ink-2); font-weight:700}
 .hide{display:none}
 </style>
 </head>
 <body>
-<div class="mast">
-  <div class="wrap">
-    <div class="mast-in">
-      <div>
-        <div class="brandmark">Elastomer compatibility</div>
-        <h1>Which rubber survives?</h1>
-        <p class="sub">Name the fluids your part will sit in. The materials re-rank by the <em>worst</em> thing each one has to survive — because that is what fails first.</p>
-      </div>
-      <div class="mast-stats">
-        <div class="stat"><b>663</b><span>Chemicals</span></div>
-        <div class="stat"><b>11</b><span>Materials</span></div>
-        <div class="stat"><b>6,164</b><span>Ratings</span></div>
-      </div>
+<div class="hero">
+  <div class="wrap hero-in">
+    <div class="eyebrow">America's choice for quality rubber</div>
+    <h1>Which rubber <em>survives?</em></h1>
+    <p class="sub">Name the fluids your part will sit in. The materials re-rank by the <em style="color:inherit;font-style:italic">worst</em> thing each one has to survive, because that is what fails first.</p>
+    <div class="hero-stats">
+      <div class="stat"><b>663</b><span>Chemicals</span></div>
+      <div class="stat"><b>11</b><span>Materials</span></div>
+      <div class="stat"><b>6,164</b><span>Ratings</span></div>
     </div>
     <div class="tabs" role="tablist">
       <button class="tab" id="tab-build" role="tab" aria-selected="true" aria-controls="v-build">Service environment</button>
@@ -234,7 +302,7 @@ footer a{color:var(--accent)}
         <div class="panel-hd"><h2>Your fluids</h2><span class="hint" id="chipCount">none selected</span></div>
         <div class="panel-bd">
           <div class="search">
-            <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+            <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
               <circle cx="7" cy="7" r="4.6"/><path d="M10.5 10.5L14 14"/>
             </svg>
             <input type="search" id="q" placeholder="Search 663 chemicals…" autocomplete="off" aria-label="Search chemicals">
@@ -273,7 +341,6 @@ footer a{color:var(--accent)}
   <p><b>Source.</b> General Chemical Resistance Guide for Various Elastomers, compiled by the TLARGI Committee and published by WARCO / West American Rubber Company. Ratings are by elastomer <em>class</em>, not by specific compound.</p>
   <p><b>This is a general guide.</b> Service temperature, dynamic vs static duty, polymer grade, compound formulation and durometer all change the outcome. Determining suitability for a given application is the buyer's responsibility. For a compound-specific answer, talk to WARCO.</p>
 </footer>
-
 <script>
 const DATA = {"families":[{"name":"Neoprene","astm":"CR"},{"name":"Nitrile","astm":"NBR"},{"name":"EPDM","astm":"EPDM / EPM"},{"name":"SBR","astm":"SBR"},{"name":"Natural Rubber","astm":"NR / IR"},{"name":"Butyl","astm":"IIR"},{"name":"Silicone","astm":"VMQ"},{"name":"Fluorosilicone","astm":"FVMQ"},{"name":"FKM","astm":"FKM"},{"name":"CSM/CSPE","astm":"CSM"},{"name":"Hydrin","astm":"CO / ECO"}],"rows":[["1-Chloro 1-Nitro Ethane","UUUUUUU-CU-"],["51-F-23","BAUUUUCAABA"],["Acetaldehyde","CUAUCAAUUC-"],["Acetamide","BAACCABABB-"],["Acetic Acid, 30%","ABABBBABBAB"],["Acetic Acid, Glacial","CCACBBBCCCU"],["Acetic Anhydride","ACBBBBCUUAU"],["Acetone","BUABBABUUBU"],["Acetophenone","UUAUCA-UUUU"],["Acetyl Chloride","U------AAU-"],["Acetylene","BBABBAB-AB-"],["Acrylonitrile","CUUCUUUUUC-"],["Adipic Acid","-A-----A---"],["Alkazene","U-U----BB--"],["Alum-NH3-Cr-K","AAAAAAA-UA-"],["Aluminum Acetate","BBABAAUU-AB"],["Aluminum Chloride","AAAAAABAAAA"],["Aluminum Fluoride","AAAABABAAAA"],["Aluminum Nitrate","AAAAAA---AA"],["Aluminum Phosphate","AAAAAAA-AAA"],["Aluminum Sulfate","AAABAAAAAA-"],["Ammonia Anhydrous","AAA-AACUUB-"],["Ammonia Gas (Cold)","AAAAAAAA-A-"],["Ammonia Gas (Hot)","B-B--BAUUB-"],["Ammonium Carbonate","AUAAAA----B"],["Ammonium Chloride","AAAAAA---AA"],["Ammonium Hydorxide","AUAUUAABBAB"],["Ammonium Nitrate","BAAACA---AA"],["Ammonium Nitrite","AAAAAAB--A-"],["Ammonium Persulfate","AUAUAA---A-"],["Ammonium Phosphate","AAAABAA--A-"],["Ammonium Sulfate","AAABAA---A-"],["Amyl Acetate","UUACBAUUUUU"],["Amyl Alcohol","ABABBAUABAA"],["Amyl Borate","AAUUUU--AA-"],["Amyl Chloronapthalene","U-UUUUUBAU-"],["Amyl Napthalene","UUUUUUUAAU-"],["Aniline","CUBUUB-CCCU"],["Aniline Dyes","BUBBBB-BBB-"],["Aniline Hydrochloride","UBBCBBUBBU-"],["Animal Fats","BABUUBBAABA"],["Ansul Ether","UCCUUCUCUU-"],["Aqua Regia","U-CUUU-CBC-"],["Arochlor(s)","UCCUUCBBA--"],["Arsenic Acid","AAAABAAAAAA"],["Arsenic Trichloride","AA---------"],["Askarel","UBUUUUUBAU-"],["Asphalt","CBUUUUUBACA"],["ASTM Method D-471 1.","AAUUUUCAAAA"],["ASTM Method D-471 2.","BAUUUUCAABA"],["ASTM Method D-471 3.","BAUUUUCAABA"],["Barium Chloride","AAAAAAAAAAA"],["Barium Hydroxide","AAAAAAAAAAA"],["Barium Sulfate","AAAAAAAAAAA"],["Barium Sulfide","AAABAAAAAAA"],["Beer","AAAAAAAAAAA"],["Beet Sugar Liquors","AAAAAAAAAA-"],["Benzaldehyde","UUAU-AUUUUU"],["Benzene","UUUUUUUAAUU"],["Benzenesulfonic Acid","A------BAA-"],["Benzoic Acid","------BBA--"],["Benzyl Alcohol","AUB--B-BABU"],["Benzyl Benzoate","--B--B-AA--"],["Benzyl Chloride","UU-----AA--"],["Blast Furnace Gas","UU-UU-ABA--"],["Bleach Solutions","C-AUUABBAA-"],["Borax","ABABBABBAA-"],["Bordeaux Mixture","A-ABBABBAA-"],["Boric Acid","AAAAAAAAAAA"],["Brine","AAA--A---A-"],["Bromine - Anhydrous","U-----CBAU-"],["Bromine Trifluoride","UUUUUUUUUUU"],["Bromine Water","B------BAA-"],["Bromobenzene","UUUUUUUAAUU"],["Bunker Oil","-A----BAA--"],["Butadiene","BUCUUC-BBBU"],["Butane","AAUUUU-AAAA"],["Butter","BAAUUBAAABA"],["Butyl Acetate","U-B--BUUUUU"],["Butyl Acetyl Ricinoleate","B-A--A-BAB-"],["Butyl Acrylate","--UU-U--U--"],["Butyl Alcohol","AABAABBAAA-"],["Butyl Amine","UCUUUUBUUU-"],["Butyl Benzoate","U-A--A-AAU-"],["Butyl Carbitol","BAA--A--AB-"],["Butyl Cellosolve","BCA--A-UUB-"],["Butyl Oleate","U-BUUB-BAU-"],["Butyl Stearate","-BBUUB-BA--"],["Butylene","CBUUUU-BAC-"],["Butyraldehyde","CCBCCBCUUC-"],["Calcium Acetate","BBA-AA-UUB-"],["Calcium Bisulfite","AAUUUUAAAA-"],["Calcium Chloride","AAAAAAAAAAA"],["Calcium Hydroxide","AAAAAAAAAAA"],["Calcium Hypochlorite","CCAUUABAAAB"],["Calcium Nitrate","AAAAAABAAAA"],["Calcium Sulfide","ABABBABAAAB"],["Cane Sugar Liquors","AAAAAAAAAAA"],["Carbamate","BCBUUB-AAB-"],["Carbitol","BBBBBBBBBB-"],["Carbolic Acid","CUBUUBUAAC-"],["Carbon Bisulfide","UCU--U-AAUU"],["Carbon Dioxide","BABBBBAAAAA"],["Carbon Monoxide","AAABBAABAAA"],["Carbon Tetrachloride","UCUUUUUAAUB"],["Carbonic Acid","AAABAAAAAAA"],["Castor Oil","AABAABAAAAA"],["Cellosolve","--BUUB--CB-"],["Cellosolve Acetate","-UBUUB-UU--"],["Cellulube","UUA--A-BAU-"],["Chlorine (Dry)","C--UU--AABB"],["Chlorine (Wet)","U-CUUC-BACB"],["Chlorine Dioxide","UUC--C-BAC-"],["Chlorine Trifluoride","UUUUUUUBUUU"],["Chloroacetic Acid","--B--B-----"],["Chloroacetone","BUA-BB-UUB-"],["Chlorobenzene","UUUUUUUBAUU"],["Chlorobromomethane","U-BUUBUBBU-"],["Chlorobutadiene","UUUUUU-BA--"],["Chlorododecane","UUUUUU-AA--"],["Chloroform","UUUUUUUBAU-"],["Chlorosulfonic Acid","UUUUUU--CU-"],["Chlorotoluene","UUUUUU-BAU-"],["Chrome Plating Solutions","UUUUUUBBAC-"],["Chromic Acid","UUCUUCCCAB-"],["Citric Acid","AAAAAAAAAAA"],["Cobalt Chloride","AAAAAAAA---"],["Cocoanut Oil","BAAUUAAA-B-"],["Cod Liver Oil","BAAUUABAAB-"],["Coke Oven Gas","---UU-BBA--"],["Copper Acetate","BBA--A---B-"],["Copper Chloride","AAAAAAAAAA-"],["Copper Cyanide","AAAAAAAAAA-"],["Copper Sulfate","AAABBAAAAA-"],["Corn Oil","BACUUBAAABA"],["Cottonseed Oil","BAAUUCAAABA"],["Creosote","CBUUUUUAACU"],["Cresol","CCUUUU-BAC-"],["Cresylic Acid","CCUUUU-BAC-"],["Cumene","U------BAU-"],["Cyclohexane","UAUUUUUAAU-"],["Cyclohexanol","ABUUBU-AAA-"],["Cyclohexanone","UUB--B-UUUU"],["Decalin","U--UU--AAU-"],["Decane","UB-UU-BAAU-"],["Denatured Alcohol","AAAAAAAAAAA"],["Detergent Solutions","AAABBAAAAAA"],["Developing Fluids","AABBABAAAA-"],["Diacetone","--A--A-UU--"],["Diacetone Alcohol","AUAUUAA--AU"],["Dibenzyl Ether","BUBUUB----U"],["Dibenzyl Sebecate","U-B--BCCB--"],["Dibutyl Amine","UUUUUUCUUU-"],["Dibutyl Ether","CCCUUCUCCC-"],["Dibutyl Phthalate","UUAUCBBBBUB"],["Dibutyl Sebecate","UUBUUBBBBU-"],["Dichloro-Isopropyl Ether","UUCUUCUCCU-"],["Dicyclohexylamine","-C-UU------"],["Diesel Oil","BAUUUUUAABA"],["Diethlamine","CCBBBBBUUC-"],["Diethyl Benezene","UUUUUUUAAU-"],["Diethyl Ether","CUUUUUUCUC-"],["Diethyl Sebecate","UUB--BBBBU-"],["Diethylene Glycol","AAAAAABAAAA"],["Diisobutylene","CB----UCAC-"],["Diisopropyl Benzene","UUUUUU-BAU-"],["Diisopropyl Ketone","UUA--A-UUU-"],["Dimethyl Aniline","U-BUUU-UU--"],["Dimethyl Formamide","CB----B-UC-"],["Dimethyl Phthalate","UUBUUB-BBU-"],["Dinitrotoluene","UUUUUU--CU-"],["Dioctyl Phthalate","U-B--BCBBUB"],["Dioctyl Sebecate","UUBUUBCCBUC"],["Dioxane","--B--B-C---"],["Dioxolane","-UBUUC-----"],["Dipentene","-B-----CA--"],["Diphenyl","-------BA--"],["Diphenyl Oxides","--A---CBA--"],["Dowtherm Oil","U-UUUUBAAUU"],["Dry Cleaning Fluids","UCUUUU-BAU-"],["Epichlorohydrin","--BUUB-UU--"],["Ethane","BAUUUUUAAB-"],["Ethanolamine","BBBBBBBUUBB"],["Ethyl Acetate","CUBUUBBUUCU"],["Ethyl Acetoacetate","CUBCCBBUU--"],["Ethyl Acrylate","--B--BBUU-U"],["Ethyl Alcohol","AAAAAAAAAAA"],["Ethyl Benzene","UUUUUU-AAUU"],["Ethyl Benzoate","--B--B-AA--"],["Ethyl Cellosolve","--B--B-UU--"],["Ethyl Cellulose","B-BBBBCUUB-"],["Ethyl Chloride","BAABBAUAACB"],["Ethyl Chlorocarbonate","C--UU--BAC-"],["Ethyl Chloroformate","C---U--BAC-"],["Ethyl Ether","UCC--C-CUUB"],["Ethyl Formate","BUBUUB-AABU"],["Ethyl Mercaptan","-UUUUU--A-U"],["Ethyl Oxalate","CUAAAA--A-U"],["Ethyl Pentochlorobenzene","UCUUUU-BAUC"],["Ethyl Silicate","AAABBA-AAAA"],["Ethylene","-A-----AA--"],["Ethylene Chloride","--C--C-CA--"],["Ethylene Chlorohydrin","BU-BB-CBAB-"],["Ethylene Diamine","AAABBAAUUAA"],["Ethylene Dichloride","UUCUUCCCAUU"],["Ethylene Glycol","AAAAAAAAAAA"],["Ethylene Oxide","UUC--CCUUU-"],["Ethylene Trichloride","UUC--CCCAU-"],["Fatty Acids","BBUCCUC-AB-"],["Ferric Chloride","AAAAAAA-AAA"],["Ferric Nitrate","AAAAAACAAAA"],["Ferric Sulfate","AAAAAABAAAA"],["Fish Oil","-A----AAA--"],["Fluorinated Cyclic Ethers","--A--A-----"],["Fluorine (Liquid)","--C--CU-B--"],["Fluorobenzene","UUUUUUUBAU-"],["Fluoroboric Acid","AAAAAA---A-"],["Fluorocarbon Oils","--A--A-----"],["Fluorolube","AAAU-A-BBA-"],["Fluosilicic Acid","AA--A----A-"],["Formaldehyde","ABA--A--AAB"],["Formic Acid","ABAAAABCCAB"],["Freon 11","BAUUUUUBAA-"],["Freon 112","BBU-UU--AB-"],["Freon 113","AAUBCUUUBAA"],["Freon 114","AAAAAAUBBAA"],["Freon 114B2","ABUCUU--BA-"],["Freon 115","AAAAAA--BA-"],["Freon 12","AABABBUCBAA"],["Freon 13","AAAAAA--AAA"],["Freon 13B1","AAAAAAU-AA-"],["Freon 142b","AAAAAA--UA-"],["Freon 152a","AAAAAA--UC-"],["Freon 21","BUU-UUU-UUB"],["Freon 218","AAAAAA--AA-"],["Freon 22","AUAAAAUUUAA"],["Freon 31","AUABBA--UB-"],["Freon 32","AAAAAA--CA-"],["Freon 502","AB-AA---B--"],["Freon BF","BB-UUU---B-"],["Freon C316","AAAAAA---A-"],["Freon C318","AAAAAA--AA-"],["Freon MF","CA-BUU---U-"],["Freon T-P35","AAAAAAA-AA-"],["Freon T-WD602","BBBBCAU-AB-"],["Freon TA","AAAAAAA-CA-"],["Freon TC","AABBUAU-AA-"],["Freon TF","AAUBCUU-AAA"],["Freon TMC","BBBCBBC-AB-"],["Fuel Oil","BAUUUUUAABA"],["Fufural","BUBCCB--UBU"],["Fumaric Acid","BA-AAUBAAB-"],["Furan, Furfuran","UUCUUC---U-"],["Gallic Acid","BBBBAB-AAB-"],["Gasoline","BAUUUUUAABA"],["Gelatin","AAAAAAAAAAA"],["Glauber's Salt","--BU-B-AA--"],["Glucose","AAAAAAAAAAA"],["Glue","AAAAAAAAAAA"],["Glycerin","AAAAAAAAAAA"],["Glycols","AAAAAAAAAAA"],["Green Sulfate Liquor","BBABBAAAABA"],["Halowax Oil","UUUUUUUAAU-"],["Hexane","BAUUUUUAABA"],["Hexyl Alcohol","BACAACBAAB-"],["Hydraulic Oil (Petroleum)","BAUUUUCAABA"],["Hydrazine","BBA--AC--B-"],["Hydrazine (UDMH)","BBA--AUUUA-"],["Hydrobromic Acid","AUACAAUCAA-"],["Hydrochloric Acid (Cold) 37%","BBABBABBAAU"],["Hydrochloric Acid (Hot) 37%","UUCUUCUUACU"],["Hydrocyanic Acid","BBABBA-BAA-"],["Hydrofluoric Acid (Conc.) Cold","BUBUUBUUAA-"],["Hydrofluoric Acid (Conc.) Hot","UUUUUUUUBC-"],["Hydrofluoric Acid - Anhydrous","--BUUBU--A-"],["Hydrofluosilicic Acid","BBABAAU-AA-"],["Hydrogen Gas","AAABBACCAA-"],["Hydrogen Peroxide (90%)","-UCUUCABBC-"],["Hydrogen Sulfide (Wet) (Cold)","AUAUUACCUBB"],["Hydrogen Sulfide (Wet) (Hot)","BUAUUACCUCB"],["Hydroquinone","-C-BB--BU--"],["Hypochlorous Acid","-UBBBB--A-B"],["Iodine Pentafluoride","UUUUUUUUUUU"],["Iodoform","--A--A-----"],["Isobutyl Alcohol","ABABAAABAA-"],["Isooctane","BAUUUUUAABA"],["Isophorone","-UA--A--U--"],["Isopropyl Acetate","UUA--A--UU-"],["Isopropyl Alcohol","ABABAAABAAA"],["Isopropyl Chloride","-UUUUU-BA--"],["Isopropyl Ether","BBUUUU--UB-"],["Kerosene","CAUUUUUAACA"],["Lacquer Solvents","UUUUUUUUUUU"],["Lacquers","UUUUUUUUUUU"],["Lactic Acid","AAAAAAAAAA-"],["Lard","CAUUUUBAACA"],["Lavender Oil","CBUUUU-BA--"],["Lead Acetate","BBA-AAU---B"],["Lead Nitrate","AAAAAABA-A-"],["Lead Sulfamate","ABABBABAAA-"],["Lime Bleach","BAAAAABAAB-"],["Lime Sulfur","AUAUUAAAAA-"],["Lindol","C-A--ACCBC-"],["Linoleic Acid","UBU--UB-B--"],["Linseed Oil","BABUUB-AAB-"],["Liquified Petroleum Gas","BAUUUUCBABA"],["Lubricating Oils (Petroleum)","BAUUUUUAABA"],["Lye","BBABBABABA-"],["Magnesium Chloride","AAAAAAAAAAA"],["Magnesium Hydroxide","ABABBA--AAA"],["Magnesium Sulfate","AAABBAAAAAA"],["Maleic Acid","--CBBC--A--"],["Maleic Anhydride","--CBBC--A--"],["Malic Acid","BAUB-UBAAB-"],["Mercuric Chloride","AAAAAA--AAA"],["Mercury","AAAAAA--AAA"],["Mesityl Oxide","UUBUUBUUUU-"],["Methane","BAUUUUUBABA"],["Methyl Acetate","BUBUUB-UU-U"],["Methyl Acrylate","BUBUUB-UU--"],["Methyl Alcohol","AAAAAAAACAB"],["Methyl Bromide","UB-----AAU-"],["Methyl Butyl Ketone","UUAUUABUUU-"],["Methyl Cellosolve","B-BUUB--UB-"],["Methyl Chloride","UUCUUCUBAU-"],["Methyl Cyclopentane","C-UUUU-BA--"],["Methyl Ethyl Ketone","UUAUUA-UUUU"],["Methyl Formate","BUBUUBB--BU"],["Methyl Isobutyl Ketone","UUCUUCCUUUU"],["Methyl Methacrylate","UUUUUUCUU-U"],["Methyl Oleate","UUBUUB-BA--"],["Methyl Salicylate","U-B--B-----"],["Methylacrylic Acid","B-BUUB-UB--"],["Methylene Chloride","UUUUUU-BBU-"],["MI-F-25656B","CAUUUUUAACA"],["MIL-A-8243B","BAAABABBBBB"],["MIL-C-4339C","AAUUUUCAAAA"],["MIL-C-5545A","BBUUUUUAACB"],["MIL-C-6529C","BBUUUUUAACB"],["MIL-C-8188C","CAUUUCCAACB"],["MIL-F-16929A","CAUUUCCAACB"],["MIL-F-17111","BAUUUUCAABA"],["MIL-F-19605","CAUUUUUAACA"],["MIL-F-25172","CAUUUUUAACA"],["MIL-F-25524A","CAUUUUUAACA"],["MIL-F-25558B","BAUUUUCAABA"],["MIL-F-25576C","CAUUUUUAACA"],["MIL-F-5566","BAAAAAAAABB"],["MIL-F-5602","BAUUUUCAABA"],["MIL-F-7024A","BAUUUUUAACA"],["MIL-G-10924B","BAUUUUCAABA"],["MIL-G-15793","CAUUUCCAACB"],["MIL-G-18709A","AAUUUUCAAAA"],["MIL-G-2108","AAUUUUCAAAA"],["MIL-G-23827A","CAUUUCCAACB"],["MIL-G-25013D","BAAABAUBABA"],["MIL-G-25537A","BAUUUUCAABA"],["MIL-G-25760A","CACCCCUAACB"],["MIL-G-27343","AAAAAAUAAAA"],["MIL-G-27617","-UAB-AUAA--"],["MIL-G-4343B","BBCUUCUBAB-"],["MIL-G-7118A","CAUUUCCAACB"],["MIL-G-7187","AAUUUUCAAAA"],["MIL-G-7421A","CAUUUUCAACB"],["MIL-G-7711A","AAUUUUCAAAA"],["MIL-H-13862","BAUUUUCAABA"],["MIL-H-13866A","BAUUUUCAABA"],["MIL-H-13910B","BBAABBUBABB"],["MIL-H-13919A","BAUUUUCAABA"],["MIL-H-19457B","UUAUUAUCUUU"],["MIL-H-22072","BAAABABBBBB"],["MIL-H-2598","BAUUUUCAABA"],["MIL-H-27601A","BBUUUUUAACB"],["MIL-H-46001A","AAUUUUCAAAA"],["MIL-H-46004","BAUUUUCAABA"],["MIL-H-5559A","BAAABABBBBB"],["MIL-H-5606B","BAUUUUUAABA"],["MIL-H-6083C","BAUUUUCAABA"],["MIL-H-7083A","BAAABABBBBB"],["MIL-H-7644","BBAABBUBABB"],["MIL-H-81019B","BAUUUUCAABA"],["MIL-H-8446B","BBUUUUUAA-C"],["MIL-I-27686D","BAAABABBBBB"],["MIL-I-8660B","AAAAAAUAAAA"],["MIL-J-5161F","CAUUUUUAACA"],["MIL-J-5624G Grade JP-3","CAUUUUUAACA"],["MIL-J-5624G Grade JP-4","CAUUUUUAACA"],["MIL-J-5624G Grade JP-5","CAUUUUUAACA"],["MIL-L-10295A","BAUUUUCAABA"],["MIL-L-10324A","BAUUUUCAABA"],["MIL-L-11734B","CAUUUCCAACB"],["MIL-L-14107B","ACUUUUUAA--"],["MIL-L-15017","AAUUUUCAAAA"],["MIL-L-15018B","AAUUUUCAAAA"],["MIL-L-15019C","AAUUUUCAAAA"],["MIL-L-15719A","BBBBCBUBABB"],["MIL-L-16958A","BAUUUUCAABA"],["MIL-L-17331D","AAUUUUCAAAA"],["MIL-L-17353A","CAUUUUCAACB"],["MIL-L-17672B","AAUUUUCAAAA"],["MIL-L-18486A","AAUUUUCAAAA"],["MIL-L-19701","CAUUUCCAACB"],["MIL-L-2104B","AAUUUUCAAAA"],["MIL-L-2105B","AAUUUUCAAAA"],["MIL-L-21260","AAUUUUCAAAA"],["MIL-L-22396","AAUUUUCAAAA"],["MIL-L-23699A","CAUUUCCAACB"],["MIL-L-25336B","CAUUUCCAACB"],["MIL-L-25681C","BAAABAUBABA"],["MIL-L-25968","CAUUUCCAACB"],["MIL-L-26087A","AAUUUUCAAAA"],["MIL-L-27694A","AAAAAAUAAAA"],["MIL-L-3150A","AAUUUUCAAAA"],["MIL-L-3503","BAUUUUCAABA"],["MIL-L-3545B","BBUUUUUAACB"],["MIL-L-46000A","CAUUUCCAACB"],["MIL-L-46002","AAUUUUCAAAA"],["MIL-L-5020A","BAUUUUUAACA"],["MIL-L-6082C","AAUUUUCAAAA"],["MIL-L-6085A","CAUUUCCAACB"],["MIL-L-6086B","AAUUUUCAAAA"],["MIL-L-6387A","CAUUUUCAACB"],["MIL-L-644B","CACCCCC--CA"],["MIL-L-7645","BBUUUUUAACB"],["MIL-L-7808F","CAUUUCCAACB"],["MIL-L-7870A","BAUUUUCAABA"],["MIL-L-8383B","AAUUUUCAAAA"],["MIL-L-9000F","BAUUUUUAACA"],["MIL-L-9236B","CACCCCUAACB"],["MIL-O-11773","CAUUUCCAACB"],["MIL-O-6081 C","BAUUUUCAABA"],["MIL-P-12098","BBAABBUBABB"],["MIL-P-46046A","BBAABBUBABB"],["MIL-S-21568A","AAAABAUBAAA"],["MIL-S-3136B Type I","BAUUUUUAACA"],["MIL-S-3136B Type II","CAUUUUUAACA"],["MIL-S-3136B Type III","CAUUUUUAACA"],["MIL-S-3136B Type IV","AAUUUUCAAAA"],["MIL-S-81087","AAAAAAUBAAA"],["MIL-T-9188B","UUAUUAUCUUU"],["Milk","AAAAAAAAAA-"],["Mineral Oil","BAUUUUBAABA"],["Monochlorobenzene","UUUUUUUBAUU"],["Monoethanolamine","UUBBBBBUUU-"],["Monomethyl Aniline","UU-UU---BU-"],["Monomethylether","AAABBA-----"],["Monovinyl Acetylene","BAABBAB-AB-"],["Mustard Gas","A-A-AAA--A-"],["n-Hexaldehyde","AUAUUBB----"],["n-Hexene-1","BBUUUUUAAB-"],["n-Octane","--UUUUUBA--"],["n-Propyl Acetate","-UAUUA-UU-U"],["Naptha","CCUUUUUBAUA"],["Napthalene","UUUUUUUAAU-"],["Napthenic Acid","-BUUUU-AA--"],["Natural Gas","AAUCCUACAAA"],["Neatsfoot Oil","-ABUUBBAA--"],["Neville Acid","CCBUUB-BA--"],["Nickel Acetate","BBA-AA-UU--"],["Nickel Chloride","AAAAAAAAAA-"],["Nickel Sulfate","AAABBAAAAA-"],["Niter Cake","AAAAAAAAAA-"],["Nitric Acid - Conc.","CUCUUCUUABU"],["Nitric Acid - Dilute","AUBUUBBBAAU"],["Nitric Acid - Red Fuming","UUUUUUUUCUU"],["Nitrobenzene","UUUUUUUUBUU"],["Nitrobenzine","U-C--C-AAU-"],["Nitroethane","CUBBBBUUUC-"],["Nitrogen","AAAAAAAAAAA"],["Nitrogen Tetroxide","UUCUUCCUUU-"],["Nitromethane","CUBBBBUUUC-"],["O-A-548a","BAAABABBBBB"],["O-Chloronapthalene","UUUUUUUBA--"],["O-Dichlorobenzene","UUUUUUUBAU-"],["O-T-634b","UCUUUUUBAUC"],["Octachlorotoluene","UUUUUUUBAU-"],["Octadecane","BAUUUUUAAB-"],["Octyl Alcohol","ABABBABBAA-"],["Oleic Acid","CCBCCB--BC-"],["Oleum Spirits","CB-----BAB-"],["Olive Oil","BABUUBU-ABB"],["Oxalic Acid","BBABBABAABC"],["Oxygen - 200 - 400\u00b0 F.","UUUUUUBUBUU"],["Oxygen - Cold","BBABBAAAABB"],["Ozone","BUAUUBAUAAA"],["P-Cymene","U------BAU-"],["P-D-680","CAUUUUUAACA"],["P-S-661b","CAUUUUUAACA"],["Paint Thinner, Duco","--UUUU-BB--"],["Palmitic Acid","BABBBB-AABB"],["Peanut Oil","BACUUCAAABA"],["Perchloric Acid","A-B--BUAAAC"],["Perchloroethylene","UCUUUUBBAUB"],["Petroleum - Above 250","UCUUUUUUBUB"],["Petroleum - Below 250","BAUUUUBBABA"],["Phenol","C-B--BCBAC-"],["Phenyl Ethyl Ether","UUUUUU---U-"],["Phenyl Hydrazine","CUCBAC--AC-"],["Phenylbenzene","UUUUUU-BAU-"],["Phorone","--B--B-----"],["Phosphoric Acid - 20%","BBACBA-BAA-"],["Phosphoric Acid - 45%","BUBUUBUBAB-"],["Phosphorous Trichloride","UUAUUA-AAU-"],["Pickling Solution","--C--C--BCU"],["Picric Acid","ABBBBBUBAB-"],["Pine Oil","UBUUUU-AAU-"],["Pinene","BBUUUUUBAB-"],["Piperidine","UUUUUU-UUU-"],["Plating Solution - Chrome","--AUUAU-AC-"],["Plating Solution - Others","-AA--AU-AA-"],["Polyvinyl Acetate Emulson","B-A--A---B-"],["Potassium Acetate","BBA-AA-UUB-"],["Potassium Chloride","AAAAAAAAAAA"],["Potassium Cupro Cyanide","AAAAAAAAAA-"],["Potassium Cyanide","AAAAAAAAAAA"],["Potassium Dichromate","AAABBAAAAA-"],["Potassium Hydroxide","ABABBACCBAA"],["Potassium Nitrate","AAAAAAAAAAA"],["Potassium Sulfate","AAABBAAAAAA"],["Producer Gas","BAUUUUBBAB-"],["Propane","AAUUUUUBAAA"],["Propyl Acetate","UUBUUB-UUUU"],["Propyl Alcohol","AAAAAAAAAAA"],["Propyl Nitrate","--B--BCUU--"],["Propylene","UUUUUU-BAU-"],["Propylene Oxide","U-B--BU--U-"],["Pydrauls","UUBUUBBBAUU"],["Pyranol","UAUUUUBAAUU"],["Pyridine","UUBUUB--UUU"],["Pyroligneous Acid","B-B--B---B-"],["Pyrrole","UUCCCCBB---"],["Radiation","BBBBBUCUUB-"],["Rapeseed Oil","BBAUUAUAABA"],["Red Oil","BAUUUUUAAB-"],["Sal Ammoniac","AAAAAABAAA-"],["Salicylic Acid","-AABAA-AA--"],["Salt Water","AAAAAA-AAA-"],["Sewage","AABBBBBAAA-"],["Silicate Esters","ABUUUUUAAA-"],["Silicone Greases","AAAAAACAAAA"],["Silicone Oils","AAAAAACAAAA"],["Silver Nitrate","ABAAAAAAAA-"],["Skydrol 500","UUAUUBCCUUU"],["Skydrol 7000","UUAUUABCBUU"],["Soap Solutions","AAABBAAAAAA"],["Soda Ash","AAAAAAAAAAA"],["Sodium Acetate","BBACAA-UUB-"],["Sodium Bicarbonate","AAAAAAAAAAA"],["Sodium Bisulfite","AAABAAAAAAA"],["Sodium Borate","AAAAAAAAAAA"],["Sodium Chloride","AAAAAAAAAAA"],["Sodium Cyanide","AAAAAAAAAAA"],["Sodium Hydroxide","ABAAAABBBAB"],["Sodium Hypochlorite","BBBCCBBBABA"],["Sodium Metaphosphate","BAAAAA-AAB-"],["Sodium Nitrate","ABABBAU--AA"],["Sodium Perborate","BBABBABAAB-"],["Sodium Peroxide","BBABBAUAAB-"],["Sodium Phosphate","AAAAAAU-AA-"],["Sodium Silicate","AAAAAA--AA-"],["Sodium Sulfate","AAABBAAAAAA"],["Sodium Thiosulfate","ABABBAAAAA-"],["Soybean Oil","BACUUCAAABA"],["Stannic(ous) Chloride","AABAABBAAA-"],["Steam Over 300\u00b0 F.","UUBUUCUUUUU"],["Steam Under 300\u00b0 F.","CUAUUAUUUU-"],["Stearic Acid","BBBBBBA--BB"],["Stoddard Solvent","CAUUUUUAACA"],["Styrene","UUUUUUUCBU-"],["Sucrose Solution","AAAAAA---A-"],["Sulfite Liquors","BBBBBBUBABB"],["Sulfur","AUAUUAAAAAC"],["Sulfur Chloride","CCUUUU-AAB-"],["Sulfur Dioxide","CUACCBABAC-"],["Sulfur Hexafluoride","AAAA-AAAAAA"],["Sulfur Trioxide","UUBUBBBBAU-"],["Sulfuric Acid (20% Oleum)","UUUUUUUUAUU"],["Sulfuric Acid (Concentrated)","UUBUUBUUABU"],["Sulfuric Acid (Dilute)","BUBCCBUCAAB"],["Sulfurous Acid","BBBBBBU-AA-"],["Tannic Acid","AAABAAB-AA-"],["Tar, Bituminous","CBUUUUBAACB"],["Tartaric Acid","BABBABAAAAB"],["Terpineol","UBCUUC-AAU-"],["Tertiary Butyl Alcohol","BBBBBBBBAB-"],["Tertiary Butyl Catechol","BUBCUB-AAB-"],["Tertiary Butyl Mercaptan","UUUUUU--AU-"],["Tetrabromomethane","-UUUUU-BA--"],["Tetrabutyl Titanate","ABABBB-AAA-"],["Tetrachloroethylene","-UUUUU-BA--"],["Tetraethyl Lead","CBUUUU-BAC-"],["Tetrahydrofuran","--BUUB--U--"],["Tetralin","UUUUUU-AAU-"],["Thionyl Chloride","U-UUUU--A--"],["Titanium Tetrachloride","UCUUUU-BAU-"],["Toluene","UUUUUUUBAUU"],["Toluene Diisocyanate","U-ACCA---U-"],["Transformer Oil","BAUUUUBAAB-"],["Transmission Fluid Type A","BAUUUUBAABA"],["Triacetin","BBACBA-UUB-"],["Triaryl Phosphate","CUAUUACBAC-"],["Tributoxy Ethyl Phosphate","UUABBA-BAU-"],["Tributyl Mercaptan","UUUUUU--AU-"],["Tributyl Phosphate","UUAUBA-UUC-"],["Trichloroacetic Acid","BBBBCB--CB-"],["Trichloroethane","UUUUUUUBAU-"],["Trichloroethylene","UCUUUUBBAUU"],["Tricresyl Phosphate","CUAUUACBBCU"],["Triethanol Amine","ACBBBB-UUA-"],["Triethyl Aluminum","--------B--"],["Triethyl Borane","--------A--"],["Trinitrotoluene","BUUUUU-BBB-"],["Trioctyl Phosphate","UUAUUACBBU-"],["TT-I-735b","BAAAAAAAABB"],["TT-N-95a","CAUUUUUAACA"],["TT-N-97B","CBUUUUUBACB"],["TT-S-735 Type I","BAUUUUUAACA"],["TT-S-735 Type II","CAUUUUUAACA"],["TT-S-735 Type III","CAUUUUUAACA"],["TT-S-735 Type IV","AAUUUUCAAAA"],["TT-S-735 Type V","BAUUUUCAABA"],["TT-S-735 Type VI","BAUUUUCAABA"],["TT-S-735 Type VII","CAUUUUUAACA"],["TT-T-656b","UUAUUAUCUUU"],["Tung Oil","BAUUUC-BAB-"],["Turbine Oil","BBUUUU-BABA"],["Turpentine","UAUUUUUBAUA"],["Type V","BAUUUUCAABA"],["Type VI","BAUUUUCAABA"],["Type VII","CAUUUUUAACA"],["Varnish","CBUUUU-BAC-"],["Vegetable Oils","BAAUUAAAABA"],["Versilube","AAAAAACAAAA"],["Vinegar","ABABBAA-AA-"],["Vinyl Chloride","U-B-----AU-"],["VV-B-680","BBAABBUBABB"],["VV-G-632","AAUUUUCAAAA"],["VV-G-671c","AAUUUUCAAAA"],["VV-H-910","BBAABBUBABB"],["VV-I-530a","BAUUUUCAABA"],["VV-K-211d","CAUUUUUAACA"],["VV-K-220a","BAUUUUUAACA"],["VV-L-751b","BBUUUUUAACB"],["VV-L-800","BAUUUUCAABA"],["VV-L-820b","BAUUUUCAABA"],["VV-L-825a Type I","AAUUUUCAAAA"],["VV-L-825a Type II","AAUUUUCAAAA"],["VV-L-825a Type III","BBUUUUUAACB"],["VV-O-526","AAUUUUCAAAA"],["VV-P-216a","BAUUUUCAABA"],["VV-P-236","BBUUUUUAACB"],["Wagner 21B Fluid","ACAA-BCUUB-"],["Water","AAAAAAAAAAB"],["Whiskey, Wines","AAAAAAAAAA-"],["White Oil","BAUUUUUAAB-"],["White Pine Oil","UBUUUU-AAU-"],["Wood Oil","BAUUUUUBAB-"],["Xylene","UUUUUUUAAUU"],["Xylidenes","UCUUUUUUUU-"],["Zeolites","AAAAAA-AAA-"],["Zinc Acetate","BBACAAUUUB-"],["Zinc Chloride","AAAAAA-AAA-"],["Zinc Sulfate","AAABBAAAAA-"]]};
 const FAMS = DATA.families, ROWS = DATA.rows, NF = FAMS.length;
